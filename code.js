@@ -2,9 +2,9 @@
 
 var BEKK = {};
 
-// our framework
+(function(BEKK, jQuery, Mustache) {
 
-(function(BEKK, jQuery) {
+  // our framework
 
   var View = function() {
     if (this.initialize) {
@@ -23,32 +23,46 @@ var BEKK = {};
     return obj.constructor;
   }
 
-  BEKK.View = View;
-  BEKK.Model = Model;
+  BEKK.View = View.extend({
+    renderTemplate: function(data) {
+      this.content = Mustache.to_html(this.template(), data);
+    }
+  });
 
-})(BEKK, jQuery);
+  BEKK.Model = Model.extend({});
 
-// ensuring that the framework works as expected
 
-var BaseView = BEKK.View.extend({
-  render: function() {
-    console.log("render");
-  }
-});
+  // ensuring that the framework works as expected
 
-var UserView = BaseView.extend({
-  initialize: function() {
-    console.log("userview");
-  }
-});
 
-var userView = new UserView();
-userView.render();
+  jQuery(function() {
+    var User = BEKK.Model.extend({
+      toJSON: function() {
+        return {
+          user: "Tine"
+        }
+      }
+    });
 
-var BaseModel = BEKK.Model.extend({
-  initialize: function() {
-    console.log("model");
-  }
-});
+    var UserView = BEKK.View.extend({
+      initialize: function(user) {
+        this.user = user;
+      },
 
-new BaseModel();
+      render: function() {
+        this.renderTemplate(this.user.toJSON());
+        $("body").append(this.content);
+        return this;
+      },
+
+      template: function() {
+        return "<h1>Hei {{user}}!</h1>";
+      }
+    });
+
+    var user = new User();
+    var userView = new UserView(user);
+    userView.render();
+  });
+
+})(BEKK, jQuery, Mustache);
