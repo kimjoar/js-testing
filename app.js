@@ -16,7 +16,6 @@
 
       render: function() {
         this.renderTemplate(this.user.toJSON());
-        $("body").append(this.content);
         return this;
       },
 
@@ -27,7 +26,8 @@
 
     var user = new User();
     var userView = new UserView(user);
-    userView.render();
+
+    BEKK.show(userView.render().content);
   };
 
 })(BEKK);

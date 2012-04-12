@@ -25,4 +25,8 @@
 
   BEKK.Model = Model.extend({});
 
+  BEKK.show = function(html) {
+    jQuery("body").html(html);
+  }
+
 })(BEKK, jQuery, Mustache);
