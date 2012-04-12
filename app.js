@@ -2,16 +2,12 @@
 
   BEKK.start = function() {
     var User = BEKK.Model.extend({
+      url: "https://api.twitter.com/1/users/show.json?screen_name=tinekl",
+
       toJSON: function() {
         return {
           user: "Tine"
         }
-      },
-
-      get: function() {
-        this.trigger("fetching");
-        // ajax request
-        this.trigger("success");
       }
     });
 
@@ -42,9 +38,10 @@
 
     var user = new User();
     var userView = new UserView(user);
+
     BEKK.show(userView.render().$el);
 
-    user.get();
+    user.fetch();
   };
 
 })(BEKK);

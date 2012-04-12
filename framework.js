@@ -42,6 +42,15 @@
       var args = Array.prototype.slice.call(arguments, 1);
       var event = this.events[name];
       event.callback.apply(event.context, args)
+    },
+
+    fetch: function() {
+      this.trigger("fetching");
+
+      // ajax request
+      console.log("Fetching: " + this.url);
+
+      this.trigger("success");
     }
   });
 
