@@ -19,11 +19,31 @@
 
   BEKK.View = View.extend({
     renderTemplate: function(data) {
-      this.content = Mustache.to_html(this.template(), data);
+      template = Mustache.to_html(this.template(), data);
+      this.$el = jQuery(template);
+    },
+
+    DOM: function(selector) {
+      return this.$el.find(selector);
     }
   });
 
-  BEKK.Model = Model.extend({});
+  BEKK.Model = Model.extend({
+    events: {},
+
+    on: function(name, callback, context) {
+      this.events[name] = {
+        callback: callback,
+        context: context
+      };
+    },
+
+    trigger: function(name) {
+      var args = Array.prototype.slice.call(arguments, 1);
+      var event = this.events[name];
+      event.callback.apply(event.context, args)
+    }
+  });
 
   BEKK.show = function(html) {
     jQuery("body").html(html);
