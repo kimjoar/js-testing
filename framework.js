@@ -62,6 +62,21 @@
       console.log("Fetching: " + this.url);
 
       this.trigger("success");
+    },
+
+    save: function() {
+      if (this.isValid()) {
+        this.trigger("saving");
+        // ajax post
+        this.trigger("success");
+      }
+    },
+
+    isValid: function() {
+      var error = this.validate && this.validate()
+      if (!error) return true;
+      this.trigger("error", error);
+      return false;
     }
   });
 

@@ -16,6 +16,12 @@
       return {
         user: "Tine"
       }
+    },
+
+    validate: function() {
+      if (this.get("name") !== "Tine") {
+        return "name is wrong";
+      }
     }
   });
 
