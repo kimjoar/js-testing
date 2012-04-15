@@ -26,6 +26,10 @@
   });
 
   var UserView = BEKK.View.extend({
+    events: {
+      "click h1": "clicked"
+    },
+
     initialize: function(user) {
       this.user = user;
       this.user.on("fetching", this.fetching, this);
@@ -47,6 +51,10 @@
 
     template: function() {
       return "<div><h1>Hei {{user}}!</h1></div>";
+    },
+
+    clicked: function() {
+      this.$el.append("<p>cool</p>");
     }
   });
 

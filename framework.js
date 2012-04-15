@@ -27,11 +27,27 @@
     renderTemplate: function(data) {
       template = Mustache.to_html(this.template(), data);
       this.$el = jQuery(template);
+      this.delegateEvents();
     },
 
     // find something in the views DOM
     DOM: function(selector) {
       return this.$el.find(selector);
+    },
+
+    delegateEvents: function() {
+      if (!this.events) return;
+
+      for (var key in this.events) {
+        var methodName = this.events[key];
+        var method = $.proxy(this[methodName], this);
+
+        var match = key.match(/^(\w+)\s*(.*)$/);
+        var eventName = match[1];
+        var selector  = match[2];
+
+        this.$el.delegate(selector, eventName, method);
+      }
     }
   });
 
