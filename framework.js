@@ -41,17 +41,21 @@
 
     // register event listeners
     on: function(name, callback, context) {
-      this.events[name] = {
+      this.events[name] || (this.events[name] = []);
+      this.events[name].push({
         callback: callback,
         context: context
-      };
+      });
     },
 
     // trigger an event
     trigger: function(name) {
       var args = Array.prototype.slice.call(arguments, 1);
-      var event = this.events[name];
-      event.callback.apply(event.context, args)
+      var events = this.events[name];
+      for (var i = 0; i < events.length; i++) {
+        var event = events[i];
+        event.callback.apply(event.context, args);
+      }
     },
 
     // fetch information from some server
