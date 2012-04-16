@@ -1,4 +1,4 @@
-(function(BEKK, jQuery, Mustache) {
+(function(BEKK, $, Mustache) {
 
   // Function constructor for views
   var View = function() {
@@ -17,7 +17,7 @@
   // Add extend method to views and models, so it's easier to create
   // objects which extend from a parent
   View.extend = Model.extend = function (object) {
-    var obj = jQuery.extend.call({}, this.prototype, object);
+    var obj = $.extend.call({}, this.prototype, object);
     return obj.constructor;
   }
 
@@ -26,7 +26,7 @@
     // render the view to `$el`
     renderTemplate: function(data) {
       template = Mustache.to_html(this.template(), data);
-      this.$el = jQuery(template);
+      this.$el = $(template);
       this.delegateEvents();
     },
 
@@ -102,7 +102,7 @@
 
   // Method for rendering the application to the DOM
   BEKK.show = function(html) {
-    jQuery("body").html(html);
+    $("body").html(html);
   }
 
 })(BEKK, jQuery, Mustache);
