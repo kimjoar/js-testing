@@ -14,10 +14,9 @@
     }
   }
 
-  // Add extend method to views and models, so it's easier to create
-  // objects which extend from a parent
-  View.extend = Model.extend = function (object) {
-    var obj = $.extend.call({}, this.prototype, object);
+  // Use extend to create new classes based on View and Model
+  View.extend = Model.extend = function (properties) {
+    var obj = $.extend.call({}, this.prototype, properties);
     return obj.constructor;
   }
 
