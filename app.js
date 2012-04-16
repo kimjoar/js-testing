@@ -27,6 +27,8 @@
       "click h1": "clicked"
     },
 
+    template: "<div><h1>Hei {{name}}!</h1></div>",
+
     initialize: function(user) {
       this.user = user;
       this.user.on("fetching", this.fetching, this);
@@ -44,10 +46,6 @@
 
     done: function() {
       this.$el.append("<p>Ajax done</p>");
-    },
-
-    template: function() {
-      return "<div><h1>Hei {{user}}!</h1></div>";
     },
 
     clicked: function() {

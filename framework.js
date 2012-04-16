@@ -25,7 +25,7 @@
   BEKK.View = View.extend({
     // render the view to `$el`
     renderTemplate: function(data) {
-      template = Mustache.to_html(this.template(), data);
+      template = Mustache.to_html(this.template, data);
       this.$el = $(template);
       this.delegateEvents();
     },
