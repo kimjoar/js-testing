@@ -97,6 +97,19 @@
       if (!error) return true;
       this.trigger("error", error);
       return false;
+    },
+
+    toJSON: function() {
+      if (!this.attributes) return {};
+
+      var attr = {};
+
+      for (var i = 0; i < this.attributes.length; i++) {
+        var key = this.attributes[i];
+        attr[key] = this[key];
+      }
+
+      return attr;
     }
   });
 

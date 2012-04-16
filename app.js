@@ -2,6 +2,8 @@
 
   BEKK.start = function() {
     var user = new User();
+    user.name = "Tine";
+
     var userView = new UserView(user);
 
     BEKK.show(userView.render().$el);
@@ -11,15 +13,10 @@
 
   var User = BEKK.Model.extend({
     url: "https://api.twitter.com/1/users/show.json?screen_name=tinekl",
-
-    toJSON: function() {
-      return {
-        user: "Tine"
-      }
-    },
+    attributes: ["name"],
 
     validate: function() {
-      if (this.get("name") !== "Tine") {
+      if (this.name !== "Tine") {
         return "name is wrong";
       }
     }
