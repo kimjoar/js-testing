@@ -56,7 +56,7 @@
     },
 
     clicked: function() {
-      this.$el.append("<p>cool</p>");
+      this.$el.append("<p>click</p>");
     }
   });
 
