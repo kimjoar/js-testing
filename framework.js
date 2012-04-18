@@ -64,8 +64,11 @@
 
     // trigger an event
     trigger: function(name) {
-      var args = Array.prototype.slice.call(arguments, 1);
-      var events = this.events[name];
+      var args = Array.prototype.slice.call(arguments, 1),
+          events = this.events[name];
+
+      if (!events) return;
+
       for (var i = 0; i < events.length; i++) {
         var event = events[i];
         event.callback.apply(event.context, args);

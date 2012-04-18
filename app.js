@@ -6,9 +6,16 @@
 
     var userView = new UserView(user);
 
+    // legger userView i DOM-en
     BEKK.show(userView.render().$el);
 
     user.fetch();
+
+    userView.$el.append("<p>It is valid (name = " + user.name + ")? " + (user.isValid() ? "JA!" : "nope") + "</p>");
+
+    user.name = "Kim";
+
+    userView.$el.append("<p>It is valid (name = " + user.name + ")? " + (user.isValid() ? "JA!" : "nope") + "</p>");
   };
 
   var User = BEKK.Model.extend({
