@@ -38,12 +38,11 @@
       if (!this.events) return;
 
       for (var key in this.events) {
-        var methodName = this.events[key];
-        var method = $.proxy(this[methodName], this);
-
-        var match = key.match(/^(\w+)\s*(.*)$/);
-        var eventName = match[1];
-        var selector  = match[2];
+        var methodName = this.events[key],
+            method = $.proxy(this[methodName], this),
+            match = key.match(/^(\w+)\s+(.*)$/),
+            eventName = match[1],
+            selector  = match[2];
 
         this.$el.delegate(selector, eventName, method);
       }
