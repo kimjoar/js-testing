@@ -57,6 +57,7 @@
 
     clicked: function() {
       this.$el.append("<p>click</p>");
+      this.DOM("h1").append("!");
     }
   });
 
