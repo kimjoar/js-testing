@@ -12,13 +12,13 @@
     if (this.initialize) {
       this.initialize.apply(this, arguments);
     }
-  }
+  };
 
   // Use extend to create new classes based on View and Model
   View.extend = Model.extend = function (properties) {
     var obj = $.extend.call({}, this.prototype, properties);
     return obj.constructor;
-  }
+  };
 
   // Utility functions for views
   BEKK.View = View.extend({
@@ -94,7 +94,7 @@
     },
 
     isValid: function() {
-      var error = this.validate && this.validate()
+      var error = this.validate && this.validate();
       if (!error) return true;
       this.trigger("error", error);
       return false;
@@ -117,6 +117,6 @@
   // Method for rendering the application to the DOM
   BEKK.show = function(html) {
     $("body").html(html);
-  }
+  };
 
 })(BEKK, jQuery, Mustache);
