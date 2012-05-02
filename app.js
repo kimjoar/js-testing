@@ -1,5 +1,5 @@
 (function(BEKK) {
-
+/*
   BEKK.start = function() {
     var user = new User();
     user.name = "Tine";
@@ -16,37 +16,34 @@
     user.name = "Kim";
 
     userView.$el.append("<p>It is valid (name = " + user.name + ")? " + (user.isValid() ? "JA!" : "nope") + "</p>");
-  };
+  };*/
+  
 
-  var User = BEKK.Model.extend({
-    url: "https://api.twitter.com/1/users/show.json?screen_name=tinekl",
-    attributes: ["name"],
+  BEKK.User = BEKK.Model.extend({
+    initialize: function(url) {
 
-    validate: function() {
-      if (this.name !== "Tine") {
-        return "name is wrong";
-      }
     }
   });
 
-  var UserView = BEKK.View.extend({
-    events: {
+  BEKK.UserView = BEKK.View.extend({
+    /*events: {
       "click h1": "clicked"
-    },
+    },*/
 
     template: "<div><h1>Hei {{name}}!</h1></div>",
 
-    initialize: function(user) {
+    initialize: function(user, el) {
       this.user = user;
-      this.user.on("fetching", this.fetching, this);
-      this.user.on("success", this.done, this);
+      this.el = el;
+      //this.user.on("feching", this.fetching, this);
+      //this.user.on("success", this.done, this);
     },
 
     render: function() {
-      this.renderTemplate(this.user.toJSON());
+      this.el.html(Mustache.to_html(this.template, user))
       return this;
     },
-
+/*
     fetching: function() {
       this.$el.append("<p>Ajax starting</p>");
     },
@@ -58,7 +55,7 @@
     clicked: function() {
       this.$el.append("<p>click</p>");
       this.DOM("h1").append("!");
-    }
+    }*/
   });
 
 })(BEKK);
