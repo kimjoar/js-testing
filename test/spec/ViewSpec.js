@@ -8,7 +8,19 @@ describe("The user view", function(){
         expect(view.user).toBeDefined();
     });
 
-    xit("should render name to the template on render", function(){
+    it("should render name to the template on render", function(){
+        var user = {
+            name: "Test Testesen"
+        };
+
+        var view = new BEKK.UserView({ user: user, el: $("<div></div>" ) });
+        view.render();
+
+        expect(view).toContainInTemplate("Test Testesen");
+    });
+
+    xit("should contain user name in H1 when rendered", function() {
+
     });
 
     xit("should render a model to the template", function() {

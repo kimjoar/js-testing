@@ -6,6 +6,10 @@
 
     initialize: function(options) {
         this.user = options.user;
+    },
+
+    render: function() {
+        this.el.html(Mustache.to_html(this.template, this.user));
     }
   });
 
