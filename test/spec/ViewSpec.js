@@ -19,12 +19,25 @@ describe("The user view", function(){
         expect(view).toContainInTemplate("Test Testesen");
     });
 
-    xit("should contain user name in H1 when rendered", function() {
+    it("should contain user name in H1 when rendered", function() {
+        var user = {
+            name: "Test Testesen"
+        };
 
+        var view = new BEKK.UserView({ user: user, el: $("<div></div>" ) });
+        view.render();
+
+        expect(view.DOM(".name").text()).toMatch("Test Testesen");
     });
 
-    xit("should render a model to the template", function() {
+    it("should render a model to the template", function() {
+        var user = new BEKK.User();
+        user.attr("name", "Test Testesen");
 
+        var view = new BEKK.UserView({ user: user, el: $("<div></div>" )});
+        view.render();
+
+        expect(view.DOM(".name").text()).toMatch("Test Testesen");
     });
 
 });
