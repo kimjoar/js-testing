@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Kurs i testdrevet JavaScript</title>
-    <!-- <link href="/css/reset.css" media="screen" rel="stylesheet"> -->
-    <!-- <link href="/css/style.css" media="screen" rel="stylesheet"> -->
-    <script src="jquery-1.7.1.js"></script>
+    <title>Monolog</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="simple/lib/jquery-1.7.2.js"></script>
+    <script src="simple/lib/EventEmitter.js"></script>
+    <script src="simple/simple.js"></script>
     <script src="mustache-0.4.2.js"></script>
     <script src="namespace.js"></script>
-    <script src="../simple/simple.js"></script>
     <script src="app.js"></script>
     <script type="text/javascript">
       jQuery(function() {
@@ -16,6 +18,22 @@
     </script>
   </head>
   <body>
+    <div class="wrapper">
+      <div id="header">
+        <h1><a href="/">Monolog</a></h1>
+      </div>
+
+      <div class="container">
+        <form id="new-status" action="#">
+          <label for="status_text">Status</label>
+          <textarea id="status_text" name="status" placeholder="Hva tenker du nå?"></textarea>
+          <button type="submit" class="btn">Post oppdatering</button>
+        </form>
+
+        <h2>Oppdateringer</h2>
+        <ul id="statuses"></ul>
+      </div>
+    </div>
   </body>
 </html>
 

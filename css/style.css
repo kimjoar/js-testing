@@ -1,0 +1,41 @@
+.wrapper {
+  width: 100%;
+  position: relative;
+}
+
+.container {
+  position: absolute;
+  top: 95px;
+  padding: 20px;
+}
+
+#header {
+  width: 100%;
+  background-color: black;
+  box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.2);
+  padding-top: 30px;
+  padding-bottom: 30px;
+  position: fixed;
+  top: 0;
+}
+
+h1 {
+  display: inline;
+  font-size: 30px;
+}
+
+a {
+  text-decoration: none;
+}
+
+h1 a {
+  padding-left: 30px;
+  color: #fff;
+  text-decoration: none;
+  letter-spacing: .2em;
+  font-weight: 400;
+  width: 40%;
+  line-height: 30px;
+  font-family: 'Abel', sans-serif;
+  text-transform: uppercase;
+}
