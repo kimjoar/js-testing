@@ -1,6 +1,10 @@
 Kurs i testing av JavaScript
 ============================
 
+For å sette opp:
+
+    git submodule init && git submodule update
+
 Grov rekkefølge:
 
 1. Start med superenkelt eksempel på views som tar inn objekt med
