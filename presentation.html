@@ -157,7 +157,7 @@ Utfylt test
 ---
 
 # Oppgave 
-
+    
     .javascript
     Test
 
@@ -169,7 +169,7 @@ Utfylt test
     Utfylt test
 
 * Hastighet
-* Avhengig av Twitter-resultat, både på innhold og tidsbruk.
+* Avhengig av Twitter-resultat, både på innhold og tidsbruk. 500 ms kræsjer 1 av 3 ganger. 
 # Testene blir vanskeligere, man må ta hensyn til hastighet. 
 * Byggeprosessen: må ha et kjørende applikasjon i bygget dersom du skal teste js mot interne applikasjoner
 
@@ -178,14 +178,38 @@ Utfylt test
 
 # sinon.js
 
-* mock, spies 
-* stub
-* createFakeServer()
+http://sinonjs.org/
+Standalone test spies, stubs and mocks for JavaScript. No dependencies, works with any unit testing framework.
+ 
+* Fake timers for setTimeout()
+* Fake server & XHR
+* Finnes mange tilpasninger til rammeverk, f.eks. Jasmine matchers
+
+
+---
+
+# fake Server
+
+    .javascript
+    // Setup
+    this.server = sinon.fakeServer.create();
+
+    //Teardown
+    this.server.restore();
+
+    //Response
+    this.server.respondWith([statusCode, {header: header}, data]);
+
+
+* "kopiering" av responsen i forrige Oppgave
 * registerer ikke endringer i API'et
 
 ---
 
 # Oppgave 
+
+** OBS: endre til json igjen i simple.js
+
 
 ---
 

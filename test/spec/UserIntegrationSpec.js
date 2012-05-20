@@ -1,8 +1,9 @@
 describe("Integration tests", function(){
 
-    it("should fetch data from Twitter and populate the view", function(){
+    xit("should fetch data from Twitter and populate the view", function(){
         // Tine: I den orginale testen var det noe mystisk, den bør feile pga cross-domain request med json, men den 
         //passerer helt fint i min specrunner:(
+        //OBS: jsonp trengs i simple.js
         runs(function(){
             var user = new BEKK.User({ screen_name: "kimjoar"});
             this.view = {};
@@ -15,7 +16,7 @@ describe("Integration tests", function(){
             
         });
 
-        waits(500);
+        waits(1000);
 
         runs(function(){
             expect(this.view).toContainInTemplate("Kim Joar");
@@ -23,13 +24,33 @@ describe("Integration tests", function(){
         
        
     });
+    //
+    //OBS: json trengs i simple.js. JSONP detekteres ikke av sinon.js, ref: http://groups.google.com/group/sinonjs/browse_thread/thread/fcdc7a733050be2d
+    it("should fetch fake data and populate view", function() {
 
-    it("should fetch data and populate view", function() {
+        this.server = sinon.fakeServer.create();
+        this.server.respondWith([200, {},
+                                 '{"name":"Kim Joar Bekkelund","screen_name":"kimjoar"}']);
+
+
+        var user = new BEKK.User({screen_name: "kimjoar"});
+
+        var base = this;
+        var callback = function(data){
+            base.view = new BEKK.UserView({ user: data, el: $('<div></div>')  });
+            base.view.render();
+        };
+        
+        user.fetch(callback);   
+
+        this.server.respond();
+        expect(this.view).toContainInTemplate("Kim Joar");
+        this.server.restore();
 
     });
 
-    xit("should show last tweet for a user", function() {
-
+    it("should show last tweet for a user", function() {
+        
     });
 
 });
