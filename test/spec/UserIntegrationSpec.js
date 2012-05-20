@@ -50,7 +50,20 @@ describe("Integration tests", function(){
     });
 
     it("should show last tweet for a user", function() {
+        var user = new BEKK.User({screen_name: "kimjoar"});
+        user.attr("name", "Kim Joar Bekkelund");
         
+        this.view = new BEKK.UserView({ user: user, el: $('<div></div>')  });
+        var base = this;
+        
+        user.on("fetch:finished", function(){
+            base.view.render();
+        })
+
+        user.trigger("fetch:finished");
+
+        expect(this.view).toContainInTemplate("Kim Joar");
+
     });
 
 });
