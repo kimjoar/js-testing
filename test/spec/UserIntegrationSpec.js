@@ -58,20 +58,22 @@ describe("Integration tests", function(){
         
         
         var user = new BEKK.User({screen_name: "kimjoar"});
-        var spy = sinon.spy();
+        var spy = sinon.spy(user, "trigger");
         var base = this;
         
         user.fetch();  
-        user.on("fetch:finished", spy); 
-
+        
         this.server.respond();
         expect(user.attr("id")).toEqual(20823739);
         expect(user.attr("id_str")).toEqual("20823739");
         expect(user.attr("name")).toEqual("Kim Joar Bekkelund");
         expect(user.attr("location")).toEqual("Oslo, Norway");
 
-        expect(spy.called).toBeTruthy();
+        expect(spy.callCount).toEqual(2);
+        expect(spy.getCall(0).calledWith("fetch:started")).toBeTruthy();
+        expect(spy.getCall(1).calledWith("fetch:finished")).toBeTruthy();
 
+        user.trigger.restore();
 
         this.server.restore();
     });
