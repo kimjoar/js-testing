@@ -40,50 +40,108 @@ Kim Joar Bekkelund og Tine Kleivane
 
 ---
 
-# Hvorfor?
+# Utbytte 
 
-* Hva vil vi dere skal sitte igjen med?
+* Prøve reelle eksempler på testing av js
+  * Både gode og dårlige måter
+  * Diskutere virkningene av denne typen testing
+* Et forslag til struktur for å bygge opp nye js-applikasjoner
+  * Struktur å måle andre rammeverk / egne applikasjoner mot
 
 ---
 
 # Intro til Jasmine
 
-* kodeeksempel
-* TDD, jasmine browser, maven, ++
+    .javascript
+    describe("My tests", function(){
+      
+      beforeEach(function(){
+        this.color = "green";
+      });
+
+      afterEach(function(){
+        this.color = "green";
+      });
+      
+      it("looks green", function(){
+        expect(this.color).toEqual("green");
+      });
+    
+    });
+
+* BDD-rammeverk
+* Kan kjøre standalone eller som en del av maven
+* Kan kjøre asynkrone kall med `runs` og `waits` 
 
 ---
+
+
+.pushed
+
+![](images/monolog_cropped.png)
 
 # Målet
 
-*Twitter
+Dowstripped Twitter --> Monolog
 
 ---
+
 
 # Views
 
-* initialize 
+* Et view eier et DOM-element, el`.
+* Det er kun views som har lov til å røre DOM-en!
 
 ---
+
+#Views
+
+Simple.js
+
+* http://kjbekkelund.github.com/simple/
+* Rammeverket leter etter metoden `initialize` og kjører denne på `new ExtendedSimpleView`
+
+Hvordan lage et nytt view: 
+    
+    .javascript
+    BEKK.ExtendedSimpleView = Simple.View.extend({
+      method: function(){
+        //View logic & rendering
+      }; 
+    });
+
+---
+
+.middle.center
 
 # Startup
+https://github.com/kjbekkelund/js-tdd-kurs
 
-* github.
+
 
 ---
 
-# Oppgave / Test 
+# Oppgave 1
 
-```javascript
-Test
-```
+    .javascript
+    describe("The user view", function(){
+
+    it("should have a user when initialized", function(){
+        var user = {};
+
+        //Initialize a new view
+
+        expect(view.user).toBeDefined();
+    });
+
+
 
 ---
 
 # Gjennomgang oppgave 
 
-```javascript
-Utfylt test
-```
+    .javascript
+    Utfylt testing
 
 ---
 
