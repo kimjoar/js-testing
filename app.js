@@ -15,6 +15,13 @@
 
     initialize: function(options) {
         this.user = options.user;
+        
+        var base = this;
+        if (this.user instanceof Simple.Model) {
+          this.user.on("fetch:finished", function(){
+              base.render();
+          })
+      };
     },
 
     render: function() {

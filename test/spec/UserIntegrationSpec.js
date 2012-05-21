@@ -51,7 +51,7 @@ describe("Integration tests", function(){
 
     it("should trigger fetch:finished on fetch and populate the model with data", function(){
        
-
+        //Er dette mere testing av rammeverk? Tester at modellen blir populert rett slik at neste test kan populere modellen selv.
         this.server = sinon.fakeServer.create();
         this.server.respondWith([200, {},
                                  '{"id":20823739,"id_str":"20823739","name":"Kim Joar Bekkelund","location":"Oslo, Norway"}']);
@@ -83,11 +83,6 @@ describe("Integration tests", function(){
         user.attr("name", "Kim Joar Bekkelund");
         
         this.view = new BEKK.UserView({ user: user, el: $('<div></div>')  });
-        var base = this;
-
-        user.on("fetch:finished", function(){
-            base.view.render();
-        })
 
         user.trigger("fetch:finished");
 
