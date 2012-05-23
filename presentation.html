@@ -148,10 +148,15 @@ https://github.com/kjbekkelund/js-tdd-kurs
 
 # Views
 
-* el
-* render
-* template
-* toContainInTemplate
+* Et view eier et element `el`
+* `template` inneholder ren html som skal inn i viewet. 
+* `render` sitt ansvar er å interpolere data i template og plassere dette i `el`
+	* Å rendre el til dom'en er IKKE viewet sin oppgave
+
+Testhjelper:
+
+    .javascript
+    expect(view).toContainInTemplate("En string");
 
 ---
 
@@ -175,20 +180,21 @@ https://github.com/kjbekkelund/js-tdd-kurs
 
 # View.DOM
 
-* slå opp innad i el
-* Den tidligere løsnigen blir for lett og kan treffe mange. Søker all html i templaten
-* Ønsker så liten kobling som mulig til DOM, mulighet til å flytte ol.
+* `view.DOM()` er en selector-query med `el` som scope, ala `jQuery(selector, context)`
+* Løsningen i `toContainInTemplate` blir for enkel ettersom den søker etter en string blant all html
+* En intern selector gir også en løs kobling som mulig til DOM og åpner for å flytte rundt og bytte subviews
 
----
-
----
 
 ---
 
 
 # Model
 
+* Har ansvar for data og opphenting av denne
+	* Kun modeller som har lov til å kommunisere med serveren
+	
 * initialize
+	* url
 * attr
 * toJSON 
 
