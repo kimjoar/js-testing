@@ -89,7 +89,7 @@ Dowstripped Twitter --> Monolog
 
 # Views
 
-* Et view eier et DOM-element, el`.
+* Et view eier et DOM-element, `el`.
 * Det er kun views som har lov til å røre DOM-en!
 
 ---
@@ -141,7 +141,22 @@ https://github.com/kjbekkelund/js-tdd-kurs
 # Gjennomgang oppgave 
 
     .javascript
-    Utfylt testing
+    it("should have a user when initialized", function(){
+        var user = {};
+
+        var view = new BEKK.UserView({ user: user });
+
+        expect(view.user).toBeDefined();
+    });
+
+
+    .javascript
+     BEKK.UserView = Simple.View.extend({
+	
+	    initialize: function(options) {
+	        this.user = options.user;
+	    }
+	});
 
 ---
 
@@ -163,7 +178,9 @@ Testhjelper:
 # Oppgave
 
     .javascript
-    Test2
+    it("should render name to the template on render", function(){
+        
+    });
 
 
 ---
@@ -172,7 +189,20 @@ Testhjelper:
 # Gjennomgang oppgave
 
     .javascript
-    this
+    it("should render name to the template on render", function(){
+        var user = {
+            name: "Test Testesen"
+        };
+
+        var view = new BEKK.UserView({ user: user, el: $("<div></div>" ) });
+        view.render();
+
+        expect(view).toContainInTemplate("Test Testesen");
+    });
+
+
+    .javascript
+     Løsning
 
 * Nevne lagarkitetur med egen render
 
@@ -183,20 +213,37 @@ Testhjelper:
 * `view.DOM()` er en selector-query med `el` som scope, ala `jQuery(selector, context)`
 * Løsningen i `toContainInTemplate` blir for enkel ettersom den søker etter en string blant all html
 * En intern selector gir også en løs kobling som mulig til DOM og åpner for å flytte rundt og bytte subviews
-
+* Testen er mer en test av rammeverk (vi trenger ikke skrive ny kode for å få denne til å fungere.), men vi har tatt den med for å vise prinsippet med interne selectorer.
 
 ---
+
+# Oppgave
+
+it("should contain user name in H1 when rendered", function() {
+    var user = {
+        name: "Test Testesen"
+    };
+
+    var view = new BEKK.UserView({ user: user, el: $("<div></div>" ) });
+    view.render();
+    
+    //Assert that h1 contains the correct name
+    });
+
+---
+
+# Gjennomgang 
 
 
 # Model
 
 * Har ansvar for data og opphenting av denne
 	* Kun modeller som har lov til å kommunisere med serveren
-	
-* initialize
+* I simple.js følger vi modellstrukturen i backbone.js
+	* initialize
 	* url
-* attr
-* toJSON 
+	* attr("prop") attr("prop", set)
+	* toJSON 
 
 ---
 
@@ -215,8 +262,10 @@ Testhjelper:
 
 # Model
 
-* fetch med callback
-* url
+* simple.js implementerer model.fetch med success-callback
+* Kaller på url
+
+OBS: Må bruke `jsonp`
 
 ---
 
@@ -242,7 +291,8 @@ Testhjelper:
 
 # sinon.js
 
-http://sinonjs.org/
+http://sinonjs.org
+/
 Standalone test spies, stubs and mocks for JavaScript. No dependencies, works with any unit testing framework.
  
 * Fake timers for setTimeout()
@@ -305,6 +355,7 @@ Standalone test spies, stubs and mocks for JavaScript. No dependencies, works wi
 * Hvorfor det fungerer? (decoupling)
 * Henvise tilbake til callback-oppgaven
 * Hva skjer med ekstreme mengder callbacks
+* Teste rammeverket vs egen kode? //fetch:finished --> hva viss den endrer seg?
 
 ---
 
@@ -325,11 +376,13 @@ Standalone test spies, stubs and mocks for JavaScript. No dependencies, works wi
 
 # Globale events
 
-*
+* Input-feltet gir en event når det er lagt til en ny.
+* User-viewet og listen over monologer lytter på denne eventen og enderer sine view etter dette
 
 ---
 
 # Oppgave  som ennå ikke er laget
+
 
 ---
 

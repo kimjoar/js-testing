@@ -19,6 +19,8 @@ describe("The user view", function(){
         expect(view).toContainInTemplate("Test Testesen");
     });
 
+	//Dette er også mere testing av rammeverket. Men det er jo en  "forbedring" av testen over og viser mere spesifikk testing, 
+	//så sånn sett gir det verdi. 
     it("should contain user name in H1 when rendered", function() {
         var user = {
             name: "Test Testesen"

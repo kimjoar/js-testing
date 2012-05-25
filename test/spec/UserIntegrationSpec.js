@@ -49,6 +49,7 @@ describe("Integration tests", function(){
 
     });
 
+	//Ønsker vi å beholde denne testen. Den tester mer rammeverket enn vår egen app, men vi sikrer oss at fetch:finished gjør det den skal.
     it("should trigger fetch:finished on fetch and populate the model with data", function(){
        
         //Er dette mere testing av rammeverk? Tester at modellen blir populert rett slik at neste test kan populere modellen selv.
@@ -89,6 +90,10 @@ describe("Integration tests", function(){
         expect(this.view).toContainInTemplate("Kim Joar");
 
     });
+	
+	it("", function(){
+		
+	})
 
 });
 
