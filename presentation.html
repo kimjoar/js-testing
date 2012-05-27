@@ -152,18 +152,19 @@ Hvordan lage et nytt view:
     .javascript
     var UserView = Simple.View.extend({
 
-      // vi kan legge til instansmetoder
+      // Vi kan legge til instansmetoder.
+      // I disse metodene har vi `this` tilgjengelig.
 
       initialize: function() {
-        // kjøres automatisk når et view initialiseres
+        // Kjøres automatisk når et view initialiseres
       },
 
       showUserInfo: function(){
-        // view-logikk og rendering
+        // View-logikk og rendering
       };
     });
 
-    // lage en instans
+    // Lager en instans (og sender med `el`)
     var view = new UserView({ el: $(".user") });
     view.showUserInfo();
 
@@ -185,7 +186,7 @@ All kode ligger på [https://github.com/kjbekkelund/js-tdd-kurs](https://github.
     it("should have a user when initialized", function(){
         var user = {};
 
-        //Initialize a new view
+        // Initialize a new view
 
         expect(view.user).toBeDefined();
     });
@@ -286,7 +287,7 @@ it("should contain user name in H1 when rendered", function() {
     var view = new BEKK.UserView({ user: user, el: $("<div></div>" ) });
     view.render();
 
-    //Assert that h1 contains the correct name
+    // Assert that h1 contains the correct name
     });
 
 ---
@@ -367,10 +368,10 @@ Standalone test spies, stubs and mocks for JavaScript. No dependencies, works wi
     // Setup
     this.server = sinon.fakeServer.create();
 
-    //Teardown
+    // Teardown
     this.server.restore();
 
-    //Response
+    // Response
     this.server.respondWith([statusCode, {header: header}, data]);
 
 
