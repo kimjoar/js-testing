@@ -220,7 +220,7 @@ Kode:
 
 ---
 
-# Views
+# View-rendring
 
 Et view eier et element, `el`.
 
@@ -230,6 +230,21 @@ Det er `render` sitt ansvar er å interpolere data i template og plassere dette
 i `el`.
 
 … men å rendre `el` til DOM-en er *ikke* viewet sin oppgave!
+
+---
+
+# Hvordan teste view-rendering?
+
+Er avhengig av DOM-en vi initialiserer med el satt til `$(".user")`
+
+Både mye oppsett, tregt og dårlig støttet av mange test-verktøy.
+
+Men vi kan sende inn en "tom ekvivalent", som for eksempel `$("<div></div>")`.
+Vi må tilpasse til hva viewet forventer å få som input.
+
+---
+
+# Testing av view-rendering
 
 Vi har lagt til en testhjelper:
 
@@ -241,7 +256,7 @@ Vi har lagt til en testhjelper:
 # Oppgave
 
     .javascript
-    it("should render name to the template on render", function(){
+    it("should show name when rendering", function(){
 
     });
 
