@@ -127,28 +127,45 @@ Lage en superenkel Twitter-lignende applikasjon: *Monolog*
 
 ---
 
-# Abstraksjon: Views
+.middle.center
 
-* Et view eier et DOM-element, `el`.
+# Views
+
+---
+
+# Views
+
+* Et view eier et DOM-element, som vi vil kalle `el`.
+* Vi sender alltid med `el` når vi lager et view
 * Det er kun views som har lov til å røre DOM-en!
 
 ---
 
 # Views
 
-Simple.js
+Vi skal benytte et enkelt rammeverk: Simple.js
 
 * http://kjbekkelund.github.com/simple/
-* Rammeverket leter etter metoden `initialize` og kjører denne på `new ExtendedSimpleView`
 
 Hvordan lage et nytt view:
 
     .javascript
-    BEKK.ExtendedSimpleView = Simple.View.extend({
-      method: function(){
-        //View logic &amp; rendering
+    var UserView = Simple.View.extend({
+
+      // vi kan legge til instansmetoder
+
+      initialize: function() {
+        // kjøres automatisk når et view initialiseres
+      },
+
+      showUserInfo: function(){
+        // view-logikk og rendering
       };
     });
+
+    // lage en instans
+    var view = new UserView({ el: $(".user") });
+    view.showUserInfo();
 
 ---
 
