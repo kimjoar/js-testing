@@ -47,9 +47,43 @@ Se reelle eksempler på testing av JavaScript
 * Både gode og dårlige måter
 * Diskutere virkningene av denne typen testing
 
-Et forslag til struktur for å bygge opp nye JavaScript-applikasjoner
+Et forslag til JavaScript-arkitektur
 
 * Struktur å måle både andre rammeverk og egne applikasjoner mot
+
+---
+
+# Utbytte
+
+Vi skal lære å *ikke* skrive kode som dette:
+
+    .javascript
+    jQuery(function() {
+      $(".user form").submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+          // ...
+          success: function(data) {
+            var name = data.name ? data.name : "Unknown";
+            $(".user .info").append("<h1>" + name + "</h1>");
+          }
+        });
+      });
+    }
+
+Dette er komplekst! Blant annet:
+
+* Lytter på at siden er klar
+* Lytter på submit
+* Håndterer nettverkskall
+* Parser respons
+* Templating
+
+---
+
+.middle.center
+
+Men først …
 
 ---
 
