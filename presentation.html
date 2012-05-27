@@ -135,11 +135,11 @@ All kode ligger på [https://github.com/kjbekkelund/js-tdd-kurs](https://github.
         expect(view.user).toBeDefined();
     });
 
-
-
 ---
 
 # Gjennomgang oppgave
+
+Test:
 
     .javascript
     it("should have a user when initialized", function(){
@@ -150,26 +150,29 @@ All kode ligger på [https://github.com/kjbekkelund/js-tdd-kurs](https://github.
         expect(view.user).toBeDefined();
     });
 
+Kode:
 
     .javascript
-     BEKK.UserView = Simple.View.extend({
-
-	    initialize: function(options) {
-	        this.user = options.user;
-	    }
-	});
+    BEKK.UserView = Simple.View.extend({
+      initialize: function(options) {
+        this.user = options.user;
+      }
+    });
 
 ---
 
-
 # Views
 
-* Et view eier et element `el`
-* `template` inneholder ren html som skal inn i viewet.
-* `render` sitt ansvar er å interpolere data i template og plassere dette i `el`
-	* Å rendre el til dom'en er IKKE viewet sin oppgave
+Et view eier et element, `el`.
 
-Testhjelper:
+`template` inneholder ren HTML som skal inn i viewet.
+
+Det er `render` sitt ansvar er å interpolere data i template og plassere dette
+i `el`.
+
+… men å rendre `el` til DOM-en er *ikke* viewet sin oppgave!
+
+Vi har lagt til en testhjelper:
 
     .javascript
     expect(view).toContainInTemplate("En string");
@@ -239,12 +242,12 @@ it("should contain user name in H1 when rendered", function() {
 # Model
 
 * Har ansvar for data og opphenting av denne
-	* Kun modeller som har lov til å kommunisere med serveren
+  * Kun modeller som har lov til å kommunisere med serveren
 * I simple.js følger vi modellstrukturen i backbone.js
-	* initialize
-	* url
-	* attr("prop") attr("prop", set)
-	* toJSON
+  * initialize
+  * url
+  * attr("prop") attr("prop", set)
+  * toJSON
 
 ---
 
