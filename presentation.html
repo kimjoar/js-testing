@@ -155,8 +155,9 @@ Hvordan lage et nytt view:
       // Vi kan legge til instansmetoder.
       // I disse metodene har vi `this` tilgjengelig.
 
-      initialize: function() {
+      initialize: function(options) {
         // Kjøres automatisk når et view initialiseres
+        // Tar imot et argument, en options-hash
       },
 
       showUserInfo: function(){
