@@ -1,9 +1,17 @@
-(function(Simple) {
+(function(Simple, Mustache) {
 
   var BEKK = window.BEKK = {};
 
   BEKK.start = function() {
     // called when the app can be started
+    var user = new BEKK.User({ screen_name: "kimjoar" });
+    var userView = new BEKK.UserView({ el: $("#profile"), user: user });
+    user.fetch({
+      dataType: "jsonp",
+      success: function(date) {
+        userView.render();
+      }
+    });
   };
 
   BEKK.User = Simple.Model.extend({
@@ -17,7 +25,13 @@
 
   BEKK.UserView = Simple.View.extend({
 
-    template: '<div><h1 class="name">Hei {{name}}!</h1></div>',
+    template: '<h2>{{name}}</h2>' +
+      '<img src="{{profile_image_url}}" alt="{{name}}">' +
+      '<ul>' +
+        '<li>Followers: {{followers_count}}</li>' +
+        '<li>Following: {{friends_count}}</li>' +
+        '<li>Monologer: {{statuses_count}}</li>' +
+      '</ul>',
 
     initialize: function(options) {
       this.user = options.user;
@@ -43,4 +57,10 @@
     }
   });
 
-})(window.Simple);
+  BEKK.NewStatusView = Simple.View.extend({
+  });
+
+  BEKK.StatusesView = Simple.View.extend({
+  });
+
+})(Simple, Mustache);
