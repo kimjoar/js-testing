@@ -47,7 +47,7 @@ Se reelle eksempler på testing av JavaScript
 * Både gode og dårlige måter
 * Diskutere virkningene av denne typen testing
 
-Et forslag til JavaScript-arkitektur
+Et forslag til abstraksjoner og en JavaScript-arkitektur
 
 * Struktur å måle både andre rammeverk og egne applikasjoner mot
 
@@ -90,23 +90,27 @@ Men først …
 # Intro til Jasmine
 
     .javascript
+    // Gruppering av specs
     describe("My tests", function(){
-
+      // Kjører før hver test
       beforeEach(function(){
         this.color = "green";
       });
 
+      // Kjører etter hver test
       afterEach(function(){
         this.color = "green";
       });
 
+      // Selve testen
       it("looks green", function(){
         expect(this.color).toEqual("green");
+        // Finnes mange matchere, blant annet:
+        // `toBe`, `toMatch`, `toBeDefined`, `toBeTruthy`, `toContain`, osv
       });
-
     });
 
-* BDD-rammeverk
+* BDD-rammeverk - vi beskriver oppførsel
 * Kan kjøre standalone eller som en del av maven
 * Kan kjøre asynkrone kall med `runs` og `waits`
 * Brukes på flere BEKK-prosjekter
@@ -123,7 +127,7 @@ Lage en superenkel Twitter-lignende applikasjon: *Monolog*
 
 ---
 
-# Views
+# Abstraksjon: Views
 
 * Et view eier et DOM-element, `el`.
 * Det er kun views som har lov til å røre DOM-en!
