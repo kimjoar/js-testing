@@ -181,15 +181,17 @@ All kode ligger på [https://github.com/kjbekkelund/js-tdd-kurs](https://github.
 
 # Oppgave 1
 
-    .javascript
-    describe("The user view", function(){
+Vi starter enkelt:
 
-    it("should have a user when initialized", function(){
+    .javascript
+    describe("The user view", function() {
+      it("should have a user when initialized", function() {
         var user = {};
 
         // Initialize a new view
 
         expect(view.user).toBeDefined();
+      });
     });
 
 ---
@@ -199,12 +201,12 @@ All kode ligger på [https://github.com/kjbekkelund/js-tdd-kurs](https://github.
 Test:
 
     .javascript
-    it("should have a user when initialized", function(){
-        var user = {};
+    it("should have a user when initialized", function() {
+      var user = {};
 
-        var view = new BEKK.UserView({ user: user });
+      var view = new BEKK.UserView({ user: user });
 
-        expect(view.user).toBeDefined();
+      expect(view.user).toBeDefined();
     });
 
 Kode:
