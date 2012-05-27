@@ -231,7 +231,7 @@ i `el`.
 Vi har lagt til en testhjelper:
 
     .javascript
-    expect(view).toContainInTemplate("En string");
+    expect(view).toContainInDOM("En string");
 
 ---
 
@@ -257,7 +257,7 @@ Vi har lagt til en testhjelper:
         var view = new BEKK.UserView({ user: user, el: $("<div></div>" ) });
         view.render();
 
-        expect(view).toContainInTemplate("Test Testesen");
+        expect(view).toContainInDOM("Test Testesen");
     });
 
 
@@ -271,7 +271,7 @@ Vi har lagt til en testhjelper:
 # View.DOM
 
 * `view.DOM()` er en selector-query med `el` som scope, ala `jQuery(selector, context)`
-* Løsningen i `toContainInTemplate` blir for enkel ettersom den søker etter en string blant all html
+* Løsningen i `toContainInDOM` blir for enkel ettersom den søker etter en string blant all html
 * En intern selector gir også en løs kobling som mulig til DOM og åpner for å flytte rundt og bytte subviews
 * Testen er mer en test av rammeverk (vi trenger ikke skrive ny kode for å få denne til å fungere.), men vi har tatt den med for å vise prinsippet med interne selectorer.
 

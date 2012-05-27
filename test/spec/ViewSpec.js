@@ -16,7 +16,7 @@ describe("The user view", function(){
         var view = new BEKK.UserView({ user: user, el: $("<div></div>" ) });
         view.render();
 
-        expect(view).toContainInTemplate("Test Testesen");
+        expect(view).toContainInDOM("Test Testesen");
     });
 
 	//Dette er også mere testing av rammeverket. Men det er jo en  "forbedring" av testen over og viser mere spesifikk testing, 

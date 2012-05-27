@@ -19,7 +19,7 @@ describe("Integration tests", function(){
         waits(1000);
 
         runs(function(){
-            expect(this.view).toContainInTemplate("Kim Joar");
+            expect(this.view).toContainInDOM("Kim Joar");
         });
         
        
@@ -44,7 +44,7 @@ describe("Integration tests", function(){
         user.fetch(callback);   
 
         this.server.respond();
-        expect(this.view).toContainInTemplate("Kim Joar");
+        expect(this.view).toContainInDOM("Kim Joar");
         this.server.restore();
 
     });
@@ -87,7 +87,7 @@ describe("Integration tests", function(){
 
         user.trigger("fetch:finished");
 
-        expect(this.view).toContainInTemplate("Kim Joar");
+        expect(this.view).toContainInDOM("Kim Joar");
 
     });
 	
