@@ -1,5 +1,7 @@
 (function(Simple) {
 
+  var BEKK = window.BEKK = {};
+
   BEKK.start = function() {
     // called when the app can be started
   };
