@@ -40,13 +40,16 @@ Kim Joar Bekkelund og Tine Kleivane
 
 ---
 
-# Utbytte 
+# Utbytte
 
-* Prøve reelle eksempler på testing av js
-  * Både gode og dårlige måter
-  * Diskutere virkningene av denne typen testing
-* Et forslag til struktur for å bygge opp nye js-applikasjoner
-  * Struktur å måle andre rammeverk / egne applikasjoner mot
+Se reelle eksempler på testing av JavaScript
+
+* Både gode og dårlige måter
+* Diskutere virkningene av denne typen testing
+
+Et forslag til struktur for å bygge opp nye JavaScript-applikasjoner
+
+* Struktur å måle både andre rammeverk og egne applikasjoner mot
 
 ---
 
@@ -54,7 +57,7 @@ Kim Joar Bekkelund og Tine Kleivane
 
     .javascript
     describe("My tests", function(){
-      
+
       beforeEach(function(){
         this.color = "green";
       });
@@ -62,19 +65,19 @@ Kim Joar Bekkelund og Tine Kleivane
       afterEach(function(){
         this.color = "green";
       });
-      
+
       it("looks green", function(){
         expect(this.color).toEqual("green");
       });
-    
+
     });
 
 * BDD-rammeverk
 * Kan kjøre standalone eller som en del av maven
-* Kan kjøre asynkrone kall med `runs` og `waits` 
+* Kan kjøre asynkrone kall med `runs` og `waits`
+* Brukes på flere BEKK-prosjekter
 
 ---
-
 
 .pushed
 
@@ -82,10 +85,9 @@ Kim Joar Bekkelund og Tine Kleivane
 
 # Målet
 
-Dowstripped Twitter --> Monolog
+Lage en superenkel Twitter-lignende applikasjon: *Monolog*
 
 ---
-
 
 # Views
 
@@ -94,20 +96,20 @@ Dowstripped Twitter --> Monolog
 
 ---
 
-#Views
+# Views
 
 Simple.js
 
 * http://kjbekkelund.github.com/simple/
 * Rammeverket leter etter metoden `initialize` og kjører denne på `new ExtendedSimpleView`
 
-Hvordan lage et nytt view: 
-    
+Hvordan lage et nytt view:
+
     .javascript
     BEKK.ExtendedSimpleView = Simple.View.extend({
       method: function(){
-        //View logic & rendering
-      }; 
+        //View logic &amp; rendering
+      };
     });
 
 ---
@@ -138,7 +140,7 @@ https://github.com/kjbekkelund/js-tdd-kurs
 
 ---
 
-# Gjennomgang oppgave 
+# Gjennomgang oppgave
 
     .javascript
     it("should have a user when initialized", function(){
@@ -152,7 +154,7 @@ https://github.com/kjbekkelund/js-tdd-kurs
 
     .javascript
      BEKK.UserView = Simple.View.extend({
-	
+
 	    initialize: function(options) {
 	        this.user = options.user;
 	    }
@@ -164,7 +166,7 @@ https://github.com/kjbekkelund/js-tdd-kurs
 # Views
 
 * Et view eier et element `el`
-* `template` inneholder ren html som skal inn i viewet. 
+* `template` inneholder ren html som skal inn i viewet.
 * `render` sitt ansvar er å interpolere data i template og plassere dette i `el`
 	* Å rendre el til dom'en er IKKE viewet sin oppgave
 
@@ -179,7 +181,7 @@ Testhjelper:
 
     .javascript
     it("should render name to the template on render", function(){
-        
+
     });
 
 
@@ -226,13 +228,13 @@ it("should contain user name in H1 when rendered", function() {
 
     var view = new BEKK.UserView({ user: user, el: $("<div></div>" ) });
     view.render();
-    
+
     //Assert that h1 contains the correct name
     });
 
 ---
 
-# Gjennomgang 
+# Gjennomgang
 
 
 # Model
@@ -243,7 +245,7 @@ it("should contain user name in H1 when rendered", function() {
 	* initialize
 	* url
 	* attr("prop") attr("prop", set)
-	* toJSON 
+	* toJSON
 
 ---
 
@@ -253,7 +255,7 @@ it("should contain user name in H1 when rendered", function() {
     Test
 ---
 
-# Gjennomgang oppgave 
+# Gjennomgang oppgave
 
     .javascript
     Utfylt test
@@ -269,21 +271,21 @@ OBS: Må bruke `jsonp`
 
 ---
 
-# Oppgave 
-    
+# Oppgave
+
     .javascript
     Test
 
 ---
 
-# Gjennomgang oppgave 
+# Gjennomgang oppgave
 
     .javascript
     Utfylt test
 
 * Hastighet
-* Avhengig av Twitter-resultat, både på innhold og tidsbruk. 500 ms kræsjer 1 av 3 ganger. 
-# Testene blir vanskeligere, man må ta hensyn til hastighet. 
+* Avhengig av Twitter-resultat, både på innhold og tidsbruk. 500 ms kræsjer 1 av 3 ganger.
+# Testene blir vanskeligere, man må ta hensyn til hastighet.
 * Byggeprosessen: må ha et kjørende applikasjon i bygget dersom du skal teste js mot interne applikasjoner
 
 
@@ -294,7 +296,7 @@ OBS: Må bruke `jsonp`
 http://sinonjs.org
 /
 Standalone test spies, stubs and mocks for JavaScript. No dependencies, works with any unit testing framework.
- 
+
 * Fake timers for setTimeout()
 * Fake server & XHR
 * Finnes mange tilpasninger til rammeverk, f.eks. Jasmine matchers
@@ -320,7 +322,7 @@ Standalone test spies, stubs and mocks for JavaScript. No dependencies, works wi
 
 ---
 
-# Oppgave 
+# Oppgave
 
 ** OBS: endre til json igjen i simple.js
 
@@ -366,7 +368,7 @@ Standalone test spies, stubs and mocks for JavaScript. No dependencies, works wi
 
 ---
 
-# Oppgave 
+# Oppgave
 
 ---
 
@@ -390,9 +392,9 @@ Standalone test spies, stubs and mocks for JavaScript. No dependencies, works wi
 
 ---
 
-# subviews 
+# subviews
 
-* Oppslag innenfor views 
+* Oppslag innenfor views
 
 ---
 
@@ -404,9 +406,9 @@ Standalone test spies, stubs and mocks for JavaScript. No dependencies, works wi
 
 ---
 
-# Delegering av events 
+# Delegering av events
 
-* Oppslag innenfor views 
+* Oppslag innenfor views
 
 ---
 
