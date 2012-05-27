@@ -64,6 +64,7 @@ textarea {
   width: 500px;
   height: 50px;
   display: block;
+  padding: 5px;
 }
 
 button.btn {
