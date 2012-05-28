@@ -36,7 +36,10 @@ Kim Joar Bekkelund og Tine Kleivane
 
 # Agenda
 
-* En agenda
+* Kort intro
+* Jasmine
+* Kode
+
 
 ---
 
@@ -655,51 +658,39 @@ Test:
 
 ---
 
+# Oppgaver videre
+* monologSpec.js
+* newStatusViewSpec.js
+* siste test i userViewSpec.js
+* statusesViewSpec.js 
+* Implementere `BEKK.start()` for `index.html`
+
+
+
+---
+
 # Globale events
 
-* Input-feltet gir en event når det er lagt til en ny.
-* User-viewet og listen over monologer lytter på denne eventen og enderer sine view etter dette
+    .javascript
+    it("adds a monolog on 'new-status' event", function() {
+      Simple.events.trigger("new-status", "The status");
+    });
+
+* Globale event brukes når flere komponenter kan være interessert i en handling som har skjedd. 
+* Bidrar til løsere kobinger mellom komponenter og at man lettere kan legge til eller fjerne komponenter. 
 
 ---
 
-# Oppgave  som ennå ikke er laget
+# Events handlers
 
-
----
-
-# Gjennomgang av oppgave
+* 
 
 ---
 
-# subviews
-
-* Oppslag innenfor views
+# Sammensatte views
 
 ---
 
-# Oppgave  som ennå ikke er laget
-
----
-
-# Gjennomgang av oppgave
-
----
-
-# Delegering av events
-
-* Oppslag innenfor views
-
----
-
-# Oppgave som ennå ikke er laget
-
----
-
-# Gjennomgang av oppgave
-
----
-
-The END
 
 
 
