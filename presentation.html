@@ -415,6 +415,8 @@ Er allerede implementert
 
 # Gjennomgang oppgave
 
+Test:
+
     .javascript
     it("should populate the view when data is fetched", function() {
         var view;
@@ -453,9 +455,13 @@ Er allerede implementert
 
 # sinon.js
 
-http://sinonjs.org
-/
-Standalone test spies, stubs and mocks for JavaScript. No dependencies, works with any unit testing framework.
+[http://sinonjs.org](http://sinonjs.org)
+
+What they say:
+
+"Standalone test spies, stubs and mocks for JavaScript. No dependencies, works with any unit testing framework."
+
+Annet:
 
 * Fake timers for setTimeout()
 * Fake server & XHR
@@ -473,41 +479,68 @@ Standalone test spies, stubs and mocks for JavaScript. No dependencies, works wi
     // Teardown
     this.server.restore();
 
-    // Response
+    // Setup av en response
     this.server.respondWith([statusCode, {header: header}, data]);
 
+    //Simuler at responsen mottas
+    this.server.respond()
 
-* "kopiering" av responsen i forrige Oppgave
+
 * registerer ikke endringer i API'et
 
 ---
 
 # Oppgave
 
-** OBS: endre til json igjen i simple.js
+    .javascript
+    beforeEach(function() {
+        this.response = '{"name": "Kim Joar Bekkelund","followers_count": "200","friends_count": "100"}';
+        this.options = {};
+    });
+
+    it("should populate the view when data is fetched", function() {
+        var user = new BEKK.User({screen_name: "kimjoar"});
+
+        // sinon.js støtter ikke JSONP 
+        user.dataType = "json";
+
+        //Server setup 
+
+        //Assert view with correct info
+    });
 
 
 ---
 
 # gjennomgang oppgave
 
+Test:
+
+    .javascript
+    it("should populate the view when data is fetched", function() {
+        this.server = sinon.fakeServer.create();
+        this.server.respondWith([200, this.options , this.response]);
+
+        var user = new BEKK.User({screen_name: "kimjoar"});
+
+        // sinon.js støtter ikke JSONP
+        user.dataType = "json";
+
+        var view = new BEKK.UserView({ user: user, el: $('<div></div>')  });
+
+        user.fetch(function(){
+            view.render();
+        });
+
+        this.server.respond();
+        this.server.restore();
+
+        expect(view.DOM("h2")).toHaveText("Kim Joar Bekkelund");
+        expect(view.DOM(".followers")).toHaveText("200");
+        expect(view.DOM(".following")).toHaveText("100");
+    });
+
 * Oppsett kan gi overhead
-
----
-
-# testhelper.js
-
-* Gå igjennom fakeServer()
-* Fixtures
-* Tenke på hvordan denne blir gitt ift oppgave 5
-
----
-
-# Oppgave
-
----
-
-# Gjennomgang av oppgave
 
 ---
 
@@ -521,18 +554,92 @@ Standalone test spies, stubs and mocks for JavaScript. No dependencies, works wi
 
 ---
 
-# Events
+# Oppgave
 
     .javascript
-    Eksempel
-
----
-
-# Oppgave
+    it("should populate the view when data is fetched", function(){
+        //Refaktorering av oppgaven over til å benytte seg av events på ferdig fetch
+    });
 
 ---
 
 # Gjennomgang av oppgave
+
+Test:
+
+    .javascript
+    it("should populate the view when data is fetched", function(){
+        this.server = sinon.fakeServer.create();
+        this.server.respondWith([200, this.options, this.response]);
+
+        var user = new BEKK.User({screen_name: "kimjoar"});
+
+        // sinon.js støtter ikke JSONP 
+        user.dataType = "json";
+
+        var view = new BEKK.UserView({ user: user, el: $('<div></div>')  });
+
+        user.fetch();
+
+        this.server.respond();
+        this.server.restore();
+
+        expect(view.DOM("h2")).toHaveText("Kim Joar Bekkelund");
+        expect(view.DOM(".followers")).toHaveText("200");
+        expect(view.DOM(".following")).toHaveText("100");
+    });
+
+Kode:
+
+    .javascript
+    BEKK.UserView = BEKK.View.extend({
+      initialize: function(options) {
+      //..
+      this.user.on("fetch:finished", this.render, this);
+      }
+    });
+
+---
+
+
+# fakeResponse.js
+
+* Overhead på oppsett av sinon-serveren er unødvendig.
+* Løsning: helper/fakeResponse.js.
+* Kan være en lik løsning for å ta inn fixtures.
+
+---
+
+# Oppgave
+    .javascript
+    it("should populate the view when data is fetched", function(){
+      //refaktorer oppgaven til å benytte seg av helper/fakeResponse.js
+    });
+
+
+---
+
+# Gjennomgang av oppgave
+
+Test:
+   
+    .javascript
+    it("should populate the view when data is fetched", function(){
+        var user = new BEKK.User({screen_name: "kimjoar"});
+
+        // sinon.js støtter ikke JSONP
+        user.dataType = "json";
+
+        var view = new BEKK.UserView({ user: user, el: $('<div></div>')  });
+
+        fakeResponse(this.response, this.options, function() {
+          user.fetch();
+        });
+
+        expect(view.DOM("h2")).toHaveText("Kim Joar Bekkelund");
+        expect(view.DOM(".followers")).toHaveText("200");
+        expect(view.DOM(".following")).toHaveText("100");
+    });
 
 ---
 
