@@ -31,7 +31,7 @@ describe("The user view", function(){
         var view = new BEKK.UserView({ user: user, el: $("<div></div>" ) });
         view.render();
 
-        expect(view.DOM("h2").text()).toMatch("Test Testesen");
+        expect(view.DOM("h2")).toHaveText("Test Testesen");
     });
 
     // test som ville blitt refaktorert bort med innføring av henting av
@@ -43,7 +43,7 @@ describe("The user view", function(){
         var view = new BEKK.UserView({ user: user, el: $("<div></div>" )});
         view.render();
 
-        expect(view.DOM("h2").text()).toMatch("Kim Joar Bekkelund");
+        expect(view.DOM("h2")).toHaveText("Kim Joar Bekkelund");
     });
 
     // test som ville blitt refaktorert bort siden den er altfor treg --- mocker isteden kallet
@@ -91,9 +91,9 @@ describe("The user view", function(){
         this.server.respond();
         this.server.restore();
 
-        expect(view.DOM("h2").text()).toMatch("Kim Joar Bekkelund");
-        expect(view.DOM(".followers").text()).toMatch("200");
-        expect(view.DOM(".following").text()).toMatch("100");
+        expect(view.DOM("h2")).toHaveText("Kim Joar Bekkelund");
+        expect(view.DOM(".followers")).toHaveText("200");
+        expect(view.DOM(".following")).toHaveText("100");
     });
 
     // test som ville blitt refaktorert på grunn av innføring av fakeResponse
@@ -113,9 +113,9 @@ describe("The user view", function(){
         this.server.respond();
         this.server.restore();
 
-        expect(view.DOM("h2").text()).toMatch("Kim Joar Bekkelund");
-        expect(view.DOM(".followers").text()).toMatch("200");
-        expect(view.DOM(".following").text()).toMatch("100");
+        expect(view.DOM("h2")).toHaveText("Kim Joar Bekkelund");
+        expect(view.DOM(".followers")).toHaveText("200");
+        expect(view.DOM(".following")).toHaveText("100");
     });
 
     it("should populate the view when data is fetched", function(){
@@ -130,9 +130,9 @@ describe("The user view", function(){
           user.fetch();
         });
 
-        expect(view).toContainInSelector("h2", "Kim Joar Bekkelund");
-        expect(view).toContainInSelector(".followers", "200");
-        expect(view).toContainInSelector(".following", "100");
+        expect(view.DOM("h2")).toHaveText("Kim Joar Bekkelund");
+        expect(view.DOM(".followers")).toHaveText("200");
+        expect(view.DOM(".following")).toHaveText("100");
     });
 
     it("should update view when monolog is added", function() {
@@ -142,11 +142,11 @@ describe("The user view", function(){
         var view = new BEKK.UserView({ user: user, el: $("<div></div>" ), monologs: monologs });
         view.render();
 
-        expect(view.DOM(".monologs").text()).toEqual('0');
+        expect(view.DOM(".monologs")).toHaveText('0');
 
         monologs.add("test");
 
-        expect(view.DOM(".monologs").text()).toEqual('1');
+        expect(view.DOM(".monologs")).toHaveText('1');
     });
 
 });
