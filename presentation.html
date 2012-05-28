@@ -668,8 +668,6 @@ Test:
         this.server.respondWith([200, this.options, this.response]);
 
         var user = new BEKK.User({screen_name: "kimjoar"});
-
-        // sinon.js støtter ikke JSONP
         user.dataType = "json";
 
         var view = new BEKK.UserView({ user: user, el: $('<div></div>')  });
@@ -689,28 +687,38 @@ Kode:
     .javascript
     BEKK.UserView = BEKK.View.extend({
       initialize: function(options) {
-      //..
-      this.user.on("fetch:finished", this.render, this);
+        // ...
+        this.user.on("fetch:finished", this.render, this);
       }
     });
 
 ---
 
+# En testabstraksjon: fakeResponse
 
-# fakeResponse.js
+Det er grusomt kjedelig å skrive:
 
-* Overhead på oppsett av sinon-serveren er unødvendig.
-* Løsning: helper/fakeResponse.js.
-* Kan være en lik løsning for å ta inn fixtures.
+    .javascript
+    this.server = sinon.fakeServer.create();
+    this.server.respondWith([200, this.options, this.response]);
+
+Løsning: `fakeResponse` (se i `helper/fakeResponse.js`)
+
+    .javascript
+    fakeResponse(response, options, function() {
+        // callback som kalles i kontekst av et mocket AJAX-kall
+    });
+
+Når man etterhvert får store responser, fungerer den også bra med fixtures.
 
 ---
 
 # Oppgave
+
     .javascript
     it("should populate the view when data is fetched", function(){
-      //refaktorer oppgaven til å benytte seg av helper/fakeResponse.js
+        // refaktorer oppgaven til å benytte seg av fakeResponse
     });
-
 
 ---
 
