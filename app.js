@@ -3,14 +3,14 @@
   var BEKK = window.BEKK = {};
 
   BEKK.start = function() {
+    var monologs = new BEKK.Monologs();
+    var user = new BEKK.User({ screen_name: "kimjoar" });
+
     var newStatusView = new BEKK.NewStatusView({ el: $("#status-form") });
     newStatusView.render();
 
-    var monologs = new BEKK.Monologs();
     var statusesView = new BEKK.StatusesView({ el: $("#monologs"), monologs: monologs });
     statusesView.render();
-
-    var user = new BEKK.User({ screen_name: "kimjoar" });
 
     var userView = new BEKK.UserView({ el: $("#profile"), user: user, monologs: monologs });
     user.fetch({
@@ -20,6 +20,12 @@
       }
     });
   };
+
+  BEKK.View = Simple.View.extend({
+    renderTemplate: function(data) {
+      this.el.html(Mustache.to_html(this.template, data || {}));
+    }
+  });
 
   BEKK.Monologs = Simple.Model.extend({
     initialize: function() {
@@ -39,14 +45,12 @@
 
   BEKK.User = Simple.Model.extend({
     initialize: function(options) {
-      if (options && options.screen_name) {
-        this.name = options.screen_name;
-        this.url = "https://api.twitter.com/1/users/show.json?screen_name=" + this.name + "&include_entities=true";
-      }
+      this.name = options.screen_name;
+      this.url = "https://api.twitter.com/1/users/show.json?screen_name=" + this.name + "&include_entities=true";
     }
   });
 
-  BEKK.UserView = Simple.View.extend({
+  BEKK.UserView = BEKK.View.extend({
 
     template: '<h2>{{name}}</h2>' +
       '<img src="{{profile_image_url}}" alt="{{name}}">' +
@@ -70,11 +74,11 @@
     render: function() {
       var data = this.user.toJSON();
       data.monologs = this.monologs.count();
-      this.el.html(Mustache.to_html(this.template, data));
+      this.renderTemplate(data);
     }
   });
 
-  BEKK.NewStatusView = Simple.View.extend({
+  BEKK.NewStatusView = BEKK.View.extend({
     template: '<form id="new-status" action="#">' +
         '<label for="status_text">Status</label>' +
         '<textarea id="status_text" name="status" placeholder="Hva tenker du nå?"></textarea>' +
@@ -86,7 +90,7 @@
     },
 
     render: function() {
-      this.el.html(Mustache.to_html(this.template));
+      this.renderTemplate();
     },
 
     newStatus: function(event) {
@@ -97,7 +101,7 @@
     }
   });
 
-  BEKK.StatusesView = Simple.View.extend({
+  BEKK.StatusesView = BEKK.View.extend({
     template: '<h2>Oppdateringer</h2>' +
       '<ul>' +
         '{{#monologs}}<li>{{.}}</li>{{/monologs}}' +
@@ -109,7 +113,7 @@
     },
 
     render: function() {
-      this.el.html(Mustache.to_html(this.template, this.monologs.toJSON()));
+      this.renderTemplate(this.monologs.toJSON());
     }
   });
 
