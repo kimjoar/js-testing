@@ -64,7 +64,7 @@ describe("The user view", function(){
         waits(1000);
 
         runs(function(){
-            expect(view).toContainInDOM("Kim Joar");
+            expect(view.DOM("h2")).toHaveText("Kim Joar Bekkelund");
         });
     });
 
