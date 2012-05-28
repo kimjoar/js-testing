@@ -733,12 +733,41 @@ Test:
 
 ---
 
+# Lytte på DOM-eventer
+
+I tillegg til å oppdatere DOM-en, er et view ansvarlig for å lytte på
+DOM-eventer.
+
+Alle DOM-eventene viewet lytter på, kan legges i `events`-property-en:
+
+    .javascript
+    var UserView = BEKK.View.extend({
+        events: {
+          "click h1": "editHeading"
+        }
+    });
+
+---
+
+# Oppgave
+
+Nå skal vi forsikre at skjema blir nullstilt når ny monolog submittes:
+
+    .javascript
+    it("should clear input when submitted", function() {
+        // rendre newStatusView
+        // submit form
+        // sjekk at textarea blir nullstilt
+    });
+
+---
+
 # Oppgaver videre
 
 * monologSpec.js
 * newStatusViewSpec.js
 * siste test i userViewSpec.js
-* statusesViewSpec.js 
+* statusesViewSpec.js
 * Implementere `BEKK.start()` for `index.html`
 
 ---
@@ -750,14 +779,14 @@ Test:
       Simple.events.trigger("new-status", "The status");
     });
 
-* Globale event brukes når flere komponenter kan være interessert i en handling som har skjedd. 
-* Bidrar til løsere kobinger mellom komponenter og at man lettere kan legge til eller fjerne komponenter. 
+* Globale event brukes når flere komponenter kan være interessert i en handling som har skjedd.
+* Bidrar til løsere kobinger mellom komponenter og at man lettere kan legge til eller fjerne komponenter.
 
 ---
 
 # Events handlers
 
-* 
+*
 
 ---
 
