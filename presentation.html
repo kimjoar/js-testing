@@ -293,34 +293,52 @@ Test:
 Kode:
 
     .javascript
-      BEKK.UserView = BEKK.View.extend({
-      //...
-        render: function() {
-          var data = this.user;
-          this.renderTemplate(data);
-      });
+    BEKK.UserView = BEKK.View.extend({
 
-<!-- Nevne lagarkitetur med egen render -->
+      //...
+
+      render: function() {
+        var data = this.user;
+        this.renderTemplate(data);
+      }
+    });
+
+Vi extend-er fra `BEKK.View` for å samle felles view-logikk.
 
 ---
 
-# View.DOM
+# Oppslag i DOM-en
 
-* `view.DOM()` er en selector-query med `el` som scope, ala `jQuery(selector, context)`
-* Løsningen i `toContainInDOM` blir for enkel ettersom den søker etter en string i hele HTML-en
-* En intern selector gir også en løs kobling som mulig til DOM og åpner for å flytte rundt og bytte subviews
-* Testen er mer en test av rammeverk (vi trenger ikke skrive ny kode for å få denne til å fungere.), men vi har tatt den med for å vise prinsippet med interne selectorer.
+Vi bruker `$(selector)` for ofte, og det gjør oss koblet til DOM-en.
+
+Men nå sender vi med `el` til alle views og kan dermed slå opp lokalt i
+viewets DOM med `view.DOM`-funksjonen.
+
+    .javascript
+    // går fra
+    $(".user form")
+
+    // til
+    userView.DOM("form")
+
+    // disse er ekvivalente om `.user` er `el`-en til `userView`
+
+Løsningen med bruk av `toContainInDOM` blir for enkel siden den søker etter en
+string i hele HTML-en.
 
 ---
 
 # Oppgave
 
+Så la oss bruke `DOM`-funksjonen istedenfor `toContainInDOM`:
+
     .javascript
     it("should show name in heading when rendered", function() {
-      
-      // Assert that h2 contains the correct name
+        // sjekk at `h2` inneholder korrekt navn
     });
 
+(Målet i denne oppgaven er å refaktorere den forrige testen, ikke skrive ny
+funksjonalitet.)
 
 ---
 
@@ -341,7 +359,6 @@ Test:
     });
 
 Ingen implementasjon, følger med Simple.js
-
 
 ---
 
