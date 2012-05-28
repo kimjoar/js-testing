@@ -1,4 +1,4 @@
-describe("Integration tests", function(){
+describe("User integration tests", function(){
 
     it("should fetch data from Twitter and populate the view", function(){
         var view;
