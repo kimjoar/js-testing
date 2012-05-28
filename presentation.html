@@ -386,8 +386,13 @@ Test:
 
 Kode: 
     
-Er allerede implementert
-
+    .javascript
+      BEKK.UserView = BEKK.View.extend({
+      //...
+        render: function() {
+          var data = this.user.toJSON();
+          this.renderTemplate(data);
+      });
 ---
 
 # Model
