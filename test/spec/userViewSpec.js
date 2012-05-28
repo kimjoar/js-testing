@@ -68,7 +68,7 @@ describe("The user view", function(){
 
     // test som ville blitt refaktorert bort siden den benytter callback
     // istedenfor event
-    it("should populate the view when data is fetched (", function() {
+    it("should populate the view when data is fetched", function() {
         this.server = sinon.fakeServer.create();
         this.server.respondWith([200, {},
           '{"name": "Kim Joar Bekkelund","followers_count": "200","friends_count": "100"}']);
