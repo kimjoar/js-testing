@@ -6,13 +6,9 @@
     var monologs = new BEKK.Monologs();
     var user = new BEKK.User({ screen_name: "kimjoar" });
 
-    var newStatusView = new BEKK.NewStatusView({ el: $("#status-form") });
-    newStatusView.render();
+    var appView = new BEKK.AppView({ el: $(".wrapper"), user: user, monologs: monologs });
+    appView.render();
 
-    var statusesView = new BEKK.StatusesView({ el: $("#monologs"), monologs: monologs });
-    statusesView.render();
-
-    var userView = new BEKK.UserView({ el: $("#profile"), user: user, monologs: monologs });
     user.fetch();
   };
 
@@ -20,6 +16,22 @@
   BEKK.View = Simple.View.extend({
     renderTemplate: function(data) {
       this.el.html(Mustache.to_html(this.template, data || {}));
+    }
+  });
+
+  BEKK.AppView = BEKK.View.extend({
+    initialize: function(options) {
+      var monologs = options.monologs;
+      var user = options.user;
+
+      this.newStatusView = new BEKK.NewStatusView({ el: this.DOM("#status-form") });
+      this.statusesView = new BEKK.StatusesView({ el: this.DOM("#monologs"), monologs: monologs });
+      this.userView = new BEKK.UserView({ el: this.DOM("#profile"), user: user, monologs: monologs });
+    },
+
+    render: function() {
+      this.newStatusView.render();
+      this.statusesView.render();
     }
   });
 
