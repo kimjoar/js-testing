@@ -3,8 +3,11 @@ describe("the statuses view", function() {
     var monologs = new BEKK.Monologs();
     var view = new BEKK.StatusesView({ el: $("<div></div>"), monologs: monologs });
     view.render();
+
     expect(view.DOM("li").length).toEqual(0);
+
     monologs.add("test");
+
     expect(view.DOM("li").length).toEqual(1);
   });
 });
