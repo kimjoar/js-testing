@@ -19,11 +19,10 @@ describe("User integration tests", function(){
         });
     });
 
-    it("should fetch fake data and populate view", function() {
-
+    it("should populate the view when data is fetched (", function() {
         this.server = sinon.fakeServer.create();
         this.server.respondWith([200, {},
-          '{"name":"Kim Joar Bekkelund","screen_name":"kimjoar"}']);
+          '{"name": "Kim Joar Bekkelund","followers_count": "200"}']);
 
         var user = new BEKK.User({screen_name: "kimjoar"});
 
@@ -37,18 +36,20 @@ describe("User integration tests", function(){
         });
 
         this.server.respond();
-        expect(view).toContainInDOM("Kim Joar");
         this.server.restore();
 
+        expect(view.DOM("h2").text()).toMatch("Kim Joar Bekkelund");
+        expect(view.DOM(".followers").text()).toMatch("200");
     });
 
     it("should populate the view when data is fetched", function(){
-
         this.server = sinon.fakeServer.create();
         this.server.respondWith([200, {},
-          '{"name":"Kim Joar Bekkelund","followers_count":"200"}']);
+          '{"name": "Kim Joar Bekkelund","followers_count": "200"}']);
 
         var user = new BEKK.User({screen_name: "kimjoar"});
+
+        // sinon.js støtter ikke JSONP (ref: http://groups.google.com/group/sinonjs/browse_thread/thread/fcdc7a733050be2d)
         user.dataType = "json";
 
         var view = new BEKK.UserView({ user: user, el: $('<div></div>')  });
@@ -56,11 +57,10 @@ describe("User integration tests", function(){
         user.fetch();
 
         this.server.respond();
+        this.server.restore();
 
         expect(view.DOM("h2").text()).toMatch("Kim Joar Bekkelund");
         expect(view.DOM(".followers").text()).toMatch("200");
-
-        this.server.restore();
     });
 
 });
