@@ -553,15 +553,14 @@ På den positive siden:
         // sinon.js støtter ikke JSONP
         user.dataType = "json";
 
-        //Server setup
+        // Sett opp en fakeServer
 
-        //Assert view with correct info
+        // Sjekk for korrekt data i viewet
     });
-
 
 ---
 
-# gjennomgang oppgave
+# Gjennomgang oppgave
 
 Test:
 
@@ -577,8 +576,10 @@ Test:
 
         var view = new BEKK.UserView({ user: user, el: $('<div></div>')  });
 
-        user.fetch(function(){
+        user.fetch({
+          success: function(){
             view.render();
+          }
         });
 
         this.server.respond();
