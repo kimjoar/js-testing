@@ -219,7 +219,7 @@
 
             $.ajax({
                 url: model.url,
-                dataType: options.dataType || "json",
+                dataType: options.dataType || model.dataType || "json",
                 success: function(data) {
                     for (var prop in data) {
                         model.attr(prop, data[prop]);
