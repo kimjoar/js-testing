@@ -8,7 +8,7 @@ describe("The user view", function(){
         expect(view.user).toBeDefined();
     });
 
-    it("should render name to the template on render", function(){
+    it("should show name when rendered", function(){
         var user = {
             name: "Test Testesen"
         };
@@ -19,7 +19,7 @@ describe("The user view", function(){
         expect(view).toContainInDOM("Test Testesen");
     });
 
-    it("should contain user name when rendered", function() {
+    it("should show name in heading when rendered", function() {
         var user = {
             name: "Test Testesen"
         };
@@ -30,7 +30,7 @@ describe("The user view", function(){
         expect(view.DOM("h2").text()).toMatch("Test Testesen");
     });
 
-    it("should render a model to the template", function() {
+    it("should render model", function() {
         var user = new BEKK.User({ screen_name: "kimjoar" });
         user.attr("name", "Kim Joar Bekkelund");
 
