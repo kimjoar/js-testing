@@ -346,13 +346,19 @@ Ingen implementasjon, følger med Simple.js
 
 # Model
 
-* Har ansvar for data og opphenting av denne
-  * Kun modeller som har lov til å kommunisere med serveren
-* I simple.js følger vi modellstrukturen i backbone.js
-  * initialize
-  * url
-  * attr("prop") attr("prop", set)
-  * toJSON
+Har ansvar for data og opphenting av denne
+
+* Kun modeller som har lov til å kommunisere med serveren
+
+I Simple.js følger vi modellstrukturen til Backbone.js:
+
+* `initialize`
+* `url`
+* `toJSON`
+
+Og i tillegg:
+
+* `attr("prop")` og `attr("prop", set)`
 
 ---
 
