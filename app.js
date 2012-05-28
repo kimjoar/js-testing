@@ -3,7 +3,6 @@
   var BEKK = window.BEKK = {};
 
   BEKK.start = function() {
-    // called when the app can be started
     var newStatusView = new BEKK.NewStatusView({ el: $("#status-form") });
     newStatusView.render();
 
@@ -13,7 +12,7 @@
 
     var user = new BEKK.User({ screen_name: "kimjoar" });
 
-    var userView = new BEKK.UserView({ el: $("#profile"), user: user });
+    var userView = new BEKK.UserView({ el: $("#profile"), user: user, monologs: monologs });
     user.fetch({
       dataType: "jsonp",
       success: function(date) {
@@ -29,11 +28,12 @@
     },
 
     add: function(status) {
-      var monologs = this.attr("monologs");
-      monologs.push(status);
-      this.attr("monologs", monologs);
+      this.attr("monologs").push(status);
       this.trigger("add");
-      Simple.events.trigger("status:added");
+    },
+
+    count: function() {
+      return this.attr("monologs").length;
     }
   });
 
@@ -42,15 +42,7 @@
       if (options && options.screen_name) {
         this.name = options.screen_name;
         this.url = "https://api.twitter.com/1/users/show.json?screen_name=" + this.name + "&include_entities=true";
-
-        Simple.events.on("status:added", this.statusAdded, this);
       }
-    },
-
-    statusAdded: function() {
-      var count = this.attr("statuses_count") + 1;
-      this.attr("statuses_count", count);
-      this.trigger("change");
     }
   });
 
@@ -61,28 +53,23 @@
       '<ul>' +
         '<li>Followers: {{followers_count}}</li>' +
         '<li>Following: {{friends_count}}</li>' +
-        '<li>Monologer: {{statuses_count}}</li>' +
+        '<li>Monologer: {{monologs}}</li>' +
       '</ul>',
 
     initialize: function(options) {
       this.user = options.user;
+      this.monologs = options.monologs;
 
       var base = this;
       if (this.user instanceof Simple.Model) {
         this.user.on("fetch:finished", this.render, this);
-        this.user.on("change", this.render, this);
       }
+      this.monologs.on("add", this.render, this);
     },
 
     render: function() {
-      var data;
-
-      if (this.user instanceof Simple.Model) {
-        data = this.user.toJSON();
-      } else {
-        data = this.user;
-      }
-
+      var data = this.user.toJSON();
+      data.monologs = this.monologs.count();
       this.el.html(Mustache.to_html(this.template, data));
     }
   });
@@ -113,7 +100,7 @@
   BEKK.StatusesView = Simple.View.extend({
     template: '<h2>Oppdateringer</h2>' +
       '<ul>' +
-      '{{#monologs}}<li>{{.}}</li>{{/monologs}}' +
+        '{{#monologs}}<li>{{.}}</li>{{/monologs}}' +
       '</ul>',
 
     initialize: function(options) {
