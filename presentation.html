@@ -216,7 +216,7 @@ Test:
 Kode:
 
     .javascript
-    BEKK.UserView = Simple.View.extend({
+    BEKK.UserView = BEKK.View.extend({
       initialize: function(options) {
         this.user = options.user;
       }
@@ -261,7 +261,11 @@ Vi har lagt til en testhjelper:
 
     .javascript
     it("should show name when rendered", function(){
+      var user = {
+            name: "Test Testesen"
+        };
 
+      //Assert name is rendered to template
     });
 
 
@@ -269,6 +273,8 @@ Vi har lagt til en testhjelper:
 
 
 # Gjennomgang oppgave
+
+Test:
 
     .javascript
     it("should show name when rendered", function(){
@@ -283,9 +289,17 @@ Vi har lagt til en testhjelper:
     });
 
 
-Løsning
+Kode:
 
-* Nevne lagarkitetur med egen render
+    .javascript
+      BEKK.UserView = BEKK.View.extend({
+      //...
+        render: function() {
+          var data = this.user;
+          this.renderTemplate(data);
+      });
+
+<!-- Nevne lagarkitetur med egen render -->
 
 ---
 
@@ -300,21 +314,33 @@ Løsning
 
 # Oppgave
 
-it("should contain user name in H1 when rendered", function() {
-    var user = {
-        name: "Test Testesen"
-    };
-
-    var view = new BEKK.UserView({ user: user, el: $("<div></div>" ) });
-    view.render();
-
-    // Assert that h1 contains the correct name
+    .javascript
+    it("should show name in heading when rendered", function() {
+      
+      // Assert that h2 contains the correct name
     });
 
 
 ---
 
 # Gjennomgang
+
+Test:
+
+    .javascript
+    it("should show name in heading when rendered", function() {
+        var user = {
+            name: "Test Testesen"
+        };
+
+        var view = new BEKK.UserView({ user: user, el: $("<div></div>" ) });
+        view.render();
+
+        expect(view.DOM("h2")).toHaveText("Test Testesen");
+    });
+
+Ingen implementasjon, følger med Simple.js
+
 
 ---
 
@@ -333,32 +359,56 @@ it("should contain user name in H1 when rendered", function() {
 # Oppgave
 
     .javascript
-    Test
+    it("should render model", function() {
+    //Samme test som sist, men nå skal input til viewet være en BEKK.User
+
+    });
+
 
 
 ---
 
 # Gjennomgang oppgave
 
-    .javascript
-    Utfylt test
+Test:
 
+    .javascript
+    it("should render model", function() {
+        var user = new BEKK.User({ screen_name: "kimjoar" });
+        user.attr("name", "Kim Joar Bekkelund");
+
+        var view = new BEKK.UserView({ user: user, el: $("<div></div>" )});
+        view.render();
+
+        expect(view.DOM("h2")).toHaveText("Kim Joar Bekkelund");
+    });
+
+
+Kode: 
+    
+Er allerede implementert
 
 ---
 
 # Model
 
 * simple.js implementerer model.fetch med success-callback
-* Kaller på url
-
-OBS: Må bruke `jsonp`
+* Kaller på url 
 
 ---
 
 # Oppgave
 
     .javascript
-    Test
+    it("should populate the view when data is fetched", function() {
+        var view;
+
+        //runs(function(){});
+
+        //waits(1000);
+
+        //runs(function(){});
+    });
 
 
 ---
@@ -366,12 +416,37 @@ OBS: Må bruke `jsonp`
 # Gjennomgang oppgave
 
     .javascript
-    Utfylt test
+    it("should populate the view when data is fetched", function() {
+        var view;
+
+        runs(function(){
+            var user = new BEKK.User({ screen_name: "kimjoar"});
+            view = new BEKK.UserView({ user: user, el: $('<div></div>') });
+
+            user.fetch(function() {
+                view.render();
+            });
+        });
+
+        waits(1000);
+
+        runs(function(){
+            expect(view).toContainInDOM("Kim Joar");
+        });
+    });
+
+Kode: 
+    
+Er allerede implementert
+
+<!--
+#Kommentarer
 
 * Hastighet
 * Avhengig av Twitter-resultat, både på innhold og tidsbruk. 500 ms kræsjer 1 av 3 ganger.
 * Testene blir vanskeligere, man må ta hensyn til hastighet.
 * Byggeprosessen: må ha et kjørende applikasjon i bygget dersom du skal teste js mot interne applikasjoner
+-->
 
 
 ---
