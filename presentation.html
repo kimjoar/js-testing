@@ -239,11 +239,11 @@ i `el`.
 
 # Hvordan teste view-rendering?
 
-Er avhengig av DOM-en vi initialiserer med el satt til `$(".user")`
+Er avhengig av DOM-en vi initialiserer med `el` satt til `.javascript $(".user")`
 
 Både mye oppsett, tregt og dårlig støttet av mange test-verktøy.
 
-Men vi kan sende inn en "tom ekvivalent", som for eksempel `$("<div></div>")`.
+Men vi kan sende inn en "tom ekvivalent", som for eksempel `.javascript $("<div></div>")`.
 Vi må tilpasse til hva viewet forventer å få som input.
 
 ---
@@ -346,13 +346,19 @@ Ingen implementasjon, følger med Simple.js
 
 # Model
 
-* Har ansvar for data og opphenting av denne
-  * Kun modeller som har lov til å kommunisere med serveren
-* I simple.js følger vi modellstrukturen i backbone.js
-  * initialize
-  * url
-  * attr("prop") attr("prop", set)
-  * toJSON
+Har ansvar for data og opphenting av denne
+
+* Kun modeller som har lov til å kommunisere med serveren
+
+I Simple.js følger vi modellstrukturen til Backbone.js:
+
+* `initialize`
+* `url`
+* `toJSON`
+
+Og i tillegg:
+
+* `attr("prop")` og `attr("prop", set)`
 
 ---
 
