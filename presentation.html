@@ -384,11 +384,8 @@ Og i tillegg:
 
     .javascript
     it("should render model", function() {
-    //Samme test som sist, men nå skal input til viewet være en BEKK.User
-
+        // Samme test som sist, men nå skal input til viewet være en BEKK.User
     });
-
-
 
 ---
 
@@ -408,8 +405,8 @@ Test:
     });
 
 
-Kode: 
-    
+Kode:
+
     .javascript
       BEKK.UserView = BEKK.View.extend({
       //...
@@ -422,7 +419,7 @@ Kode:
 # Model
 
 * simple.js implementerer model.fetch med success-callback
-* Kaller på url 
+* Kaller på url
 
 ---
 
@@ -466,8 +463,8 @@ Test:
         });
     });
 
-Kode: 
-    
+Kode:
+
 Er allerede implementert
 
 <!--
@@ -530,10 +527,10 @@ Annet:
     it("should populate the view when data is fetched", function() {
         var user = new BEKK.User({screen_name: "kimjoar"});
 
-        // sinon.js støtter ikke JSONP 
+        // sinon.js støtter ikke JSONP
         user.dataType = "json";
 
-        //Server setup 
+        //Server setup
 
         //Assert view with correct info
     });
@@ -603,7 +600,7 @@ Test:
 
         var user = new BEKK.User({screen_name: "kimjoar"});
 
-        // sinon.js støtter ikke JSONP 
+        // sinon.js støtter ikke JSONP
         user.dataType = "json";
 
         var view = new BEKK.UserView({ user: user, el: $('<div></div>')  });
@@ -651,7 +648,7 @@ Kode:
 # Gjennomgang av oppgave
 
 Test:
-   
+
     .javascript
     it("should populate the view when data is fetched", function(){
         var user = new BEKK.User({screen_name: "kimjoar"});
