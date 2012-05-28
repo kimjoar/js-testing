@@ -784,6 +784,28 @@ Lettere kan legge til eller fjerne komponenter.
 
 ---
 
+# Teste eventer
+
+Eventer er API-et til en komponent.
+
+For å sjekke at en event fyrer korrekt, kan vi bruke en *spy*.
+
+Eksempel med bruk av Sinon.js:
+
+    .javascript
+    var spy = sinon.spy();
+    Simple.events.on("test", spy);
+
+    // do something which should trigger "test"
+
+    expect(spy).toHaveBeenCalledOnce();
+
+Sjekk ut
+[https://github.com/froots/jasmine-sinon](https://github.com/froots/jasmine-sinon)
+for flere matchers.
+
+---
+
 # Oppgave
 
 * `newStatusViewSpec.js`
