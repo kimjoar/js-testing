@@ -52,9 +52,9 @@
     template: '<h2>{{name}}</h2>' +
       '<img src="{{profile_image_url}}" alt="{{name}}">' +
       '<ul>' +
-        '<li>Followers: {{followers_count}}</li>' +
-        '<li>Following: {{friends_count}}</li>' +
-        '<li>Monologer: {{monologs}}</li>' +
+        '<li>Followers: <span class="followers">{{followers_count}}</span></li>' +
+        '<li>Following: <span class="following">{{friends_count}}</span></li>' +
+        '<li>Monologs: <span class="monologs">{{monologs}}</span></li>' +
       '</ul>',
 
     initialize: function(options) {
@@ -63,7 +63,7 @@
         this.user.on("fetch:finished", this.render, this);
       }
 
-      if (this.monologs) {
+      if (options.monologs) {
         this.monologs = options.monologs;
         this.monologs.on("add", this.render, this);
       }

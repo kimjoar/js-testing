@@ -40,4 +40,18 @@ describe("The user view", function(){
         expect(view.DOM("h2").text()).toMatch("Kim Joar Bekkelund");
     });
 
+    it("should update view when monolog is added", function() {
+        var user = new BEKK.User({ screen_name: "kimjoar" });
+        var monologs = new BEKK.Monologs();
+
+        var view = new BEKK.UserView({ user: user, el: $("<div></div>" ), monologs: monologs });
+        view.render();
+
+        expect(view.DOM(".monologs").text()).toEqual('0');
+
+        monologs.add("test");
+
+        expect(view.DOM(".monologs").text()).toEqual('1');
+    });
+
 });
