@@ -744,7 +744,9 @@ Alle DOM-eventene viewet lytter på, kan legges i `events`-property-en:
     var UserView = BEKK.View.extend({
         events: {
           "click h1": "editHeading"
-        }
+        },
+
+        editHeading: function() {}
     });
 
 ---
@@ -774,13 +776,17 @@ Nå skal vi forsikre at skjema blir nullstilt når ny monolog submittes:
 
 # Globale events
 
+Når flere komponenter kan være interessert i en handling som har skjedd.
+
+Løsere kobinger mellom komponenter.
+
+Lettere kan legge til eller fjerne komponenter.
+
     .javascript
     it("adds a monolog on 'new-status' event", function() {
       Simple.events.trigger("new-status", "The status");
     });
 
-* Globale event brukes når flere komponenter kan være interessert i en handling som har skjedd.
-* Bidrar til løsere kobinger mellom komponenter og at man lettere kan legge til eller fjerne komponenter.
 
 ---
 
