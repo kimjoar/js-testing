@@ -246,9 +246,10 @@ Både mye oppsett, tregt og dårlig støttet av mange test-verktøy.
 Men vi kan sende inn en "tom ekvivalent", som for eksempel `.javascript $("<div></div>")`.
 Vi må tilpasse til hva viewet forventer å få som input.
 
----
+Eksempel:
 
-# Testing av view-rendering
+    .javascript
+    var view = new BEKK.UserView({ el: $("<div></div>" ) })
 
 Vi har lagt til en testhjelper:
 
@@ -261,11 +262,11 @@ Vi har lagt til en testhjelper:
 
     .javascript
     it("should show name when rendered", function(){
-      var user = {
+        var user = {
             name: "Test Testesen"
         };
 
-      //Assert name is rendered to template
+        // Sjekk at navnet er rendret til DOM-en
     });
 
 
