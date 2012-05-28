@@ -421,6 +421,25 @@ Kode:
 
 ---
 
+# Oppgave
+
+Få opp en visning av profilen
+
+    .javascript
+    BEKK.start = function() {
+      //var monologs = new BEKK.Monologs();
+      var user = new BEKK.User({ screen_name: "kimjoar" });
+
+      // ... create views and watch it render in index.html
+    };
+
+
+
+
+
+
+---
+
 # Model
 
 Simple.js implementerer `model.fetch` med success-callback:
@@ -533,6 +552,7 @@ Vi benytter `sinon.fakeserver`:
 På den positive siden:
 
 * Mye, mye raskere tester
+* Responsen kan endres tilpasset testen
 
 … men:
 
@@ -767,7 +787,7 @@ Lettere kan legge til eller fjerne komponenter.
 # Oppgave
 
 * `newStatusViewSpec.js`
-* Få manglende test i `monologSpec.js` til å kjøre.
+* Få manglende tester i `monologSpec.js` til å kjøre.
 * Siste spec i `userViewSpec.js`
 * `statusesViewSpec.js`
 
@@ -778,6 +798,21 @@ Implementer `BEKK.start()` slik at app-en kjører.
 # Sammensatte views
 
 Et view kan bestå av flere views.
+
+    .javascript
+    BEKK.MasterView = BEKK.View.extend({
+     initialize: function(options) {
+
+      this.subView = new BEKK.SubView({ el: this.DOM("#sub") });
+      this.otherView = new BEKK.OtherView({ el: this.DOM("#other")});
+     },
+
+     render: function() {
+      this.subView.render();
+      this.otherView.render();
+     }
+    });
+
 
     </textarea>
     <div id="slideshow"></div>
