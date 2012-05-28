@@ -6,9 +6,10 @@
     var monologs = new BEKK.Monologs();
     var user = new BEKK.User({ screen_name: "kimjoar" });
 
-    var appView = new BEKK.AppView({ el: $(".wrapper"), user: user, monologs: monologs });
+    var appView = new BEKK.MonologsView({ el: $(".container"), user: user, monologs: monologs });
     appView.render();
 
+    var userView = new BEKK.UserView({ el: $("#profile"), user: user, monologs: monologs });
     user.fetch();
   };
 
@@ -19,14 +20,13 @@
     }
   });
 
-  BEKK.AppView = BEKK.View.extend({
+  BEKK.MonologsView = BEKK.View.extend({
     initialize: function(options) {
       var monologs = options.monologs;
       var user = options.user;
 
       this.newStatusView = new BEKK.NewStatusView({ el: this.DOM("#status-form") });
       this.statusesView = new BEKK.StatusesView({ el: this.DOM("#monologs"), monologs: monologs });
-      this.userView = new BEKK.UserView({ el: this.DOM("#profile"), user: user, monologs: monologs });
     },
 
     render: function() {
