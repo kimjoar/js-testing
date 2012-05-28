@@ -593,17 +593,58 @@ Test:
         expect(view.DOM(".following")).toHaveText("100");
     });
 
-* Oppsett kan gi overhead
+---
+
+# Callback
+
+Hvorfor skal koden utenfra vite noe om hvordan viewet skal håndtere respons?
+
+    .javascript
+    user.fetch({
+      success: function(){
+        view.render();
+      }
+    });
+
+Eller, dersom vi flytter hentingen inn: hvorfor skal viewet være ansvarlig for
+å hente sin dataen?
+
+Dette burde være:
+
+    .javascript
+    user.fetch();
+
+Og så kan viewet få beskjed ved suksess.
 
 ---
 
-# Events
+# Events!
 
-* Hvordan det fungerer?
-* Hvorfor det fungerer? (decoupling)
-* Henvise tilbake til callback-oppgaven
-* Hva skjer med ekstreme mengder callbacks
-* Teste rammeverket vs egen kode? //fetch:finished --> hva viss den endrer seg?
+Viewet sier fra hva den er interessert i å lytte på og får beskjed når
+handlingen skjer.
+
+Dette gir bedre decoupling. Skiller ansvaret ut der det hører hjemme.
+
+Vi kan ha globale events:
+
+    .javascript
+    // lytter på event med navnet "test"
+    Simple.on("test", function() { console.log("TESTING!") });
+
+    // fyrer event med navnet "test"
+    Simple.trigger("test"); // TESTING!
+
+… og vi kan ha lokale events:
+
+    .javascript
+    var user = new BEKK.User();
+
+    user.on("test", function() { console.log(this); }, this);
+
+    user.trigger("test");
+
+Når et modell kaller `fetch` og kallet ender i suksess, trigges automatisk den
+lokale eventen `fetch:finished`
 
 ---
 
@@ -611,7 +652,8 @@ Test:
 
     .javascript
     it("should populate the view when data is fetched", function(){
-        //Refaktorering av oppgaven over til å benytte seg av events på ferdig fetch
+        // Refaktorering av oppgaven over til å
+        // benytte seg av events på ferdig henting av data
     });
 
 ---
