@@ -54,15 +54,17 @@ describe("The user view", function(){
             var user = new BEKK.User({ screen_name: "kimjoar"});
             view = new BEKK.UserView({ user: user, el: $('<div></div>') });
 
-            user.fetch(function() {
+            user.fetch({
+              success: function() {
                 view.render();
+              }
             });
         });
 
         waits(1000);
 
         runs(function(){
-            expect(view).toContainInDOM("Kim Joar");
+            expect(view.DOM("h2")).toHaveText("Kim Joar Bekkelund");
         });
     });
 
@@ -84,8 +86,10 @@ describe("The user view", function(){
 
         var view = new BEKK.UserView({ user: user, el: $('<div></div>')  });
 
-        user.fetch(function(){
+        user.fetch({
+          success: function() {
             view.render();
+          }
         });
 
         this.server.respond();

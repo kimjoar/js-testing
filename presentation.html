@@ -296,34 +296,52 @@ Test:
 Kode:
 
     .javascript
-      BEKK.UserView = BEKK.View.extend({
-      //...
-        render: function() {
-          var data = this.user;
-          this.renderTemplate(data);
-      });
+    BEKK.UserView = BEKK.View.extend({
 
-<!-- Nevne lagarkitetur med egen render -->
+      //...
+
+      render: function() {
+        var data = this.user;
+        this.renderTemplate(data);
+      }
+    });
+
+Vi extend-er fra `BEKK.View` for å samle felles view-logikk.
 
 ---
 
-# View.DOM
+# Oppslag i DOM-en
 
-* `view.DOM()` er en selector-query med `el` som scope, ala `jQuery(selector, context)`
-* Løsningen i `toContainInDOM` blir for enkel ettersom den søker etter en string i hele HTML-en
-* En intern selector gir også en løs kobling som mulig til DOM og åpner for å flytte rundt og bytte subviews
-* Testen er mer en test av rammeverk (vi trenger ikke skrive ny kode for å få denne til å fungere.), men vi har tatt den med for å vise prinsippet med interne selectorer.
+Vi bruker `$(selector)` for ofte, og det gjør oss koblet til DOM-en.
+
+Men nå sender vi med `el` til alle views og kan dermed slå opp lokalt i
+viewets DOM med `view.DOM`-funksjonen.
+
+    .javascript
+    // går fra
+    $(".user form")
+
+    // til
+    userView.DOM("form")
+
+    // disse er ekvivalente om `.user` er `el`-en til `userView`
+
+Løsningen med bruk av `toContainInDOM` blir for enkel siden den søker etter en
+string i hele HTML-en.
 
 ---
 
 # Oppgave
 
+Så la oss bruke `DOM`-funksjonen istedenfor `toContainInDOM`:
+
     .javascript
     it("should show name in heading when rendered", function() {
-      
-      // Assert that h2 contains the correct name
+        // sjekk at `h2` inneholder korrekt navn
     });
 
+(Målet i denne oppgaven er å refaktorere den forrige testen, ikke skrive ny
+funksjonalitet.)
 
 ---
 
@@ -344,7 +362,6 @@ Test:
     });
 
 Ingen implementasjon, følger med Simple.js
-
 
 ---
 
@@ -370,11 +387,8 @@ Og i tillegg:
 
     .javascript
     it("should render model", function() {
-    //Samme test som sist, men nå skal input til viewet være en BEKK.User
-
+        // Samme test som sist, men nå skal input til viewet være en BEKK.User
     });
-
-
 
 ---
 
@@ -394,21 +408,33 @@ Test:
     });
 
 
-Kode: 
-    
+Kode:
+
     .javascript
       BEKK.UserView = BEKK.View.extend({
-      //...
+
+        //...
+
         render: function() {
           var data = this.user.toJSON();
           this.renderTemplate(data);
+        }
       });
+
 ---
 
 # Model
 
-* simple.js implementerer model.fetch med success-callback
-* Kaller på url 
+Simple.js implementerer `model.fetch` med success-callback:
+
+    .javascript
+    user.fetch({
+      success: function() {}
+    });
+
+Kaller på `model.url`
+
+Kan sette JSONP ved å sette `model.dataType = "jsonp"`
 
 ---
 
@@ -418,13 +444,13 @@ Kode:
     it("should populate the view when data is fetched", function() {
         var view;
 
-        //runs(function(){});
+        // runs(function(){});
 
-        //waits(1000);
+        // waits(1000);
+        // vi venter på å motta svar fra Twitter
 
-        //runs(function(){});
+        // runs(function(){});
     });
-
 
 ---
 
@@ -440,31 +466,35 @@ Test:
             var user = new BEKK.User({ screen_name: "kimjoar"});
             view = new BEKK.UserView({ user: user, el: $('<div></div>') });
 
-            user.fetch(function() {
+            user.fetch({
+              success: function() {
                 view.render();
+              }
             });
         });
 
         waits(1000);
 
         runs(function(){
-            expect(view).toContainInDOM("Kim Joar");
+            expect(view.DOM("h2")).toHaveText("Kim Joar Bekkelund");
         });
     });
 
-Kode: 
-    
-Er allerede implementert
+Kode:
 
-<!--
-#Kommentarer
+Er allerede implementert.
 
-* Hastighet
-* Avhengig av Twitter-resultat, både på innhold og tidsbruk. 500 ms kræsjer 1 av 3 ganger.
-* Testene blir vanskeligere, man må ta hensyn til hastighet.
-* Byggeprosessen: må ha et kjørende applikasjon i bygget dersom du skal teste js mot interne applikasjoner
--->
+---
 
+# Hva lærte vi av forrige test?
+
+Dette går treeegt!
+
+Og det er vanskelig å vite hvor tregt. Når vi testet feilet det 1 av 3 ganger på 500ms.
+
+Vanskelig i store prosjekter siden vi må ha en kjørende app i byggeprosessen.
+
+… det må finnes bedre måter å gjøre dette på!
 
 ---
 
@@ -472,36 +502,43 @@ Er allerede implementert
 
 [http://sinonjs.org](http://sinonjs.org)
 
-What they say:
+"Standalone test spies, stubs and mocks for JavaScript. No dependencies, works
+with any unit testing framework."
 
-"Standalone test spies, stubs and mocks for JavaScript. No dependencies, works with any unit testing framework."
+Inneholder også:
 
-Annet:
+* Fake timers for `setTimeout()`
+* Fake server &amp; XHR for mocking av AJAX-kall
 
-* Fake timers for setTimeout()
-* Fake server & XHR
-* Finnes mange tilpasninger til rammeverk, f.eks. Jasmine matchers
-
+Det finnes ekstra matchers for Jasmine, se
+[https://github.com/froots/jasmine-sinon](https://github.com/froots/jasmine-sinon).
 
 ---
 
-# fake Server
+# Mocking av AJAX-kall
+
+Vi benytter `sinon.fakeserver`:
 
     .javascript
     // Setup
     this.server = sinon.fakeServer.create();
 
+    // Setup av en response
+    this.server.respondWith([statusCode, headers, data]);
+
+    // Simuler at responsen mottas
+    this.server.respond()
+
     // Teardown
     this.server.restore();
 
-    // Setup av en response
-    this.server.respondWith([statusCode, {header: header}, data]);
+På den positive siden:
 
-    //Simuler at responsen mottas
-    this.server.respond()
+* Mye, mye raskere tester
 
+… men:
 
-* registerer ikke endringer i API'et
+* Registerer ikke endringer i API-et.
 
 ---
 
@@ -516,18 +553,17 @@ Annet:
     it("should populate the view when data is fetched", function() {
         var user = new BEKK.User({screen_name: "kimjoar"});
 
-        // sinon.js støtter ikke JSONP 
+        // sinon.js støtter ikke JSONP
         user.dataType = "json";
 
-        //Server setup 
+        // Sett opp en fakeServer
 
-        //Assert view with correct info
+        // Sjekk for korrekt data i viewet
     });
-
 
 ---
 
-# gjennomgang oppgave
+# Gjennomgang oppgave
 
 Test:
 
@@ -543,8 +579,10 @@ Test:
 
         var view = new BEKK.UserView({ user: user, el: $('<div></div>')  });
 
-        user.fetch(function(){
+        user.fetch({
+          success: function(){
             view.render();
+          }
         });
 
         this.server.respond();
@@ -589,7 +627,7 @@ Test:
 
         var user = new BEKK.User({screen_name: "kimjoar"});
 
-        // sinon.js støtter ikke JSONP 
+        // sinon.js støtter ikke JSONP
         user.dataType = "json";
 
         var view = new BEKK.UserView({ user: user, el: $('<div></div>')  });
@@ -637,7 +675,7 @@ Kode:
 # Gjennomgang av oppgave
 
 Test:
-   
+
     .javascript
     it("should populate the view when data is fetched", function(){
         var user = new BEKK.User({screen_name: "kimjoar"});
