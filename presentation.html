@@ -479,17 +479,19 @@ Test:
 
 Kode:
 
-Er allerede implementert
+Er allerede implementert.
 
-<!--
-#Kommentarer
+---
 
-* Hastighet
-* Avhengig av Twitter-resultat, både på innhold og tidsbruk. 500 ms kræsjer 1 av 3 ganger.
-* Testene blir vanskeligere, man må ta hensyn til hastighet.
-* Byggeprosessen: må ha et kjørende applikasjon i bygget dersom du skal teste js mot interne applikasjoner
--->
+# Hva lærte vi av forrige test?
 
+Dette går treeegt!
+
+Og det er vanskelig å vite hvor tregt. Når vi testet feilet det 1 av 3 ganger på 500ms.
+
+Vanskelig i store prosjekter siden vi må ha en kjørende app i byggeprosessen.
+
+… det må finnes bedre måter å gjøre dette på!
 
 ---
 
@@ -497,36 +499,43 @@ Er allerede implementert
 
 [http://sinonjs.org](http://sinonjs.org)
 
-What they say:
+"Standalone test spies, stubs and mocks for JavaScript. No dependencies, works
+with any unit testing framework."
 
-"Standalone test spies, stubs and mocks for JavaScript. No dependencies, works with any unit testing framework."
+Inneholder også:
 
-Annet:
+* Fake timers for `setTimeout()`
+* Fake server &amp; XHR for mocking av AJAX-kall
 
-* Fake timers for setTimeout()
-* Fake server & XHR
-* Finnes mange tilpasninger til rammeverk, f.eks. Jasmine matchers
-
+Det finnes ekstra matchers for Jasmine, se
+[https://github.com/froots/jasmine-sinon](https://github.com/froots/jasmine-sinon).
 
 ---
 
-# fake Server
+# Mocking av AJAX-kall
+
+Vi benytter `sinon.fakeserver`:
 
     .javascript
     // Setup
     this.server = sinon.fakeServer.create();
 
+    // Setup av en response
+    this.server.respondWith([statusCode, headers, data]);
+
+    // Simuler at responsen mottas
+    this.server.respond()
+
     // Teardown
     this.server.restore();
 
-    // Setup av en response
-    this.server.respondWith([statusCode, {header: header}, data]);
+På den positive siden:
 
-    //Simuler at responsen mottas
-    this.server.respond()
+* Mye, mye raskere tester
 
+… men:
 
-* registerer ikke endringer i API'et
+* Registerer ikke endringer i API-et.
 
 ---
 
