@@ -21,6 +21,7 @@
     });
   };
 
+  // Vi legger delt view-funksjonalitet i et eget lag i arkiteturen
   BEKK.View = Simple.View.extend({
     renderTemplate: function(data) {
       this.el.html(Mustache.to_html(this.template, data || {}));
@@ -51,7 +52,6 @@
   });
 
   BEKK.UserView = BEKK.View.extend({
-
     template: '<h2>{{name}}</h2>' +
       '<img src="{{profile_image_url}}" alt="{{name}}">' +
       '<ul>' +
@@ -62,12 +62,9 @@
 
     initialize: function(options) {
       this.user = options.user;
-      this.monologs = options.monologs;
+      this.user.on("fetch:finished", this.render, this);
 
-      var base = this;
-      if (this.user instanceof Simple.Model) {
-        this.user.on("fetch:finished", this.render, this);
-      }
+      this.monologs = options.monologs;
       this.monologs.on("add", this.render, this);
     },
 
