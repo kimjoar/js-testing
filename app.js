@@ -6,11 +6,7 @@
     var monologs = new BEKK.Monologs();
     var user = new BEKK.User({ screen_name: "kimjoar" });
 
-    var appView = new BEKK.MonologsView({ el: $(".container"), monologs: monologs });
-    appView.render();
-
-    var userView = new BEKK.UserView({ el: $("#profile"), user: user, monologs: monologs });
-    user.fetch();
+    // ... create views
   };
 
   // Vi legger delt view-funksjonalitet i et eget lag i arkiteturen
@@ -20,23 +16,8 @@
     }
   });
 
-  BEKK.MonologsView = BEKK.View.extend({
-    initialize: function(options) {
-      var monologs = options.monologs;
-
-      this.newStatusView = new BEKK.NewStatusView({ el: this.DOM("#status-form") });
-      this.statusesView = new BEKK.StatusesView({ el: this.DOM("#monologs"), monologs: monologs });
-    },
-
-    render: function() {
-      this.newStatusView.render();
-      this.statusesView.render();
-    }
-  });
-
   BEKK.Monologs = Simple.Model.extend({
     initialize: function() {
-      Simple.events.on("new-status", this.add, this);
       this.attr("monologs", []);
     },
 
@@ -66,32 +47,7 @@
         '<li>Followers: <span class="followers">{{followers_count}}</span></li>' +
         '<li>Following: <span class="following">{{friends_count}}</span></li>' +
         '<li>Monologs: <span class="monologs">{{monologs}}</span></li>' +
-      '</ul>',
-
-    initialize: function(options) {
-      this.user = options.user;
-      if (this.user instanceof Simple.Model) {
-        this.user.on("fetch:finished", this.render, this);
-      }
-
-      if (options.monologs) {
-        this.monologs = options.monologs;
-        this.monologs.on("add", this.render, this);
-      }
-    },
-
-    render: function() {
-      var data;
-      if (this.user instanceof Simple.Model) {
-        data = this.user.toJSON();
-      } else {
-        data = this.user;
-      }
-      if (this.monologs) {
-        data.monologs = this.monologs.count();
-      }
-      this.renderTemplate(data);
-    }
+      '</ul>'
   });
 
   BEKK.NewStatusView = BEKK.View.extend({
@@ -99,45 +55,14 @@
         '<label for="status_text">Status</label>' +
         '<textarea id="status_text" name="status" placeholder="Hva tenker du nå?"></textarea>' +
         '<button type="submit" class="btn">Post oppdatering</button>' +
-      '</form>',
-
-    events: {
-      "submit form": "newStatus"
-    },
-
-    render: function() {
-      this.renderTemplate();
-    },
-
-    input: function(newValue) {
-      if (typeof newValue === "undefined") {
-        return this.DOM("#status_text").val();
-      } else {
-        this.DOM("#status_text").val(newValue);
-      }
-    },
-
-    newStatus: function(event) {
-      event.preventDefault();
-      Simple.events.trigger("new-status", this.input());
-      this.input("");
-    }
+      '</form>'
   });
 
   BEKK.StatusesView = BEKK.View.extend({
     template: '<h2>Oppdateringer</h2>' +
       '<ul>' +
         '{{#monologs}}<li>{{.}}</li>{{/monologs}}' +
-      '</ul>',
-
-    initialize: function(options) {
-      this.monologs = options.monologs;
-      this.monologs.on("add", this.render, this);
-    },
-
-    render: function() {
-      this.renderTemplate(this.monologs.toJSON());
-    }
+      '</ul>'
   });
 
 })(Simple, Mustache);

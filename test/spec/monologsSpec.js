@@ -10,11 +10,6 @@ describe("Monologs", function() {
       expect(this.monologs.attr("monologs")).toEqual(["test1", "test2"]);
     });
 
-    it("adds a monolog on 'new-status' event", function() {
-      Simple.events.trigger("new-status", "test");
-      expect(this.monologs.attr("monologs")).toEqual(["test"]);
-    });
-
     it("triggers 'event' when monolog added", function() {
       var spy = sinon.spy();
       this.monologs.on("add", spy);
