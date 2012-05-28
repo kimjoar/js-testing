@@ -59,15 +59,26 @@
 
     initialize: function(options) {
       this.user = options.user;
-      this.user.on("fetch:finished", this.render, this);
+      if (this.user instanceof Simple.Model) {
+        this.user.on("fetch:finished", this.render, this);
+      }
 
-      this.monologs = options.monologs;
-      this.monologs.on("add", this.render, this);
+      if (this.monologs) {
+        this.monologs = options.monologs;
+        this.monologs.on("add", this.render, this);
+      }
     },
 
     render: function() {
-      var data = this.user.toJSON();
-      data.monologs = this.monologs.count();
+      var data;
+      if (this.user instanceof Simple.Model) {
+        data = this.user.toJSON();
+      } else {
+        data = this.user;
+      }
+      if (this.monologs) {
+        data.monologs = this.monologs.count();
+      }
       this.renderTemplate(data);
     }
   });

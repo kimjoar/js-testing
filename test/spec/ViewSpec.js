@@ -19,9 +19,7 @@ describe("The user view", function(){
         expect(view).toContainInDOM("Test Testesen");
     });
 
-	//Dette er også mere testing av rammeverket. Men det er jo en  "forbedring" av testen over og viser mere spesifikk testing, 
-	//så sånn sett gir det verdi. 
-    it("should contain user name in H1 when rendered", function() {
+    it("should contain user name when rendered", function() {
         var user = {
             name: "Test Testesen"
         };
@@ -29,17 +27,17 @@ describe("The user view", function(){
         var view = new BEKK.UserView({ user: user, el: $("<div></div>" ) });
         view.render();
 
-        expect(view.DOM(".name").text()).toMatch("Test Testesen");
+        expect(view.DOM("h2").text()).toMatch("Test Testesen");
     });
 
     it("should render a model to the template", function() {
-        var user = new BEKK.User();
-        user.attr("name", "Test Testesen");
+        var user = new BEKK.User({ screen_name: "kimjoar" });
+        user.attr("name", "Kim Joar Bekkelund");
 
         var view = new BEKK.UserView({ user: user, el: $("<div></div>" )});
         view.render();
 
-        expect(view.DOM(".name").text()).toMatch("Test Testesen");
+        expect(view.DOM("h2").text()).toMatch("Kim Joar Bekkelund");
     });
 
 });

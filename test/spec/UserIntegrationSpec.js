@@ -1,4 +1,4 @@
-describe("Integration tests", function(){
+xdescribe("Integration tests", function(){
 
     xit("should fetch data from Twitter and populate the view", function(){
         // Tine: I den orginale testen var det noe mystisk, den bør feile pga cross-domain request med json, men den 
@@ -13,7 +13,6 @@ describe("Integration tests", function(){
                 base.view = new BEKK.UserView({ user: data, el: $('<div></div>')  });
                 base.view.render();
             });
-            
         });
 
         waits(1000);
@@ -21,10 +20,8 @@ describe("Integration tests", function(){
         runs(function(){
             expect(this.view).toContainInDOM("Kim Joar");
         });
-        
-       
     });
-    //
+
     //OBS: json trengs i simple.js. JSONP detekteres ikke av sinon.js, ref: http://groups.google.com/group/sinonjs/browse_thread/thread/fcdc7a733050be2d
     it("should fetch fake data and populate view", function() {
 
