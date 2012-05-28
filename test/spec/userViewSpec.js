@@ -130,9 +130,9 @@ describe("The user view", function(){
           user.fetch();
         });
 
-        expect(view.DOM("h2").text()).toMatch("Kim Joar Bekkelund");
-        expect(view.DOM(".followers").text()).toMatch("200");
-        expect(view.DOM(".following").text()).toMatch("100");
+        expect(view).toContainInSelector("h2", "Kim Joar Bekkelund");
+        expect(view).toContainInSelector(".followers", "200");
+        expect(view).toContainInSelector(".following", "100");
     });
 
     it("should update view when monolog is added", function() {
