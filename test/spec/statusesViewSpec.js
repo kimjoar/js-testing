@@ -6,10 +6,10 @@ describe("the statuses view", function() {
 
     var view = new BEKK.StatusesView({ el: $("<div></div>"), monologs: monologs });
     view.render();
-    
+
     expect(view.DOM("li").length).toEqual(2);
-    expect(view).toContainInSelector("li", "Status 1");
-    expect(view).toContainInSelector("li", "Status 2");
+    expect(view.DOM("li:first")).toHaveText("Status 1");
+    expect(view.DOM("li:last")).toHaveText("Status 2");
   });
 
   it("should update view when a monolog is added", function() {
@@ -22,6 +22,6 @@ describe("the statuses view", function() {
     monologs.add("test");
 
     expect(view.DOM("li").length).toEqual(1);
-    expect(view).toContainInSelector("li", "test");
+    expect(view.DOM("li")).toHaveText("test");
   });
 });
