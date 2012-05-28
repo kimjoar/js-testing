@@ -625,17 +625,6 @@ handlingen skjer.
 
 Dette gir bedre decoupling. Skiller ansvaret ut der det hører hjemme.
 
-Vi kan ha globale events:
-
-    .javascript
-    // lytter på event med navnet "test"
-    Simple.on("test", function() { console.log("TESTING!") });
-
-    // fyrer event med navnet "test"
-    Simple.trigger("test"); // TESTING!
-
-… og vi kan ha lokale events:
-
     .javascript
     var user = new BEKK.User();
 
@@ -643,8 +632,8 @@ Vi kan ha globale events:
 
     user.trigger("test");
 
-Når et modell kaller `fetch` og kallet ender i suksess, trigges automatisk den
-lokale eventen `fetch:finished`
+Når et modell kaller `fetch` og kallet ender i suksess, trigges automatisk
+eventen `fetch:finished`
 
 ---
 
