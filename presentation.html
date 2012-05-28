@@ -729,8 +729,6 @@ Test:
     .javascript
     it("should populate the view when data is fetched", function(){
         var user = new BEKK.User({screen_name: "kimjoar"});
-
-        // sinon.js støtter ikke JSONP
         user.dataType = "json";
 
         var view = new BEKK.UserView({ user: user, el: $('<div></div>')  });
@@ -747,13 +745,12 @@ Test:
 ---
 
 # Oppgaver videre
+
 * monologSpec.js
 * newStatusViewSpec.js
 * siste test i userViewSpec.js
 * statusesViewSpec.js 
 * Implementere `BEKK.start()` for `index.html`
-
-
 
 ---
 
