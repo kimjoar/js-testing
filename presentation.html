@@ -799,6 +799,21 @@ Implementer `BEKK.start()` slik at app-en kjører.
 
 Et view kan bestå av flere views.
 
+    .javascript
+    BEKK.MasterView = BEKK.View.extend({
+     initialize: function(options) {
+
+      this.subView = new BEKK.SubView({ el: this.DOM("#sub") });
+      this.otherView = new BEKK.OtherView({ el: this.DOM("#other")});
+     },
+
+     render: function() {
+      this.subView.render();
+      this.otherView.render();
+     }
+    });
+
+
     </textarea>
     <div id="slideshow"></div>
   </body>
