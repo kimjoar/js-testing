@@ -98,11 +98,18 @@
       this.renderTemplate();
     },
 
+    input: function(newValue) {
+      if (typeof newValue === "undefined") {
+        return this.DOM("#status_text").val();
+      } else {
+        this.DOM("#status_text").val(newValue);
+      }
+    },
+
     newStatus: function(event) {
       event.preventDefault();
-      var status = this.DOM("#status_text").val();
-      Simple.events.trigger("new-status", status);
-      this.DOM("#status_text").val("");
+      Simple.events.trigger("new-status", this.input());
+      this.input("");
     }
   });
 
