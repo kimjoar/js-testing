@@ -409,17 +409,29 @@ Kode:
 
     .javascript
       BEKK.UserView = BEKK.View.extend({
-      //...
+
+        //...
+
         render: function() {
           var data = this.user.toJSON();
           this.renderTemplate(data);
+        }
       });
+
 ---
 
 # Model
 
-* simple.js implementerer model.fetch med success-callback
-* Kaller på url
+Simple.js implementerer `model.fetch` med success-callback:
+
+    .javascript
+    user.fetch({
+      success: function() {}
+    });
+
+Kaller på `model.url`
+
+Kan sette JSONP ved å sette `model.dataType = "jsonp"`
 
 ---
 
@@ -429,11 +441,12 @@ Kode:
     it("should populate the view when data is fetched", function() {
         var view;
 
-        //runs(function(){});
+        // runs(function(){});
 
-        //waits(1000);
+        // waits(1000);
+        // vi venter på å motta svar fra Twitter
 
-        //runs(function(){});
+        // runs(function(){});
     });
 
 
@@ -451,8 +464,10 @@ Test:
             var user = new BEKK.User({ screen_name: "kimjoar"});
             view = new BEKK.UserView({ user: user, el: $('<div></div>') });
 
-            user.fetch(function() {
+            user.fetch({
+              success: function() {
                 view.render();
+              }
             });
         });
 

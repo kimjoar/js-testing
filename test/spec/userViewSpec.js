@@ -54,8 +54,10 @@ describe("The user view", function(){
             var user = new BEKK.User({ screen_name: "kimjoar"});
             view = new BEKK.UserView({ user: user, el: $('<div></div>') });
 
-            user.fetch(function() {
+            user.fetch({
+              success: function() {
                 view.render();
+              }
             });
         });
 
@@ -84,8 +86,10 @@ describe("The user view", function(){
 
         var view = new BEKK.UserView({ user: user, el: $('<div></div>')  });
 
-        user.fetch(function(){
+        user.fetch({
+          success: function() {
             view.render();
+          }
         });
 
         this.server.respond();
