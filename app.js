@@ -13,12 +13,7 @@
     statusesView.render();
 
     var userView = new BEKK.UserView({ el: $("#profile"), user: user, monologs: monologs });
-    user.fetch({
-      dataType: "jsonp",
-      success: function(date) {
-        userView.render();
-      }
-    });
+    user.fetch();
   };
 
   // Vi legger delt view-funksjonalitet i et eget lag i arkiteturen
@@ -45,6 +40,8 @@
   });
 
   BEKK.User = Simple.Model.extend({
+    dataType: "jsonp",
+
     initialize: function(options) {
       this.name = options.screen_name;
       this.url = "https://api.twitter.com/1/users/show.json?screen_name=" + this.name + "&include_entities=true";
