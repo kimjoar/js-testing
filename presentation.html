@@ -755,19 +755,6 @@ Alle DOM-eventene viewet lytter på, kan legges i `events`-property-en:
 
 ---
 
-# Oppgave
-
-Nå skal vi forsikre at skjema blir nullstilt når ny monolog submittes:
-
-    .javascript
-    it("should clear input when submitted", function() {
-        // rendre newStatusView
-        // submit form
-        // sjekk at textarea blir nullstilt
-    });
-
----
-
 # Globale events
 
 Når flere komponenter kan være interessert i en handling som har skjedd.
@@ -781,20 +768,21 @@ Lettere kan legge til eller fjerne komponenter.
       Simple.events.trigger("new-status", "The status");
     });
 
+---
+
+# Oppgave
+
+Få manglende test i `monologSpec.js` til å kjøre.
+
+Se så på `newStatusViewSpec.js` og så siste spec i `userViewSpec.js`
+
+Implementer `BEKK.start()` slik at app-en kjører.
 
 ---
 
 # Sammensatte views
 
-
----
-
-# Oppgaver videre
-
-* monologSpec.js
-* newStatusViewSpec.js
-* siste test i userViewSpec.js
-* Implementere `BEKK.start()` for `index.html`
+Et view kan bestå av flere views.
 
     </textarea>
     <div id="slideshow"></div>
