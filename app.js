@@ -4,7 +4,7 @@
 
   BEKK.start = function() {
     var monologs = new BEKK.Monologs();
-    var user = new BEKK.User({ screen_name: "kimjoar" });
+    var user = new BEKK.User();
 
     // ... create views
   };
@@ -31,12 +31,11 @@
     }
   });
 
+  // eksempel-url: https://api.twitter.com/1/users/show.json?screen_name=kimjoar&include_entities=true
   BEKK.User = Simple.Model.extend({
     dataType: "jsonp",
 
     initialize: function(options) {
-      this.name = options.screen_name;
-      this.url = "https://api.twitter.com/1/users/show.json?screen_name=" + this.name + "&include_entities=true";
     }
   });
 
