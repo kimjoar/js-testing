@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Title</title>
+    <title>Testing av JavaScript</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <script src="https://github.com/downloads/gnab/remark/remark-0.3.4.min.js" type="text/javascript"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
@@ -26,18 +26,6 @@
 
 
 Kim Joar Bekkelund og Tine Kleivane
-
-
----
-
-.agenda
-
-# Agenda
-
-* Kort intro
-* Jasmine
-* Kode
-
 
 ---
 
@@ -104,14 +92,14 @@ Men først …
     .javascript
     // Gruppering av specs
     describe("My tests", function(){
-      // Kjører før hver test
       beforeEach(function(){
+        // Kjører før hver test
+
         this.color = "green";
       });
 
-      // Kjører etter hver test
       afterEach(function(){
-        this.color = "green";
+        // Kjører etter hver test
       });
 
       // Selve testen
@@ -139,17 +127,13 @@ Lage en superenkel Twitter-lignende applikasjon: *Monolog*
 
 ---
 
-.middle.center
-
 # Views
 
----
+Et view eier et DOM-element, som vi vil kalle `el`.
 
-# Views
+Vi sender alltid med `el` når vi lager et view
 
-* Et view eier et DOM-element, som vi vil kalle `el`.
-* Vi sender alltid med `el` når vi lager et view
-* Det er kun views som har lov til å røre DOM-en!
+Det er kun views som har lov til å røre DOM-en!
 
 ---
 
@@ -162,6 +146,7 @@ Vi skal benytte et enkelt rammeverk: Simple.js
 Hvordan lage et nytt view:
 
     .javascript
+    // Vi kan lage views ved å bruke `extend`
     var UserView = Simple.View.extend({
 
       // Vi kan legge til instansmetoder.
@@ -187,7 +172,7 @@ Hvordan lage et nytt view:
 
 # Setup
 
-All kode ligger på [https://github.com/kjbekkelund/js-tdd-kurs](https://github.com/kjbekkelund/js-tdd-kurs)
+All kode ligger på [https://github.com/kjbekkelund/js-testing](https://github.com/kjbekkelund/js-testing)
 
 Åpne `SpecRunner.html` for å kjøre testene.
 
@@ -204,7 +189,8 @@ Vi starter enkelt:
       it("should have a user when initialized", function() {
         var user = {};
 
-        // Initialize a new view
+        // Initialiser et nytt view
+        // (trenger ikke sende med `el` enda)
 
         expect(view.user).toBeDefined();
       });
@@ -228,7 +214,7 @@ Test:
 Kode:
 
     .javascript
-    BEKK.UserView = BEKK.View.extend({
+    BEKK.UserView = Simple.View.extend({
       initialize: function(options) {
         this.user = options.user;
       }
@@ -240,12 +226,28 @@ Kode:
 
 Et view eier et element, `el`.
 
-`template` inneholder ren HTML som skal inn i viewet.
+`template` inneholder ren HTML som skal inn i viewet. Vi har laget alle
+templates som trengs på forhånd.
 
-Det er `render` sitt ansvar er å interpolere data i template og plassere dette
-i `el`.
+Det er metoden `render` sitt ansvar er å interpolere data i template og
+plassere dette i `el`.
 
 … men å rendre `el` til DOM-en er *ikke* viewet sin oppgave!
+
+---
+
+# Lagarkitektur
+
+Veldig enkelt å lage en lagarkitektur:
+
+    .javascript
+    BEKK.View = Simple.View.extend({
+      renderTemplate: function(data) {
+        this.el.html(Mustache.to_html(this.template, data || {}));
+      }
+    });
+
+Lag nye views basert med `BEKK.View.extend`
 
 ---
 
@@ -255,8 +257,9 @@ Er avhengig av DOM-en vi initialiserer med `el` satt til `.javascript $(".user")
 
 Både mye oppsett, tregt og dårlig støttet av mange test-verktøy.
 
-Men vi kan sende inn en "tom ekvivalent", som for eksempel `.javascript $("<div></div>")`.
-Vi må tilpasse til hva viewet forventer å få som input.
+Men vi kan sende inn et dummy-objekt som bare finnes i minne, som for eksempel
+`.javascript $("<div></div>")`. Send inn de elementene viewet forventer å få
+som input.
 
 Eksempel:
 
@@ -278,7 +281,7 @@ Vi har lagt til en testhjelper:
             name: "Test Testesen"
         };
 
-        // Sjekk at navnet er rendret til DOM-en
+        // Sjekk at navnet finnes i `el`
     });
 
 ---
@@ -379,9 +382,9 @@ Har ansvar for data og opphenting av denne
 
 I Simple.js følger vi modellstrukturen til Backbone.js:
 
-* `initialize`
-* `url`
-* `toJSON`
+* `initialize` - kalles ved initialisering
+* `url` - url-en som brukes i AJAX-kall
+* `toJSON` - hent alle attributtene til en modell
 
 Og i tillegg:
 
@@ -404,7 +407,7 @@ Test:
 
     .javascript
     it("should render model", function() {
-        var user = new BEKK.User({ screen_name: "kimjoar" });
+        var user = new BEKK.User();
         user.attr("name", "Kim Joar Bekkelund");
 
         var view = new BEKK.UserView({ user: user, el: $("<div></div>" )});
@@ -435,24 +438,23 @@ Få opp en visning av profilen
 
     .javascript
     BEKK.start = function() {
-      //var monologs = new BEKK.Monologs();
-      var user = new BEKK.User({ screen_name: "kimjoar" });
-
-      // ... create views and watch it render in index.html
+      // initialiser modell
+      // initialiser view
+      // render view
     };
 
 ---
 
 # Model
 
-Simple.js implementerer `model.fetch` med success-callback:
+Simple.js inneholder en `model.fetch` som tar imot et success-callback:
 
     .javascript
     user.fetch({
       success: function() {}
     });
 
-Kaller på `model.url`
+Bruker `model.url` i AJAX-kall
 
 Kan sette JSONP ved å sette `model.dataType = "jsonp"`
 
@@ -464,11 +466,13 @@ Kan sette JSONP ved å sette `model.dataType = "jsonp"`
     it("should populate the view when data is fetched", function() {
         var view;
 
+        // sett opp modell og view, og start henting av data
         // runs(function(){});
 
-        // waits(1000);
         // vi venter på å motta svar fra Twitter
+        // waits(1000);
 
+        // sjekk at `el` har rett innhold
         // runs(function(){});
     });
 
@@ -476,12 +480,9 @@ Kan sette JSONP ved å sette `model.dataType = "jsonp"`
 
 # Gjennomgang oppgave
 
-Test:
-
     .javascript
     it("should populate the view when data is fetched", function() {
         var view;
-
         runs(function(){
             var user = new BEKK.User({ screen_name: "kimjoar"});
             view = new BEKK.UserView({ user: user, el: $('<div></div>') });
@@ -502,7 +503,14 @@ Test:
 
 Kode:
 
-Er allerede implementert.
+    .javascript
+    BEKK.User = Simple.Model.extend({
+      // ...
+      initialize: function(options) {
+        this.name = options.screen_name;
+        this.url = "https://api.twitter.com/1/users/show.json?screen_name=" + this.name;
+      }
+    });
 
 ---
 
@@ -537,7 +545,7 @@ Det finnes ekstra matchers for Jasmine, se
 
 # Mocking av AJAX-kall
 
-Vi benytter `sinon.fakeserver`:
+Vi benytter `sinon.fakeServer`:
 
     .javascript
     // Setup
@@ -546,7 +554,8 @@ Vi benytter `sinon.fakeserver`:
     // Setup av en response
     this.server.respondWith([statusCode, headers, data]);
 
-    // Simuler at responsen mottas
+    // Svar på AJAX-kallet
+    // (tilstanden mellom AJAX-kallet og respond kan være verdifull)
     this.server.respond()
 
     // Teardown
@@ -566,12 +575,9 @@ På den positive siden:
 # Oppgave
 
     .javascript
-    beforeEach(function() {
-        this.response = '{"name": "Kim Joar Bekkelund","followers_count": "200","friends_count": "100"}';
-        this.options = {};
-    });
-
     it("should populate the view when data is fetched", function() {
+        var response = '{"name":"Kim","followers_count":"2","friends_count":"1"}';
+        var options = {};
         var user = new BEKK.User({screen_name: "kimjoar"});
 
         // sinon.js støtter ikke JSONP
@@ -580,18 +586,20 @@ På den positive siden:
         // Sett opp en fakeServer
 
         // Sjekk for korrekt data i viewet
+
+        // Bryt ned fakeServer
     });
 
 ---
 
 # Gjennomgang oppgave
 
-Test:
-
     .javascript
     it("should populate the view when data is fetched", function() {
-        this.server = sinon.fakeServer.create();
-        this.server.respondWith([200, this.options , this.response]);
+        var response = '{"name": "Kim","followers_count": "2","friends_count": "1"}';
+        var options = {};
+        var server = sinon.fakeServer.create();
+        server.respondWith([200, options , response]);
 
         var user = new BEKK.User({screen_name: "kimjoar"});
 
@@ -606,12 +614,12 @@ Test:
           }
         });
 
-        this.server.respond();
-        this.server.restore();
+        server.respond();
+        server.restore();
 
-        expect(view.DOM("h2")).toHaveText("Kim Joar Bekkelund");
-        expect(view.DOM(".followers")).toHaveText("200");
-        expect(view.DOM(".following")).toHaveText("100");
+        expect(view.DOM("h2")).toHaveText("Kim");
+        expect(view.DOM(".followers")).toHaveText("2");
+        expect(view.DOM(".following")).toHaveText("1");
     });
 
 ---
@@ -649,7 +657,7 @@ Dette gir bedre decoupling. Skiller ansvaret ut der det hører hjemme.
     .javascript
     var user = new BEKK.User();
 
-    user.on("test", function() { console.log(this); }, this);
+    user.on("test", function() { console.log("TESTING!"); });
 
     user.trigger("test");
 
@@ -666,6 +674,8 @@ eventen `fetch:finished`
         // benytte seg av events på ferdig henting av data
     });
 
+Hint: Tredje parameter i `on` er kontekst (altså `this`)
+
 ---
 
 # Gjennomgang av oppgave
@@ -674,8 +684,7 @@ Test:
 
     .javascript
     it("should populate the view when data is fetched", function(){
-        this.server = sinon.fakeServer.create();
-        this.server.respondWith([200, this.options, this.response]);
+        // sinon fakeserver
 
         var user = new BEKK.User({screen_name: "kimjoar"});
         user.dataType = "json";
@@ -684,12 +693,11 @@ Test:
 
         user.fetch();
 
-        this.server.respond();
-        this.server.restore();
-
         expect(view.DOM("h2")).toHaveText("Kim Joar Bekkelund");
         expect(view.DOM(".followers")).toHaveText("200");
         expect(view.DOM(".following")).toHaveText("100");
+
+        // bryt ned sinon fakeserver
     });
 
 Kode:
@@ -765,6 +773,7 @@ Alle DOM-eventene viewet lytter på, kan legges i `events`-property-en:
     var UserView = BEKK.View.extend({
         events: {
           "click h1": "editHeading"
+          // "event selektor": "funksjon"
         },
 
         editHeading: function() {}
@@ -776,14 +785,16 @@ Alle DOM-eventene viewet lytter på, kan legges i `events`-property-en:
 
 Når flere komponenter kan være interessert i en handling som har skjedd.
 
-Løsere kobinger mellom komponenter.
+Løsere kobling mellom komponenter.
 
 Lettere kan legge til eller fjerne komponenter.
 
     .javascript
-    it("adds a monolog on 'new-status' event", function() {
-      Simple.events.trigger("new-status", "The status");
+    Simple.events.on("new-status", function(data) {
+      console.log(data);
     });
+
+    Simple.events.trigger("new-status", "The status");
 
 ---
 
@@ -838,6 +849,16 @@ Et view kan bestå av flere views.
      }
     });
 
+---
+
+# Testgjennomkjøring
+
+Vi ønsker feedback på:
+
+* om det fungerer med teori, oppgave 1, teori, oppgave 2, osv
+* mengde teori vs koding
+* om det er for lett eller for vanskelig
+* om testene er gode
 
     </textarea>
     <div id="slideshow"></div>
