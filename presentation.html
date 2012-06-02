@@ -100,9 +100,22 @@ Men først …
     });
 
 * BDD-rammeverk - vi beskriver oppførsel
-* Kan kjøre standalone eller som en del av maven
-* Kan kjøre asynkrone kall med `runs` og `waits`
 * Brukes på flere BEKK-prosjekter
+
+---
+
+# Intro til Jasmine
+
+Kan kjøres i nettleseren eller med Maven
+
+Kan kjøre asynkrone kall med `runs` og `waits`
+
+For å ikke kjøre spesifikke tester: `xdescribe` og `xit`
+
+Noen rariteter:
+
+* dersom man ikke har en `expect` kjører fortsatt testen …
+* dersom en testfil har en syntaksfeil sier ikke Jasmine fra (den bare skipper filen)
 
 ---
 
