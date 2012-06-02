@@ -29,17 +29,6 @@ Kim Joar Bekkelund og Tine Kleivane
 
 ---
 
-# Testgjennomkjøring
-
-Vi ønsker feedback på:
-
-* om det fungerer med teori, oppgave 1, teori, oppgave 2, osv
-* mengde teori vs koding
-* om det er for lett eller for vanskelig
-* om testene er gode
-
----
-
 # Utbytte
 
 Se reelle eksempler på testing av JavaScript
@@ -111,9 +100,22 @@ Men først …
     });
 
 * BDD-rammeverk - vi beskriver oppførsel
-* Kan kjøre standalone eller som en del av maven
-* Kan kjøre asynkrone kall med `runs` og `waits`
 * Brukes på flere BEKK-prosjekter
+
+---
+
+# Intro til Jasmine
+
+Kan kjøres i nettleseren eller med Maven
+
+Kan kjøre asynkrone kall med `runs` og `waits`
+
+For å ikke kjøre spesifikke tester: `xdescribe` og `xit`
+
+Noen rariteter:
+
+* dersom man ikke har en `expect` kjører fortsatt testen …
+* dersom en testfil har en syntaksfeil sier ikke Jasmine fra (den bare skipper filen)
 
 ---
 
@@ -127,13 +129,130 @@ Lage en superenkel Twitter-lignende applikasjon: *Monolog*
 
 ---
 
+.middle.center
+
+Views
+
+---
+
+.middle.center
+
+Hva er et view?
+
+---
+
+Figur med border rundt profilen.
+
+---
+
 # Views
 
 Et view eier et DOM-element, som vi vil kalle `el`.
 
-Vi sender alltid med `el` når vi lager et view
+Vi sender alltid med DOM-elementet når vi lager et view
 
 Det er kun views som har lov til å røre DOM-en!
+
+---
+
+# Views
+
+Vi skal benytte et enkelt rammeverk: Simple.js
+
+[http://kjbekkelund.github.com/simple/](http://kjbekkelund.github.com/simple/)
+
+---
+
+# Views
+
+Vi skal benytte et enkelt rammeverk: Simple.js
+
+[http://kjbekkelund.github.com/simple/](http://kjbekkelund.github.com/simple/)
+
+Hvordan lage et nytt view:
+
+    .javascript
+    // Vi kan lage views ved å bruke `extend`
+    var UserView = Simple.View.extend({
+
+
+
+
+
+
+
+
+
+
+
+
+    });
+
+
+
+    &nbsp;
+
+---
+
+# Views
+
+Vi skal benytte et enkelt rammeverk: Simple.js
+
+[http://kjbekkelund.github.com/simple/](http://kjbekkelund.github.com/simple/)
+
+Hvordan lage et nytt view:
+
+    .javascript
+    // Vi kan lage views ved å bruke `extend`
+    var UserView = Simple.View.extend({
+
+
+
+
+
+
+
+
+
+
+
+
+    });
+
+    // Lager en instans (og sender med `el`)
+    var view = new UserView({ el: $(".user") });
+    &nbsp;
+
+---
+
+# Views
+
+Vi skal benytte et enkelt rammeverk: Simple.js
+
+[http://kjbekkelund.github.com/simple/](http://kjbekkelund.github.com/simple/)
+
+Hvordan lage et nytt view:
+
+    .javascript
+    // Vi kan lage views ved å bruke `extend`
+    var UserView = Simple.View.extend({
+
+      // Vi kan legge til instansmetoder.
+      // I disse metodene har vi `this` tilgjengelig.
+
+      initialize: function(options) {
+        // Kjøres automatisk når et view initialiseres
+        // Tar imot et argument, en options-hash
+      },
+
+
+
+
+    });
+
+    // Lager en instans (og sender med `el`)
+    var view = new UserView({ el: $(".user") });
+    &nbsp;
 
 ---
 
@@ -182,7 +301,14 @@ All kode ligger på [https://github.com/kjbekkelund/js-testing](https://github.c
 
 Vi skal starte med å se på profilseksjonen.
 
-Vi starter enkelt:
+To aktuelle filer:
+
+* `app.js`
+* `test/spec/userViewSpec.js`
+
+For å kjøre testene, åpne `test/SpecRunner.html`
+
+Oppgaven:
 
     .javascript
     describe("The user view", function() {
@@ -232,8 +358,6 @@ templates som trengs på forhånd.
 Det er metoden `render` sitt ansvar er å interpolere data i template og
 plassere dette i `el`.
 
-… men å rendre `el` til DOM-en er *ikke* viewet sin oppgave!
-
 ---
 
 # Lagarkitektur
@@ -276,7 +400,7 @@ Vi har lagt til en testhjelper:
 # Oppgave
 
     .javascript
-    it("should show name when rendered", function(){
+    it("should show user info when rendered", function(){
         var user = {
             name: "Test Testesen"
         };
@@ -291,7 +415,7 @@ Vi har lagt til en testhjelper:
 Test:
 
     .javascript
-    it("should show name when rendered", function(){
+    it("should show user info when rendered", function(){
         var user = {
             name: "Test Testesen"
         };
@@ -848,17 +972,6 @@ Et view kan bestå av flere views.
       this.otherView.render();
      }
     });
-
----
-
-# Testgjennomkjøring
-
-Vi ønsker feedback på:
-
-* om det fungerer med teori, oppgave 1, teori, oppgave 2, osv
-* mengde teori vs koding
-* om det er for lett eller for vanskelig
-* om testene er gode
 
     </textarea>
     <div id="slideshow"></div>
