@@ -129,13 +129,130 @@ Lage en superenkel Twitter-lignende applikasjon: *Monolog*
 
 ---
 
+.middle.center
+
+Views
+
+---
+
+.middle.center
+
+Hva er et view?
+
+---
+
+Figur med border rundt profilen.
+
+---
+
 # Views
 
 Et view eier et DOM-element, som vi vil kalle `el`.
 
-Vi sender alltid med `el` når vi lager et view
+Vi sender alltid med DOM-elementet når vi lager et view
 
 Det er kun views som har lov til å røre DOM-en!
+
+---
+
+# Views
+
+Vi skal benytte et enkelt rammeverk: Simple.js
+
+[http://kjbekkelund.github.com/simple/](http://kjbekkelund.github.com/simple/)
+
+---
+
+# Views
+
+Vi skal benytte et enkelt rammeverk: Simple.js
+
+[http://kjbekkelund.github.com/simple/](http://kjbekkelund.github.com/simple/)
+
+Hvordan lage et nytt view:
+
+    .javascript
+    // Vi kan lage views ved å bruke `extend`
+    var UserView = Simple.View.extend({
+
+
+
+
+
+
+
+
+
+
+
+
+    });
+
+
+
+    &nbsp;
+
+---
+
+# Views
+
+Vi skal benytte et enkelt rammeverk: Simple.js
+
+[http://kjbekkelund.github.com/simple/](http://kjbekkelund.github.com/simple/)
+
+Hvordan lage et nytt view:
+
+    .javascript
+    // Vi kan lage views ved å bruke `extend`
+    var UserView = Simple.View.extend({
+
+
+
+
+
+
+
+
+
+
+
+
+    });
+
+    // Lager en instans (og sender med `el`)
+    var view = new UserView({ el: $(".user") });
+    &nbsp;
+
+---
+
+# Views
+
+Vi skal benytte et enkelt rammeverk: Simple.js
+
+[http://kjbekkelund.github.com/simple/](http://kjbekkelund.github.com/simple/)
+
+Hvordan lage et nytt view:
+
+    .javascript
+    // Vi kan lage views ved å bruke `extend`
+    var UserView = Simple.View.extend({
+
+      // Vi kan legge til instansmetoder.
+      // I disse metodene har vi `this` tilgjengelig.
+
+      initialize: function(options) {
+        // Kjøres automatisk når et view initialiseres
+        // Tar imot et argument, en options-hash
+      },
+
+
+
+
+    });
+
+    // Lager en instans (og sender med `el`)
+    var view = new UserView({ el: $(".user") });
+    &nbsp;
 
 ---
 
