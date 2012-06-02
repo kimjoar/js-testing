@@ -1,4 +1,4 @@
-describe("Monologs", function() {
+xdescribe("Monologs", function() {
   beforeEach(function() {
     this.monologs = new BEKK.Monologs();
   });
