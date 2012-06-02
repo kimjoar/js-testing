@@ -83,7 +83,7 @@
     render: function() {
       var data;
       if (this.user instanceof Simple.Model) {
-        data = this.user.toJSON();
+        data = this.user.attrs();
       } else {
         data = this.user;
       }
@@ -136,7 +136,7 @@
     },
 
     render: function() {
-      this.renderTemplate(this.monologs.toJSON());
+      this.renderTemplate(this.monologs.attrs());
     }
   });
 

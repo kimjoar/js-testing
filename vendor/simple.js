@@ -26,14 +26,15 @@
     // Events
     // ------
 
-    // A module that can be _mixed in_ to *any object* in order to provide it with
-    // custom events. You may bind with `on`, unbind with `off`, and fire all
-    // event callbacks in successtion with `trigger`.
+    // A module that can be *mixed in* to *any* object in order to provide it with
+    // custom events. You may bind events with with `on`, unbind with `off`, and
+    // fire all event callbacks in successtion with `trigger`:
     //
     //     var object = {};
-    //     $.extend(object, Backbone.Events);
+    //     $.extend(object, Simple.Events);
     //     object.on('test', function(){ console.log("testing!"); });
     //     object.trigger('test');
+    //     object.off('test');
     //
     var Events = {
         // **Bind an event to a callback**
@@ -48,9 +49,14 @@
         // **Unbind an event**
         //
         // - `event` is the name of the event to unbind
-        // - `callback` is the function which was bound
-        off: function(event, callback) {
-            this._events().removeListener(event, callback);
+        // - `callback` (optional) is the function which was bound
+        // - `context` (optional) is the scope the event must have to be removed
+        off: function(event, callback, context) {
+            if (typeof callback === "undefined") {
+                this._events().removeAllListeners(event);
+            } else {
+                this._events().removeListener(event, callback, context);
+            }
         },
 
         // **Trigger an event**
@@ -73,7 +79,7 @@
             events.emit.apply(events, arguments);
         },
 
-        // Helper to create an EventEmitter
+        // Helper to create an EventEmitter, which is the library used for events.
         _events: function() {
             if (!this.eventEmitter) this.eventEmitter = new EventEmitter();
             return this.eventEmitter;
@@ -101,7 +107,13 @@
     // Create a new view
     var View = Simple.View = function(options) {
         this.el = options.el;
+
+        // All events specified in the `events` hash will be delegated when the
+        // view is initialized.
         this.delegateEvents();
+
+        // On initialization the input is passed through to the `initialize`
+        // method, which can be overriden when creating new views.
         this.initialize(options);
     };
 
@@ -114,7 +126,7 @@
         // **View rendering**
         //
         // `render` is the core function that a view should override in order to
-        // populate the HTML element it owns. Should always return `this`.
+        // populate the HTML element it owns.
         //
         // A simple example of an overridden render when using
         // [Mustache](http://mustache.github.com/):
@@ -126,12 +138,9 @@
         //       };
         //
         //       this.el.html(Mustache.to_html(template, data));
-        //       return this;
         //     }
         //
-        render: function() {
-            return this;
-        },
+        render: function() {},
 
         // **DOM lookup**
         //
@@ -151,6 +160,12 @@
         //       'click .button':    'save'
         //     }
         //
+        // To specify an event directly on `el`, leave the selector blank:
+        //
+        //     {
+        //       'submit': 'save'
+        //     }
+        //
         // Callbacks will be bound to the view, with `this` set properly.
         // Uses event delegation for efficiency.
         delegateEvents: function() {
@@ -159,14 +174,13 @@
             for (var key in this.events) {
                 var methodName = this.events[key],
                     method = $.proxy(this[methodName], this),
-                    match = key.match(/^(\w+)\s+(.*)$/),
+                    match = key.match(/^(\w+)(:?\s+(.*))?$/),
                     eventName = match[1],
                     selector  = match[2];
 
                 this.el.on(eventName, selector, method);
             }
         }
-
     });
 
     // Models
@@ -174,7 +188,12 @@
 
     // Create a new model
     var Model = Simple.Model = function(options) {
-        this.attributes = {};
+        // The model's attributes default to the options specified when
+        // initializing a model or an empty hash if none is specified.
+        this.attributes = options || {};
+
+        // On initialization the input is passed through to the `initialize`
+        // method, which can be overriden when creating new models.
         this.initialize(options);
     };
 
@@ -194,7 +213,7 @@
 
         // **Perform an Ajax GET request**
         //
-        // Will trigger the event `fetch:started`  when starting. On success or
+        // Will trigger the event `fetch:started` when starting. On success or
         // failure either an event is triggered or a callback is executed if
         // one is passed in the options hash.
         //
@@ -213,31 +232,62 @@
         //       }
         //     });
         fetch: function(options) {
-            options = options || {};
-            this.trigger('fetch:started');
-            var model = this;
+            this._performRequest("fetch", this, options || {}, {});
+        },
 
-            $.ajax({
+        // **Perform an Ajax POST request**
+        //
+        // Will trigger the event `save:started` when starting. On success or
+        // failure either an event is triggered or a callback is executed if
+        // one is passed in the options hash.
+        //
+        // - Success: The event `save:finished` or the `success` callback
+        // - Failure: The event `save:error` or the `error` callback
+        //
+        // On success the received properties are always set on the model,
+        // regardless of whether event or callback is performed.
+        //
+        // Example with success callback:
+        //
+        //     var model = new Simple.Model();
+        //     model.save({
+        //       success: function(data) {
+        //         // we have a success
+        //       }
+        //     });
+        save: function(options) {
+            this._performRequest("save", this, options || {}, {
+              type: "POST",
+              data: JSON.stringify(this.attributes),
+              contentType: 'application/json'
+            });
+        },
+
+        // Helper for AJAX requests
+        _performRequest: function(type, model, options, additionalParams) {
+            this.trigger(type + ':started');
+
+            var params = {
                 url: model.url,
                 dataType: options.dataType || model.dataType || "json",
                 success: function(data) {
-                    for (var prop in data) {
-                        model.attr(prop, data[prop]);
-                    }
+                    model.attrs(data);
                     if (typeof options.success !== "undefined") {
                         options.success(data);
                     } else {
-                        model.trigger('fetch:finished');
+                        model.trigger(type + ':finished');
                     }
                 },
                 error: function(jqXHR, resp) {
                     if (typeof options.error !== "undefined") {
                         options.error();
                     } else {
-                        model.trigger('fetch:error', resp);
+                        model.trigger(type + ':error', resp);
                     }
                 }
-            });
+            };
+
+            $.ajax($.extend(params, additionalParams));
         },
 
         // **Attributes**
@@ -251,9 +301,13 @@
             }
         },
 
-        // Return a copy of all the attributes
-        toJSON: function() {
-            return $.extend({}, this.attributes);
+        // Set or get all attributes
+        attrs: function(attributes) {
+            if (typeof attributes === "undefined") {
+                return $.extend({}, this.attributes);
+            } else {
+                $.extend(this.attributes, attributes);
+            }
         }
 
     });
