@@ -382,9 +382,52 @@ Lag nye views basert med `BEKK.View.extend`
 
 Er avhengig av DOM-en vi initialiserer med `el` satt til `.javascript $(".user")`
 
+---
+
+# Hvordan teste view-rendering?
+
+Er avhengig av DOM-en vi initialiserer med `el` satt til `.javascript $(".user")`
+
 Både mye oppsett, tregt og dårlig støttet av mange test-verktøy.
 
-Men vi kan sende inn et dummy-objekt som bare finnes i minne, som for eksempel
+---
+
+# Hvordan teste view-rendering?
+
+Er avhengig av DOM-en vi initialiserer med `el` satt til `.javascript $(".user")`
+
+Både mye oppsett, tregt og dårlig støttet av mange test-verktøy.
+
+Løsning: et dummy-objekt som bare finnes i minne, som for eksempel
+`.javascript $("<div></div>")`. Send inn de elementene viewet forventer å få
+som input.
+
+---
+
+# Hvordan teste view-rendering?
+
+Er avhengig av DOM-en vi initialiserer med `el` satt til `.javascript $(".user")`
+
+Både mye oppsett, tregt og dårlig støttet av mange test-verktøy.
+
+Løsning: et dummy-objekt som bare finnes i minne, som for eksempel
+`.javascript $("<div></div>")`. Send inn de elementene viewet forventer å få
+som input.
+
+Eksempel:
+
+    .javascript
+    var view = new BEKK.UserView({ el: $("<div></div>" ) })
+
+---
+
+# Hvordan teste view-rendering?
+
+Er avhengig av DOM-en vi initialiserer med `el` satt til `.javascript $(".user")`
+
+Både mye oppsett, tregt og dårlig støttet av mange test-verktøy.
+
+Løsning: et dummy-objekt som bare finnes i minne, som for eksempel
 `.javascript $("<div></div>")`. Send inn de elementene viewet forventer å få
 som input.
 
@@ -472,7 +515,7 @@ string i hele HTML-en.
 Så la oss bruke `DOM`-funksjonen istedenfor `toContainInDOM`:
 
     .javascript
-    it("should show name in heading when rendered", function() {
+    it("should show user info when rendered", function(){
         // sjekk at `h2` inneholder korrekt navn
     });
 
@@ -486,7 +529,7 @@ funksjonalitet.)
 Test:
 
     .javascript
-    it("should show name in heading when rendered", function() {
+    it("should show user info when rendered", function(){
         var user = {
             name: "Test Testesen"
         };
@@ -519,7 +562,7 @@ Det er fire sentrale metoder:
 # Oppgave
 
     .javascript
-    it("should render model", function() {
+    it("should show user info when rendered", function(){
         // Samme test som sist, men nå skal input til viewet være en BEKK.User
     });
 
@@ -530,7 +573,7 @@ Det er fire sentrale metoder:
 Test:
 
     .javascript
-    it("should render model", function() {
+    it("should show user info when rendered", function(){
         var user = new BEKK.User();
         user.attr("name", "Kim Joar Bekkelund");
 
