@@ -504,15 +504,12 @@ Har ansvar for data og opphenting av denne
 
 * Kun modeller som har lov til å kommunisere med serveren
 
-I Simple.js følger vi modellstrukturen til Backbone.js:
+Det er fire sentrale metoder:
 
 * `initialize` - kalles ved initialisering
 * `url` - url-en som brukes i AJAX-kall
-* `toJSON` - hent alle attributtene til en modell
-
-Og i tillegg:
-
-* `attr("prop")` og `attr("prop", set)`
+* `attrs` - hent alle attributtene til en modell
+* `attr("key")` og `attr("key", value)`
 
 ---
 
@@ -549,7 +546,7 @@ Kode:
         //...
 
         render: function() {
-          var data = this.user.toJSON();
+          var data = this.user.attrs();
           this.renderTemplate(data);
         }
       });
