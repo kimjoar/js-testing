@@ -5,7 +5,7 @@ describe("The user view", function(){
 
         // ...
 
-        // expect(view.user).toBeDefined();
+        expect(view.user).toBeDefined();
     });
 
     xit("should show user info when rendered", function(){
