@@ -96,6 +96,34 @@ Men først …
     .javascript
     // Gruppering av tester
     describe("My tests", function(){
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    });
+
+* BDD-rammeverk - vi beskriver oppførsel
+* Brukes på flere BEKK-prosjekter
+
+---
+
+# Intro til Jasmine
+
+    .javascript
+    // Gruppering av tester
+    describe("My tests", function(){
       beforeEach(function(){
         // Kjører før hver test
 
@@ -117,6 +145,7 @@ Men først …
 * BDD-rammeverk - vi beskriver oppførsel
 * Brukes på flere BEKK-prosjekter
 
+
 ---
 
 # Intro til Jasmine
@@ -129,8 +158,8 @@ For å ikke kjøre spesifikke tester: `xdescribe` og `xit`
 
 Noen rariteter:
 
-* dersom man ikke har en `expect` kjører fortsatt testen …
-* dersom en testfil har en syntaksfeil sier ikke Jasmine fra (den bare skipper filen)
+* dersom man ikke har en `expect` kjører fortsatt testen grønt …
+* dersom en testfil har en syntaksfeil sier ikke Jasmine fra (den bare skipper filen). Følg med i konsollen!
 
 ---
 
@@ -311,7 +340,7 @@ Hvordan lage et nytt view:
 
 # Setup
 
-All kode ligger på [https://github.com/kjbekkelund/js-testing](https://github.com/kjbekkelund/js-testing) [http://tinyurl.com/cp3jb8x]
+All kode ligger på [https://github.com/kjbekkelund/js-testing](https://github.com/kjbekkelund/js-testing) [http://tinyurl.com/cp3jb8x](http://tinyurl.com/cp3jb8x)
 
 Åpne `test/SpecRunner.html` for å kjøre testene.
 
@@ -344,27 +373,9 @@ Oppgaven:
 
 ---
 
-# Gjennomgang oppgave
+.middle.center
 
-Test:
-
-    .javascript
-    it("should have a user when initialized", function() {
-      var user = {};
-
-      var view = new BEKK.UserView({ user: user });
-
-      expect(view.user).toBeDefined();
-    });
-
-Kode:
-
-    .javascript
-    BEKK.UserView = Simple.View.extend({
-      initialize: function(options) {
-        this.user = options.user;
-      }
-    });
+Gjennomgang oppgave
 
 ---
 
@@ -411,7 +422,11 @@ Lag nye views basert med `BEKK.View.extend`
 
 # Hvordan teste view-rendering?
 
-Er avhengig av DOM-en vi initialiserer med `el` satt til `.javascript $("#profile")`
+// Ha kode som initialiserer viewet
+
+For å teste viewet vårt trenger vi trenger `.javascript $("#profile")`
+
+// Vi kunne lagt dette i `test/SpecRunner.html`
 
 ---
 
@@ -484,6 +499,12 @@ Vi har lagt til en testhjelper:
 
         // Sjekk at navnet finnes i `el`
     });
+
+Hint:
+
+* `BEKK.View` — Må kommenteres inn i `app.js`
+* `render`
+* `expect(...).toContainInEl()`
 
 ---
 
@@ -589,6 +610,14 @@ Det er fire sentrale metoder:
 * `attr("key")` og `attr("key", newValue)`
 
 
+    .javascript
+    model.attr("name", "Tine!");
+    model.attr("seniority", "Konsulent");
+
+    model.attr("name"); // Tine!
+
+    model.attrs(); // { name: "Tine!", seniority: "Konsulent" }
+
 ---
 
 MVT-figur
@@ -599,7 +628,7 @@ MVT-figur
 
     .javascript
     it("should show user info when rendered", function(){
-        // Samme test som sist, men nå skal input til viewet være en BEKK.User
+        // Ny refaktorering. Input til viewet være en modell der navn er navn satt.
     });
 
 ---
