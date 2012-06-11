@@ -31,25 +31,8 @@ og
 Tine Kleivane
 
 ---
+
 #Tilbakemeldinger
-
-* Inkludere filnavn når vi viser eksempler
-* Vise hvordan man lager et  user view (Tine: kanskje gjøre oppgave 1 sammen?)
-* I 1. oppgave brukté folk BEKK.Model, er veldig forvirrende med så mye kode. KOmmenter ut eller legg i rekkefølge i app.js
-* Nevne forskjellen mellom extend og new'e opp
-* KOmmentere ut alle de grønne testene
-* Ringe ut userview i bildet
-* Få inn noen figurer som viser sammenhengen mellom en user og et view
-* Forklare this.attr.
-
-* 1 oppgave pr test vs refaktorering -> refaktorering 
-* Peke når man snakker om kode
-* Vise relevante filer i en editor på storskjerm 
-* Livekode løsningsforslaget
-* Requirements:
-** JS
-** TDD
-* Vi forklarer MVP
 
 * Nevne at "rammeverket" er 80 linjer kode, slik at folk ser hvor lett det er.
 * Forklare jQuery-sliden enda bedre. 
@@ -58,6 +41,7 @@ Tine Kleivane
 * Skrive om første modell-testen til å ta inn screen_name
 * Fikse navn på første Twitter-test
 * På sucess blir data satt på modellen.
+
 ---
 
 # Utbytte
@@ -393,6 +377,20 @@ templates som trengs på forhånd.
 
 Det er metoden `render` sitt ansvar er å interpolere data i template og
 plassere dette i `el`.
+
+    BEKK.UserView = Simple.View.extend({
+    template: '<h2>{{name}}</h2>' +
+      '<img src="{{profile_image_url}}" alt="{{name}}">' +
+      '<ul>' +
+        '<li>Followers: <span class="followers">{{followers_count}}</span></li>' +
+        '<li>Following: <span class="following">{{friends_count}}</span></li>' +
+        '<li>Monologs: <span class="monologs">{{monologs}}</span></li>' +
+      '</ul>', 
+
+      render: function(){
+        this.el.html(Mustache.to_html(this.template, this.user));
+      }
+    });
 
 ---
 
