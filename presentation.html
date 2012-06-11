@@ -63,13 +63,13 @@ Vi skal lære å *ikke* skrive kode som dette:
 
     .javascript
     jQuery(function() {
-      $(".user form").submit(function(e) {
+      $("#profile form").submit(function(e) {
         e.preventDefault();
         $.ajax({
           // ...
           success: function(data) {
             var name = data.name ? data.name : "Unknown";
-            $(".user .info").append("<h1>" + name + "</h1>");
+            $("#profile .info").append("<h1>" + name + "</h1>");
           }
         });
       });
@@ -238,7 +238,7 @@ Hvordan lage et nytt view:
     });
 
     // Lager en instans (og sender med `el`)
-    var view = new UserView({ el: $(".user") });
+    var view = new UserView({ el: $("#profile") });
     &nbsp;
 
 ---
@@ -270,7 +270,7 @@ Hvordan lage et nytt view:
     });
 
     // Lager en instans (og sender med `el`)
-    var view = new UserView({ el: $(".user") });
+    var view = new UserView({ el: $("#profile") });
     &nbsp;
 
 ---
@@ -302,7 +302,7 @@ Hvordan lage et nytt view:
     });
 
     // Lager en instans (og sender med `el`)
-    var view = new UserView({ el: $(".user") });
+    var view = new UserView({ el: $("#profile") });
     view.showUserInfo();
 
 ---
@@ -411,13 +411,13 @@ Lag nye views basert med `BEKK.View.extend`
 
 # Hvordan teste view-rendering?
 
-Er avhengig av DOM-en vi initialiserer med `el` satt til `.javascript $(".user")`
+Er avhengig av DOM-en vi initialiserer med `el` satt til `.javascript $("#profile")`
 
 ---
 
 # Hvordan teste view-rendering?
 
-Er avhengig av DOM-en vi initialiserer med `el` satt til `.javascript $(".user")`
+Er avhengig av DOM-en vi initialiserer med `el` satt til `.javascript $("#profile")`
 
 Både mye oppsett, tregt og dårlig støttet av mange test-verktøy.
 
@@ -425,7 +425,7 @@ Både mye oppsett, tregt og dårlig støttet av mange test-verktøy.
 
 # Hvordan teste view-rendering?
 
-Er avhengig av DOM-en vi initialiserer med `el` satt til `.javascript $(".user")`
+Er avhengig av DOM-en vi initialiserer med `el` satt til `.javascript $("#profile")`
 
 Både mye oppsett, tregt og dårlig støttet av mange test-verktøy.
 
@@ -437,7 +437,7 @@ som input.
 
 # Hvordan teste view-rendering?
 
-Er avhengig av DOM-en vi initialiserer med `el` satt til `.javascript $(".user")`
+Er avhengig av DOM-en vi initialiserer med `el` satt til `.javascript $("#profile")`
 
 Både mye oppsett, tregt og dårlig støttet av mange test-verktøy.
 
@@ -454,7 +454,7 @@ Eksempel:
 
 # Hvordan teste view-rendering?
 
-Er avhengig av DOM-en vi initialiserer med `el` satt til `.javascript $(".user")`
+Er avhengig av DOM-en vi initialiserer med `el` satt til `.javascript $("#profile")`
 
 Både mye oppsett, tregt og dårlig støttet av mange test-verktøy.
 
@@ -529,12 +529,12 @@ viewets DOM med `view.DOM`-funksjonen.
 
     .javascript
     // går fra
-    $(".user form")
+    $("#profile form")
 
     // til
     userView.DOM("form")
 
-    // disse er ekvivalente om `.user` er `el`-en til `userView`
+    // disse er ekvivalente om `#profile` er `el`-en til `userView`
 
 Løsningen med bruk av `toContainInDOM` blir for enkel siden den søker etter en
 string i hele HTML-en.
@@ -587,6 +587,11 @@ Det er fire sentrale metoder:
 * `url` — variabel som brukes i AJAX-kall
 * `attrs` — metode for å hent ut alle attributtene til en modell
 * `attr("key")` og `attr("key", newValue)`
+
+
+---
+
+MVT-figur
 
 ---
 
@@ -660,17 +665,19 @@ Kan sette JSONP ved å sette `model.dataType = "jsonp"`
 # Oppgave
 
     .javascript
-    it("should populate the view when data is fetched", function() {
+    it("should show user info when rendered", function() {
         var view;
 
         // sett opp modell og view, og start henting av data
-        // runs(function(){});
+        // runs(function(){
+        //});
 
         // vi venter på å motta svar fra Twitter
         // waits(1000);
 
         // sjekk at `el` har rett innhold
-        // runs(function(){});
+        // runs(function(){
+        // });
     });
 
 ---
@@ -678,7 +685,7 @@ Kan sette JSONP ved å sette `model.dataType = "jsonp"`
 # Gjennomgang oppgave
 
     .javascript
-    it("should populate the view when data is fetched", function() {
+    it("should show user info when rendered", function() {
         var view;
         runs(function(){
             var user = new BEKK.User({ screen_name: "kimjoar"});
@@ -772,7 +779,7 @@ På den positive siden:
 # Oppgave
 
     .javascript
-    it("should populate the view when data is fetched", function() {
+    it("should show user info when rendered", function() {
         var response = '{"name":"Kim","followers_count":"2","friends_count":"1"}';
         var options = {};
         var user = new BEKK.User({screen_name: "kimjoar"});
@@ -792,7 +799,7 @@ På den positive siden:
 # Gjennomgang oppgave
 
     .javascript
-    it("should populate the view when data is fetched", function() {
+    it("should show user info when rendered", function() {
         var response = '{"name": "Kim","followers_count": "2","friends_count": "1"}';
         var options = {};
         var server = sinon.fakeServer.create();
@@ -849,7 +856,7 @@ Og så kan viewet få beskjed ved suksess.
 Viewet sier fra hva den er interessert i å lytte på og får beskjed når
 handlingen skjer.
 
-Dette gir bedre decoupling. Skiller ansvaret ut der det hører hjemme.
+Dette gir løsere koblinger mellom model og view  og skiller ansvaret ut der det hører hjemme.
 
     .javascript
     var user = new BEKK.User();
@@ -880,7 +887,7 @@ Hint: Tredje parameter i `on` er kontekst (altså `this`)
 Test:
 
     .javascript
-    it("should populate the view when data is fetched", function(){
+    it("should show user info when rendered", function(){
         // sinon fakeserver
 
         var user = new BEKK.User({screen_name: "kimjoar"});
@@ -931,7 +938,7 @@ Når man etterhvert får store responser, fungerer den også bra med fixtures.
 # Oppgave
 
     .javascript
-    it("should populate the view when data is fetched", function(){
+    it("should show user info when rendered", function(){
         // refaktorer oppgaven til å benytte seg av fakeResponse
     });
 
@@ -942,7 +949,7 @@ Når man etterhvert får store responser, fungerer den også bra med fixtures.
 Test:
 
     .javascript
-    it("should populate the view when data is fetched", function(){
+    it("should show user info when rendered", function(){
         var user = new BEKK.User({screen_name: "kimjoar"});
         user.dataType = "json";
 
