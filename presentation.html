@@ -628,7 +628,7 @@ MVT-figur
 
     .javascript
     it("should show user info when rendered", function(){
-        // Ny refaktorering. Input til viewet være en modell der navn er navn satt.
+        // Ny refaktorering. Input til viewet være en modell der navn er satt.
     });
 
 ---
@@ -674,6 +674,13 @@ Få opp en visning av profilen
       // render view
     };
 
+Her trenger dere ikke skrive en test!
+
+Filer:
+
+* `index.html`
+* `app.js`
+
 ---
 
 # Model
@@ -709,6 +716,10 @@ Kan sette JSONP ved å sette `model.dataType = "jsonp"`
         // });
     });
 
+Hint:
+
+* Sett Twitter-brukernavnet på modellen (ved initialisering)
+
 ---
 
 # Gjennomgang oppgave
@@ -717,7 +728,7 @@ Kan sette JSONP ved å sette `model.dataType = "jsonp"`
     it("should show user info when rendered", function() {
         var view;
         runs(function(){
-            var user = new BEKK.User({ screen_name: "kimjoar"});
+            var user = new BEKK.User({ screen_name: "kimjoar" });
             view = new BEKK.UserView({ user: user, el: $('<div></div>') });
 
             user.fetch({
@@ -739,9 +750,8 @@ Kode:
     .javascript
     BEKK.User = Simple.Model.extend({
       // ...
-      initialize: function(options) {
-        this.name = options.screen_name;
-        this.url = "https://api.twitter.com/1/users/show.json?screen_name=" + this.name;
+      initialize: function() {
+        this.url = "https://api.twitter.com/1/users/show.json?screen_name=" + this.attr("screen_name");
       }
     });
 
@@ -809,7 +819,7 @@ På den positive siden:
 
     .javascript
     it("should show user info when rendered", function() {
-        var response = '{"name":"Kim","followers_count":"2","friends_count":"1"}';
+        var response = '{"name": "Kim","followers_count": "2","friends_count": "1"}';
         var options = {};
         var user = new BEKK.User({screen_name: "kimjoar"});
 
@@ -822,6 +832,10 @@ På den positive siden:
 
         // Bryt ned fakeServer
     });
+
+Hint:
+
+* Åpne Twitter-URLen som ligger i modellen, kopier responsen
 
 ---
 
