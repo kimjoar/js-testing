@@ -21,10 +21,9 @@
   // });
 
   BEKK.start = function() {
-    // var monologs = new BEKK.Monologs();
-    // var user = new BEKK.User();
-
-    // ... create views
+    // initialiser modell
+    // initialiser view
+    // render view
   };
 
   // Vi legger delt view-funksjonalitet i et eget lag i arkiteturen
