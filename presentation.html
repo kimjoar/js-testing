@@ -511,17 +511,17 @@ templates som trengs på forhånd.
 Det er metoden `render` sitt ansvar er å interpolere data i template og
 plassere dette i `el`.
 
-    BEKK.UserView = Simple.View.extend({
-    template: '<h2>{{name}}</h2>' +
-      '<img src="{{profile_image_url}}" alt="{{name}}">' +
-      '<ul>' +
-        '<li>Followers: <span class="followers">{{followers_count}}</span></li>' +
-        '<li>Following: <span class="following">{{friends_count}}</span></li>' +
-        '<li>Monologs: <span class="monologs">{{monologs}}</span></li>' +
-      '</ul>', 
+    .javascript
+    var UserView = Simple.View.extend({
+      template: '<h2>{{name}}</h2>',
+
+      initialize: function(options) {
+        this.user = options.user;
+      },
 
       render: function(){
-        this.el.html(Mustache.to_html(this.template, this.user));
+        var html = Mustache.to_html(this.template, this.user);
+        this.el.html(html);
       }
     });
 
@@ -534,51 +534,45 @@ Veldig enkelt å lage en lagarkitektur:
     .javascript
     BEKK.View = Simple.View.extend({
       renderTemplate: function(data) {
-        this.el.html(Mustache.to_html(this.template, data || {}));
+        var html = Mustache.to_html(this.template, data);
+        this.el.html(html);
       }
     });
 
-Lag nye views basert med `BEKK.View.extend`
+Lag nye views basert med `BEKK.View.extend`:
+
+    .javascript
+    BEKK.UserView = BEKK.View.extend({
+      // template, initialize, osv...
+
+      render: function() {
+        // delt funksjonalitet er bra!
+        this.renderTemplate(this.user);
+      }
+    });
 
 ---
 
 # Hvordan teste view-rendering?
 
-// Ha kode som initialiserer viewet
+    .javascript
+    var userView = new BEKK.UserView({ el: $("#profile") });
 
-For å teste viewet vårt trenger vi trenger `.javascript $("#profile")`
+Hva er problemet?
 
-// Vi kunne lagt dette i `test/SpecRunner.html`
+For å teste viewet trenger vi tilgang til `.javascript $("#profile")`
 
----
+Mulig løsning:
 
-# Hvordan teste view-rendering?
+* Sette alt opp i DOM-en, for eksempel legg relevant HTML i `test/SpecRunner.html`
 
-Er avhengig av DOM-en vi initialiserer med `el` satt til `.javascript $("#profile")`
-
-Både mye oppsett, tregt og dårlig støttet av mange test-verktøy.
-
----
-
-# Hvordan teste view-rendering?
-
-Er avhengig av DOM-en vi initialiserer med `el` satt til `.javascript $("#profile")`
-
-Både mye oppsett, tregt og dårlig støttet av mange test-verktøy.
-
-Løsning: et dummy-objekt som bare finnes i minne, som for eksempel
-`.javascript $("<div></div>")`. Send inn de elementene viewet forventer å få
-som input.
+Mye oppsett, mye kopiering, og generelt sett ganske kjipt.
 
 ---
 
-# Hvordan teste view-rendering?
+# Bedre løsning
 
-Er avhengig av DOM-en vi initialiserer med `el` satt til `.javascript $("#profile")`
-
-Både mye oppsett, tregt og dårlig støttet av mange test-verktøy.
-
-Løsning: et dummy-objekt som bare finnes i minne, som for eksempel
+Vi lager et dummy-objekt som bare finnes i minne, som for eksempel
 `.javascript $("<div></div>")`. Send inn de elementene viewet forventer å få
 som input.
 
@@ -587,24 +581,7 @@ Eksempel:
     .javascript
     var view = new BEKK.UserView({ el: $("<div></div>" ) })
 
----
-
-# Hvordan teste view-rendering?
-
-Er avhengig av DOM-en vi initialiserer med `el` satt til `.javascript $("#profile")`
-
-Både mye oppsett, tregt og dårlig støttet av mange test-verktøy.
-
-Løsning: et dummy-objekt som bare finnes i minne, som for eksempel
-`.javascript $("<div></div>")`. Send inn de elementene viewet forventer å få
-som input.
-
-Eksempel:
-
-    .javascript
-    var view = new BEKK.UserView({ el: $("<div></div>" ) })
-
-Vi har lagt til en testhjelper:
+Vi har lagt til en hjelpemetode for å sjekke innholdet i HTML-en til et view:
 
     .javascript
     expect(view).toContainInDOM("En string");
