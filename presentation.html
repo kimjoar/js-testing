@@ -124,10 +124,94 @@ Men først …
     .javascript
     // Gruppering av tester
     describe("My tests", function(){
+
+
+
+
+
+
+
+
+
+
+      // Selve testen
+      it("says hello", function(){
+
+
+
+      });
+    });
+
+* BDD-rammeverk - vi beskriver oppførsel
+* Brukes på flere BEKK-prosjekter
+
+---
+
+# Intro til Jasmine
+
+    .javascript
+    // Gruppering av tester
+    describe("My tests", function(){
+
+
+
+
+
+
+
+
+
+
+      // Selve testen
+      it("says hello", function(){
+        expect(BEKK.helloWorld()).toEqual("hello world");
+
+
+      });
+    });
+
+* BDD-rammeverk - vi beskriver oppførsel
+* Brukes på flere BEKK-prosjekter
+
+---
+
+# Intro til Jasmine
+
+    .javascript
+    // Gruppering av tester
+    describe("My tests", function(){
+
+
+
+
+
+
+
+
+
+
+      // Selve testen
+      it("says hello", function(){
+        expect(BEKK.helloWorld()).toEqual("hello world");
+        // Finnes mange matchere, blant annet:
+        // `toBe`, `toMatch`, `toBeDefined`, `toBeTruthy`, `toContain`, osv
+      });
+    });
+
+* BDD-rammeverk - vi beskriver oppførsel
+* Brukes på flere BEKK-prosjekter
+
+---
+
+# Intro til Jasmine
+
+    .javascript
+    // Gruppering av tester
+    describe("My tests", function(){
       beforeEach(function(){
         // Kjører før hver test
 
-        this.color = "green";
+
       });
 
       afterEach(function(){
@@ -135,8 +219,36 @@ Men først …
       });
 
       // Selve testen
-      it("looks green", function(){
-        expect(this.color).toEqual("green");
+      it("says hello", function(){
+        expect(BEKK.helloWorld()).toEqual("hello world");
+        // Finnes mange matchere, blant annet:
+        // `toBe`, `toMatch`, `toBeDefined`, `toBeTruthy`, `toContain`, osv
+      });
+    });
+
+* BDD-rammeverk - vi beskriver oppførsel
+* Brukes på flere BEKK-prosjekter
+
+---
+
+# Intro til Jasmine
+
+    .javascript
+    // Gruppering av tester
+    describe("My tests", function(){
+      beforeEach(function(){
+        // Kjører før hver test
+
+        this.hello = BEKK.helloWorld();
+      });
+
+      afterEach(function(){
+        // Kjører etter hver test
+      });
+
+      // Selve testen
+      it("says hello", function(){
+        expect(this.hello).toEqual("hello world");
         // Finnes mange matchere, blant annet:
         // `toBe`, `toMatch`, `toBeDefined`, `toBeTruthy`, `toContain`, osv
       });
