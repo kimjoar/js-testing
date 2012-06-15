@@ -699,9 +699,38 @@ Ingen implementasjon, følger med Simple.js
 
 Har ansvar for data og opphenting av denne
 
+---
+
+# Model
+
+Har ansvar for data og opphenting av denne
+
 * Kun modeller som har lov til å kommunisere med serveren
 
-Det er fire sentrale metoder:
+---
+
+# Model
+
+Har ansvar for data og opphenting av denne
+
+* Kun modeller som har lov til å kommunisere med serveren
+
+Det er fire sentrale properties:
+
+* `initialize` — metode som kalles ved initialisering
+* `url` — variabel som brukes i AJAX-kall
+* `attrs` — metode for å hent ut alle attributtene til en modell
+* `attr("key")` og `attr("key", newValue)`
+
+---
+
+# Model
+
+Har ansvar for data og opphenting av denne
+
+* Kun modeller som har lov til å kommunisere med serveren
+
+Det er fire sentrale properties:
 
 * `initialize` — metode som kalles ved initialisering
 * `url` — variabel som brukes i AJAX-kall
@@ -710,6 +739,8 @@ Det er fire sentrale metoder:
 
 
     .javascript
+    var model = new Simple.Model();
+
     model.attr("name", "Tine!");
     model.attr("seniority", "Konsulent");
 
@@ -727,7 +758,8 @@ MVT-figur
 
     .javascript
     it("should show user info when rendered", function(){
-        // Ny refaktorering. Input til viewet være en modell der navn er satt.
+      // Ny refaktorering:
+      // Input til viewet skal være en modell der navn er satt.
     });
 
 ---
@@ -784,16 +816,28 @@ Filer:
 
 # Model
 
-Simple.js inneholder en `model.fetch` som tar imot et success-callback:
+Simple.js inneholder en `fetch`-metode som tar imot et success-callback:
 
     .javascript
     user.fetch({
-      success: function() {}
+      success: function() {
+        // håndter suksess
+        // nå er alle mottatte verdier satt på `user`
+        // hent verdi ved å bruke `attr` eller `attrs`
+      }
     });
 
-Bruker `model.url` i AJAX-kall
+Bruker `model.url` (og evt `model.dataType`) i AJAX-kall:
 
-Kan sette JSONP ved å sette `model.dataType = "jsonp"`
+    .javascript
+    var User = Simple.Model.extend({
+      url: "/user",
+
+      dataType: "jsonp" // dersom man trenger å endre bort fra JSON
+    });
+
+    var user = new User();
+    user.fetch(...)
 
 ---
 
@@ -805,7 +849,7 @@ Kan sette JSONP ved å sette `model.dataType = "jsonp"`
 
         // sett opp modell og view, og start henting av data
         // runs(function(){
-        //});
+        // });
 
         // vi venter på å motta svar fra Twitter
         // waits(1000);
