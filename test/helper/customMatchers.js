@@ -1,9 +1,9 @@
 beforeEach(function() {
   this.addMatchers({
-    toContainInDOM: function(text) {
-      var dom = this.actual.el.html();
-      this.message = "Expected to find '" + text + "' in '" + dom + "'";
-      return dom.indexOf(text) !== -1;
+    toContainInEl: function(expected) {
+      var html = this.actual.el.html();
+      this.message = "Expected to find '" + expected + "' in '" + html + "'";
+      return html.indexOf(expected) !== -1;
     }
   });
 });
