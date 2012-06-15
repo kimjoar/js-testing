@@ -748,6 +748,8 @@ Det er fire sentrale properties:
 
     model.attrs(); // { name: "Tine!", seniority: "Konsulent" }
 
+    new Simple.Model({ name: "Tine" }); // kan sette attributter ved initialisering
+
 ---
 
 MVT-figur
@@ -880,9 +882,7 @@ Hint:
               }
             });
         });
-
         waits(1000);
-
         runs(function(){
             expect(view.DOM("h2")).toHaveText("Kim Joar Bekkelund");
         });
@@ -894,7 +894,8 @@ Kode:
     BEKK.User = Simple.Model.extend({
       // ...
       initialize: function() {
-        this.url = "https://api.twitter.com/1/users/show.json?screen_name=" + this.attr("screen_name");
+          this.url = "https://api.twitter.com/1/users/show.json?screen_name=" +
+              this.attr("screen_name");
       }
     });
 
