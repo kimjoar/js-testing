@@ -939,6 +939,9 @@ Vi benytter `sinon.fakeServer`:
     this.server = sinon.fakeServer.create();
 
     // Setup av en response
+    var statusCode = 200;
+    var headers = { "Content-Type": "application/json" };
+    var data = '[{ "id": 1, "name": "Kim Joar" }]'
     this.server.respondWith([statusCode, headers, data]);
 
     // Svar på AJAX-kallet
@@ -948,14 +951,9 @@ Vi benytter `sinon.fakeServer`:
     // Teardown
     this.server.restore();
 
-På den positive siden:
-
 * Mye, mye raskere tester
-* Responsen kan endres tilpasset testen
-
-… men:
-
-* Registerer ikke endringer i API-et.
+* Responsen kan enkelt tilpasses det vi ønsker å teste
+* ... men: Registerer ikke endringer i API-et
 
 ---
 
