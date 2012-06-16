@@ -1,0 +1,101 @@
+.wrapper {
+  width: 100%;
+  position: relative;
+}
+
+.container {
+  position: absolute;
+  top: 95px;
+  left: 0;
+  padding: 20px 30px;
+  width: 600px;
+}
+
+#header {
+  width: 100%;
+  background-color: black;
+  box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.2);
+  padding-top: 30px;
+  padding-bottom: 30px;
+  position: fixed;
+  top: 0;
+  z-index: 9000;
+}
+
+h1 {
+  display: inline;
+  font-size: 30px;
+  font-family: 'Abel', sans-serif;
+}
+
+h2 {
+  font-weight: 400;
+  font-size: 35px;
+  font-family: 'Abel', sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+h1 a {
+  padding-left: 30px;
+  color: #fff;
+  text-decoration: none;
+  letter-spacing: .2em;
+  font-weight: 400;
+  width: 40%;
+  line-height: 30px;
+  text-transform: uppercase;
+}
+
+#new-status {
+  margin-top: 10px;
+}
+
+label {
+  font-size: 35px;
+  font-family: 'Abel', sans-serif;
+  font-weight: 500;
+  display: block;
+  padding-bottom: 10px;
+}
+
+textarea {
+  width: 500px;
+  height: 50px;
+  display: block;
+  padding: 5px;
+}
+
+button.btn {
+  margin-top: 10px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.container li {
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+.container li:first-child { padding-top: 0; }
+
+#profile {
+  position: absolute;
+  top: 105px;
+  left: 620px;
+  padding: 20px;
+  width: 300px;
+}
+
+#profile img {
+  max-width: 100px;
+}
+
+#profile h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
