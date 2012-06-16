@@ -1108,15 +1108,16 @@ Det er grusomt kjedelig å skrive:
     .javascript
     this.server = sinon.fakeServer.create();
     this.server.respondWith([200, this.options, this.response]);
+    // ...
+    this.server.respond();
+    this.server.restore();
 
 Løsning: `fakeResponse` (se i `helper/fakeResponse.js`)
 
     .javascript
     fakeResponse(response, options, function() {
-        // callback som kalles i kontekst av et mocket AJAX-kall
+        // Alle AJAX-kall i denne callbacken vil få `response` som respons.
     });
-
-Når man etterhvert får store responser, fungerer den også bra med fixtures.
 
 ---
 
@@ -1175,8 +1176,6 @@ Alle DOM-eventene viewet lytter på, kan legges i `events`-property-en:
 Når flere komponenter kan være interessert i en handling som har skjedd.
 
 Løsere kobling mellom komponenter.
-
-Lettere kan legge til eller fjerne komponenter.
 
     .javascript
     Simple.events.on("new-status", function(data) {
