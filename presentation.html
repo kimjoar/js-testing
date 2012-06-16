@@ -3,10 +3,10 @@
   <head>
     <title>Testing av JavaScript</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <script src="https://github.com/downloads/gnab/remark/remark-0.3.4.min.js" type="text/javascript"></script>
+    <script src="https://github.com/downloads/gnab/remark/remark-0.3.5.min.js" type="text/javascript"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-    <script src="https://github.com/downloads/kjbekkelund/remark-bekk/bekk-0.0.3.js" type="text/javascript"></script>
-    <link href="https://github.com/downloads/kjbekkelund/remark-bekk/bekk-0.0.3.css" type="text/css" rel="stylesheet">
+    <script src="https://github.com/downloads/kjbekkelund/remark-bekk/bekk-0.0.5.js" type="text/javascript"></script>
+    <link href="https://github.com/downloads/kjbekkelund/remark-bekk/bekk-0.0.5.css" type="text/css" rel="stylesheet">
     <style type="text/css" media="screen">
       #slideshow .slide .content.front-page h1 { width: 100%; }
       .slide p { padding: 0; margin: 1.1em 0; }
@@ -20,12 +20,27 @@
 
 .front-page
 
-# Abstraksjoner og testing i MVP-arkitektur
+# Bygg en testbar Javascript-applikasjon
 
-## Workshop 29/05/2012
+## Workshop 19/06/2012
 
+Kim Joar Bekkelund
 
-Kim Joar Bekkelund og Tine Kleivane
+og
+
+Tine Kleivane
+
+---
+
+#Tilbakemeldinger
+
+* Nevne at "rammeverket" er 80 linjer kode, slik at folk ser hvor lett det er.
+* Forklare jQuery-sliden enda bedre. 
+** Du ville ikke gjort det i Java
+** 1000 linjers js er kjiiiipt
+* Skrive om første modell-testen til å ta inn screen_name
+* Fikse navn på første Twitter-test
+* På sucess blir data satt på modellen.
 
 ---
 
@@ -48,13 +63,13 @@ Vi skal lære å *ikke* skrive kode som dette:
 
     .javascript
     jQuery(function() {
-      $(".user form").submit(function(e) {
+      $("#profile form").submit(function(e) {
         e.preventDefault();
         $.ajax({
           // ...
           success: function(data) {
             var name = data.name ? data.name : "Unknown";
-            $(".user .info").append("<h1>" + name + "</h1>");
+            $("#profile .info").append("<h1>" + name + "</h1>");
           }
         });
       });
@@ -79,21 +94,105 @@ Men først …
 # Intro til Jasmine
 
     .javascript
-    // Gruppering av specs
+    // Gruppering av tester
     describe("My tests", function(){
-      beforeEach(function(){
-        // Kjører før hver test
 
-        this.color = "green";
-      });
 
-      afterEach(function(){
-        // Kjører etter hver test
-      });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    });
+
+* BDD-rammeverk - vi beskriver oppførsel
+* Brukes på flere BEKK-prosjekter
+
+---
+
+# Intro til Jasmine
+
+    .javascript
+    // Gruppering av tester
+    describe("My tests", function(){
+
+
+
+
+
+
+
+
+
 
       // Selve testen
-      it("looks green", function(){
-        expect(this.color).toEqual("green");
+      it("says hello", function(){
+
+
+
+      });
+    });
+
+* BDD-rammeverk - vi beskriver oppførsel
+* Brukes på flere BEKK-prosjekter
+
+---
+
+# Intro til Jasmine
+
+    .javascript
+    // Gruppering av tester
+    describe("My tests", function(){
+
+
+
+
+
+
+
+
+
+
+      // Selve testen
+      it("says hello", function(){
+        expect(BEKK.helloWorld()).toEqual("hello world");
+
+
+      });
+    });
+
+* BDD-rammeverk - vi beskriver oppførsel
+* Brukes på flere BEKK-prosjekter
+
+---
+
+# Intro til Jasmine
+
+    .javascript
+    // Gruppering av tester
+    describe("My tests", function(){
+
+
+
+
+
+
+
+
+
+
+      // Selve testen
+      it("says hello", function(){
+        expect(BEKK.helloWorld()).toEqual("hello world");
         // Finnes mange matchere, blant annet:
         // `toBe`, `toMatch`, `toBeDefined`, `toBeTruthy`, `toContain`, osv
       });
@@ -101,6 +200,63 @@ Men først …
 
 * BDD-rammeverk - vi beskriver oppførsel
 * Brukes på flere BEKK-prosjekter
+
+---
+
+# Intro til Jasmine
+
+    .javascript
+    // Gruppering av tester
+    describe("My tests", function(){
+      beforeEach(function(){
+        // Kjører før hver test
+
+
+      });
+
+      afterEach(function(){
+        // Kjører etter hver test
+      });
+
+      // Selve testen
+      it("says hello", function(){
+        expect(BEKK.helloWorld()).toEqual("hello world");
+        // Finnes mange matchere, blant annet:
+        // `toBe`, `toMatch`, `toBeDefined`, `toBeTruthy`, `toContain`, osv
+      });
+    });
+
+* BDD-rammeverk - vi beskriver oppførsel
+* Brukes på flere BEKK-prosjekter
+
+---
+
+# Intro til Jasmine
+
+    .javascript
+    // Gruppering av tester
+    describe("My tests", function(){
+      beforeEach(function(){
+        // Kjører før hver test
+
+        this.hello = BEKK.helloWorld();
+      });
+
+      afterEach(function(){
+        // Kjører etter hver test
+      });
+
+      // Selve testen
+      it("says hello", function(){
+        expect(this.hello).toEqual("hello world");
+        // Finnes mange matchere, blant annet:
+        // `toBe`, `toMatch`, `toBeDefined`, `toBeTruthy`, `toContain`, osv
+      });
+    });
+
+* BDD-rammeverk - vi beskriver oppførsel
+* Brukes på flere BEKK-prosjekter
+
 
 ---
 
@@ -114,8 +270,8 @@ For å ikke kjøre spesifikke tester: `xdescribe` og `xit`
 
 Noen rariteter:
 
-* dersom man ikke har en `expect` kjører fortsatt testen …
-* dersom en testfil har en syntaksfeil sier ikke Jasmine fra (den bare skipper filen)
+* dersom man ikke har en `expect` kjører fortsatt testen grønt …
+* dersom en testfil har en syntaksfeil sier ikke Jasmine fra (den bare skipper filen). Følg med i konsollen!
 
 ---
 
@@ -157,17 +313,16 @@ Det er kun views som har lov til å røre DOM-en!
 
 # Views
 
-Vi skal benytte et enkelt rammeverk: Simple.js
+Vi skal benytte et lite bibliotek: Simple.js
 
-[http://kjbekkelund.github.com/simple/](http://kjbekkelund.github.com/simple/)
+Det er egentlig bare noen små abstraksjoner og ca 100 linjer totalt.
+
+God dokumentasjon på
+[http://simplejs.org](http://simplejs.org)
 
 ---
 
 # Views
-
-Vi skal benytte et enkelt rammeverk: Simple.js
-
-[http://kjbekkelund.github.com/simple/](http://kjbekkelund.github.com/simple/)
 
 Hvordan lage et nytt view:
 
@@ -195,10 +350,6 @@ Hvordan lage et nytt view:
 ---
 
 # Views
-
-Vi skal benytte et enkelt rammeverk: Simple.js
-
-[http://kjbekkelund.github.com/simple/](http://kjbekkelund.github.com/simple/)
 
 Hvordan lage et nytt view:
 
@@ -220,16 +371,12 @@ Hvordan lage et nytt view:
     });
 
     // Lager en instans (og sender med `el`)
-    var view = new UserView({ el: $(".user") });
+    var view = new UserView({ el: $("#profile") });
     &nbsp;
 
 ---
 
 # Views
-
-Vi skal benytte et enkelt rammeverk: Simple.js
-
-[http://kjbekkelund.github.com/simple/](http://kjbekkelund.github.com/simple/)
 
 Hvordan lage et nytt view:
 
@@ -251,16 +398,12 @@ Hvordan lage et nytt view:
     });
 
     // Lager en instans (og sender med `el`)
-    var view = new UserView({ el: $(".user") });
+    var view = new UserView({ el: $("#profile") });
     &nbsp;
 
 ---
 
 # Views
-
-Vi skal benytte et enkelt rammeverk: Simple.js
-
-[http://kjbekkelund.github.com/simple/](http://kjbekkelund.github.com/simple/)
 
 Hvordan lage et nytt view:
 
@@ -282,7 +425,7 @@ Hvordan lage et nytt view:
     });
 
     // Lager en instans (og sender med `el`)
-    var view = new UserView({ el: $(".user") });
+    var view = new UserView({ el: $("#profile") });
     view.showUserInfo();
 
 ---
@@ -291,13 +434,13 @@ Hvordan lage et nytt view:
 
 # Setup
 
-All kode ligger på [https://github.com/kjbekkelund/js-testing](https://github.com/kjbekkelund/js-testing)
+All kode ligger på [http://goo.gl/V8RDz](http://goo.gl/V8RDz)
 
-Åpne `SpecRunner.html` for å kjøre testene.
+Åpne `test/SpecRunner.html` for å kjøre testene.
 
 ---
 
-# Oppgave 1
+# Oppgave
 
 Vi skal starte med å se på profilseksjonen.
 
@@ -324,27 +467,9 @@ Oppgaven:
 
 ---
 
-# Gjennomgang oppgave
+.middle.center
 
-Test:
-
-    .javascript
-    it("should have a user when initialized", function() {
-      var user = {};
-
-      var view = new BEKK.UserView({ user: user });
-
-      expect(view.user).toBeDefined();
-    });
-
-Kode:
-
-    .javascript
-    BEKK.UserView = Simple.View.extend({
-      initialize: function(options) {
-        this.user = options.user;
-      }
-    });
+Gjennomgang oppgave
 
 ---
 
@@ -358,6 +483,20 @@ templates som trengs på forhånd.
 Det er metoden `render` sitt ansvar er å interpolere data i template og
 plassere dette i `el`.
 
+    .javascript
+    var UserView = Simple.View.extend({
+      template: '<h2>{{name}}</h2>',
+
+      initialize: function(options) {
+        this.user = options.user;
+      },
+
+      render: function(){
+        var html = Mustache.to_html(this.template, this.user);
+        this.el.html(html);
+      }
+    });
+
 ---
 
 # Lagarkitektur
@@ -367,21 +506,45 @@ Veldig enkelt å lage en lagarkitektur:
     .javascript
     BEKK.View = Simple.View.extend({
       renderTemplate: function(data) {
-        this.el.html(Mustache.to_html(this.template, data || {}));
+        var html = Mustache.to_html(this.template, data);
+        this.el.html(html);
       }
     });
 
-Lag nye views basert med `BEKK.View.extend`
+Lag nye views basert med `BEKK.View.extend`:
+
+    .javascript
+    BEKK.UserView = BEKK.View.extend({
+      // template, initialize, osv...
+
+      render: function() {
+        // delt funksjonalitet er bra!
+        this.renderTemplate(this.user);
+      }
+    });
 
 ---
 
 # Hvordan teste view-rendering?
 
-Er avhengig av DOM-en vi initialiserer med `el` satt til `.javascript $(".user")`
+    .javascript
+    var userView = new BEKK.UserView({ el: $("#profile") });
 
-Både mye oppsett, tregt og dårlig støttet av mange test-verktøy.
+Hva er problemet?
 
-Men vi kan sende inn et dummy-objekt som bare finnes i minne, som for eksempel
+For å teste viewet trenger vi tilgang til `.javascript $("#profile")`
+
+Mulig løsning:
+
+* Sette alt opp i DOM-en, for eksempel legg relevant HTML i `test/SpecRunner.html`
+
+Mye oppsett, mye kopiering, og generelt sett ganske kjipt.
+
+---
+
+# Bedre løsning
+
+Vi lager et dummy-objekt som bare finnes i minne, som for eksempel
 `.javascript $("<div></div>")`. Send inn de elementene viewet forventer å få
 som input.
 
@@ -390,10 +553,10 @@ Eksempel:
     .javascript
     var view = new BEKK.UserView({ el: $("<div></div>" ) })
 
-Vi har lagt til en testhjelper:
+Vi har lagt til en hjelpemetode for å sjekke innholdet i HTML-en til et view:
 
     .javascript
-    expect(view).toContainInDOM("En string");
+    expect(view).toContainInEl("En string");
 
 ---
 
@@ -407,6 +570,12 @@ Vi har lagt til en testhjelper:
 
         // Sjekk at navnet finnes i `el`
     });
+
+Hint:
+
+* `BEKK.View` — Må kommenteres inn i `app.js`
+* `render`
+* `expect(...).toContainInEl()`
 
 ---
 
@@ -423,7 +592,7 @@ Test:
         var view = new BEKK.UserView({ user: user, el: $("<div></div>" ) });
         view.render();
 
-        expect(view).toContainInDOM("Test Testesen");
+        expect(view).toContainInEl("Test Testesen");
     });
 
 Kode:
@@ -452,24 +621,24 @@ viewets DOM med `view.DOM`-funksjonen.
 
     .javascript
     // går fra
-    $(".user form")
+    $("#profile form")
 
     // til
     userView.DOM("form")
 
-    // disse er ekvivalente om `.user` er `el`-en til `userView`
+    // disse er ekvivalente om `#profile` er `el`-en til `userView`
 
-Løsningen med bruk av `toContainInDOM` blir for enkel siden den søker etter en
+Løsningen med bruk av `toContainInEl` blir for enkel siden den søker etter en
 string i hele HTML-en.
 
 ---
 
 # Oppgave
 
-Så la oss bruke `DOM`-funksjonen istedenfor `toContainInDOM`:
+Så la oss bruke `DOM`-funksjonen istedenfor `toContainInEl`:
 
     .javascript
-    it("should show name in heading when rendered", function() {
+    it("should show user info when rendered", function(){
         // sjekk at `h2` inneholder korrekt navn
     });
 
@@ -483,7 +652,7 @@ funksjonalitet.)
 Test:
 
     .javascript
-    it("should show name in heading when rendered", function() {
+    it("should show user info when rendered", function(){
         var user = {
             name: "Test Testesen"
         };
@@ -502,22 +671,69 @@ Ingen implementasjon, følger med Simple.js
 
 Har ansvar for data og opphenting av denne
 
+---
+
+# Model
+
+Har ansvar for data og opphenting av denne
+
 * Kun modeller som har lov til å kommunisere med serveren
 
-Det er fire sentrale metoder:
+---
 
-* `initialize` - kalles ved initialisering
-* `url` - url-en som brukes i AJAX-kall
-* `attrs` - hent alle attributtene til en modell
-* `attr("key")` og `attr("key", value)`
+# Model
+
+Har ansvar for data og opphenting av denne
+
+* Kun modeller som har lov til å kommunisere med serveren
+
+Det er fire sentrale properties:
+
+* `initialize` — metode som kalles ved initialisering
+* `url` — variabel som brukes i AJAX-kall
+* `attrs` — metode for å hent ut alle attributtene til en modell
+* `attr("key")` og `attr("key", newValue)`
+
+---
+
+# Model
+
+Har ansvar for data og opphenting av denne
+
+* Kun modeller som har lov til å kommunisere med serveren
+
+Det er fire sentrale properties:
+
+* `initialize` — metode som kalles ved initialisering
+* `url` — variabel som brukes i AJAX-kall
+* `attrs` — metode for å hent ut alle attributtene til en modell
+* `attr("key")` og `attr("key", newValue)`
+
+
+    .javascript
+    var model = new Simple.Model();
+
+    model.attr("name", "Tine!");
+    model.attr("seniority", "Konsulent");
+
+    model.attr("name"); // Tine!
+
+    model.attrs(); // { name: "Tine!", seniority: "Konsulent" }
+
+    new Simple.Model({ name: "Tine" }); // kan sette attributter ved initialisering
+
+---
+
+MVT-figur
 
 ---
 
 # Oppgave
 
     .javascript
-    it("should render model", function() {
-        // Samme test som sist, men nå skal input til viewet være en BEKK.User
+    it("should show user info when rendered", function(){
+      // Ny refaktorering:
+      // Input til viewet skal være en modell der navn er satt.
     });
 
 ---
@@ -527,7 +743,7 @@ Det er fire sentrale metoder:
 Test:
 
     .javascript
-    it("should render model", function() {
+    it("should show user info when rendered", function(){
         var user = new BEKK.User();
         user.attr("name", "Kim Joar Bekkelund");
 
@@ -536,7 +752,6 @@ Test:
 
         expect(view.DOM("h2")).toHaveText("Kim Joar Bekkelund");
     });
-
 
 Kode:
 
@@ -564,48 +779,73 @@ Få opp en visning av profilen
       // render view
     };
 
+Her trenger dere ikke skrive en test!
+
+Filer:
+
+* `index.html`
+* `app.js`
+
 ---
 
 # Model
 
-Simple.js inneholder en `model.fetch` som tar imot et success-callback:
+Simple.js inneholder en `fetch`-metode som tar imot et success-callback:
 
     .javascript
     user.fetch({
-      success: function() {}
+      success: function() {
+        // håndter suksess
+        // nå er alle mottatte verdier satt på `user`
+        // hent verdi ved å bruke `attr` eller `attrs`
+      }
     });
 
-Bruker `model.url` i AJAX-kall
+Bruker `model.url` (og evt `model.dataType`) i AJAX-kall:
 
-Kan sette JSONP ved å sette `model.dataType = "jsonp"`
+    .javascript
+    var User = Simple.Model.extend({
+      url: "/user",
+
+      dataType: "jsonp" // dersom man trenger å endre bort fra JSON
+    });
+
+    var user = new User();
+    user.fetch(...)
 
 ---
 
 # Oppgave
 
     .javascript
-    it("should populate the view when data is fetched", function() {
+    it("should show user info when rendered", function() {
         var view;
 
         // sett opp modell og view, og start henting av data
-        // runs(function(){});
+        // runs(function(){
+        // });
 
         // vi venter på å motta svar fra Twitter
         // waits(1000);
 
         // sjekk at `el` har rett innhold
-        // runs(function(){});
+        // runs(function(){
+        // });
     });
+
+Hint:
+
+* Sett Twitter-brukernavnet på modellen (ved initialisering)
 
 ---
 
 # Gjennomgang oppgave
 
     .javascript
-    it("should populate the view when data is fetched", function() {
+    it("should show user info when rendered", function() {
         var view;
         runs(function(){
-            var user = new BEKK.User({ screen_name: "kimjoar"});
+            var user = new BEKK.User({ screen_name: "kimjoar" });
             view = new BEKK.UserView({ user: user, el: $('<div></div>') });
 
             user.fetch({
@@ -614,9 +854,7 @@ Kan sette JSONP ved å sette `model.dataType = "jsonp"`
               }
             });
         });
-
         waits(1000);
-
         runs(function(){
             expect(view.DOM("h2")).toHaveText("Kim Joar Bekkelund");
         });
@@ -627,9 +865,9 @@ Kode:
     .javascript
     BEKK.User = Simple.Model.extend({
       // ...
-      initialize: function(options) {
-        this.name = options.screen_name;
-        this.url = "https://api.twitter.com/1/users/show.json?screen_name=" + this.name;
+      initialize: function() {
+          this.url = "https://api.twitter.com/1/users/show.json?screen_name=" +
+              this.attr("screen_name");
       }
     });
 
@@ -673,6 +911,9 @@ Vi benytter `sinon.fakeServer`:
     this.server = sinon.fakeServer.create();
 
     // Setup av en response
+    var statusCode = 200;
+    var headers = { "Content-Type": "application/json" };
+    var data = '[{ "id": 1, "name": "Kim Joar" }]'
     this.server.respondWith([statusCode, headers, data]);
 
     // Svar på AJAX-kallet
@@ -682,22 +923,17 @@ Vi benytter `sinon.fakeServer`:
     // Teardown
     this.server.restore();
 
-På den positive siden:
-
 * Mye, mye raskere tester
-* Responsen kan endres tilpasset testen
-
-… men:
-
-* Registerer ikke endringer i API-et.
+* Responsen kan enkelt tilpasses det vi ønsker å teste
+* ... men: Registerer ikke endringer i API-et
 
 ---
 
 # Oppgave
 
     .javascript
-    it("should populate the view when data is fetched", function() {
-        var response = '{"name":"Kim","followers_count":"2","friends_count":"1"}';
+    it("should show user info when rendered", function() {
+        var response = '{"name": "Kim","followers_count": "2","friends_count": "1"}';
         var options = {};
         var user = new BEKK.User({screen_name: "kimjoar"});
 
@@ -711,12 +947,16 @@ På den positive siden:
         // Bryt ned fakeServer
     });
 
+Hint:
+
+* Åpne Twitter-URLen som ligger i modellen, kopier responsen
+
 ---
 
 # Gjennomgang oppgave
 
     .javascript
-    it("should populate the view when data is fetched", function() {
+    it("should show user info when rendered", function() {
         var response = '{"name": "Kim","followers_count": "2","friends_count": "1"}';
         var options = {};
         var server = sinon.fakeServer.create();
@@ -773,7 +1013,7 @@ Og så kan viewet få beskjed ved suksess.
 Viewet sier fra hva den er interessert i å lytte på og får beskjed når
 handlingen skjer.
 
-Dette gir bedre decoupling. Skiller ansvaret ut der det hører hjemme.
+Dette gir løsere koblinger mellom model og view  og skiller ansvaret ut der det hører hjemme.
 
     .javascript
     var user = new BEKK.User();
@@ -804,7 +1044,7 @@ Hint: Tredje parameter i `on` er kontekst (altså `this`)
 Test:
 
     .javascript
-    it("should populate the view when data is fetched", function(){
+    it("should show user info when rendered", function(){
         // sinon fakeserver
 
         var user = new BEKK.User({screen_name: "kimjoar"});
@@ -840,22 +1080,23 @@ Det er grusomt kjedelig å skrive:
     .javascript
     this.server = sinon.fakeServer.create();
     this.server.respondWith([200, this.options, this.response]);
+    // ...
+    this.server.respond();
+    this.server.restore();
 
 Løsning: `fakeResponse` (se i `helper/fakeResponse.js`)
 
     .javascript
     fakeResponse(response, options, function() {
-        // callback som kalles i kontekst av et mocket AJAX-kall
+        // Alle AJAX-kall i denne callbacken vil få `response` som respons.
     });
-
-Når man etterhvert får store responser, fungerer den også bra med fixtures.
 
 ---
 
 # Oppgave
 
     .javascript
-    it("should populate the view when data is fetched", function(){
+    it("should show user info when rendered", function(){
         // refaktorer oppgaven til å benytte seg av fakeResponse
     });
 
@@ -866,7 +1107,7 @@ Når man etterhvert får store responser, fungerer den også bra med fixtures.
 Test:
 
     .javascript
-    it("should populate the view when data is fetched", function(){
+    it("should show user info when rendered", function(){
         var user = new BEKK.User({screen_name: "kimjoar"});
         user.dataType = "json";
 
@@ -907,8 +1148,6 @@ Alle DOM-eventene viewet lytter på, kan legges i `events`-property-en:
 Når flere komponenter kan være interessert i en handling som har skjedd.
 
 Løsere kobling mellom komponenter.
-
-Lettere kan legge til eller fjerne komponenter.
 
     .javascript
     Simple.events.on("new-status", function(data) {
@@ -971,6 +1210,6 @@ Et view kan bestå av flere views.
     });
 
     </textarea>
-    <div id="slideshow"></div>
+    <div id="slideshow" class="white"></div>
   </body>
 </html>
