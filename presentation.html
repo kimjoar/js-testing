@@ -32,18 +32,6 @@ Tine Kleivane
 
 ---
 
-#Tilbakemeldinger
-
-* Nevne at "rammeverket" er 80 linjer kode, slik at folk ser hvor lett det er.
-* Forklare jQuery-sliden enda bedre. 
-** Du ville ikke gjort det i Java
-** 1000 linjers js er kjiiiipt
-* Skrive om første modell-testen til å ta inn screen_name
-* Fikse navn på første Twitter-test
-* På sucess blir data satt på modellen.
-
----
-
 # Utbytte
 
 Se reelle eksempler på testing av JavaScript
@@ -62,26 +50,29 @@ Et forslag til abstraksjoner og en JavaScript-arkitektur
 Vi skal lære å *ikke* skrive kode som dette:
 
     .javascript
+    // page event
     jQuery(function() {
-      $("#profile form").submit(function(e) {
-        e.preventDefault();
+      //                 user event
+      $("#profile form").submit(function(event) {
+        event.preventDefault();
+        // network IO
         $.ajax({
           // ...
+
+          // network event
           success: function(data) {
+            // parsing respons
             var name = data.name ? data.name : "Unknown";
-            $("#profile .info").append("<h1>" + name + "</h1>");
+            // template
+            var html = "<h1>" + name + "</h1>";
+            // oppdatering av DOM-en
+            $("#profile .info").append(html);
           }
         });
       });
     }
 
-Dette er komplekst! Blant annet:
-
-* Lytter på at siden er klar
-* Lytter på submit
-* Håndterer nettverkskall
-* Parser respons
-* Templating
+Dette er komplekst og veldig vanskelig å teste!
 
 ---
 
@@ -297,7 +288,9 @@ Hva er et view?
 
 ---
 
-Figur med border rundt profilen.
+#Views
+
+![](images/monolog_views.png)
 
 ---
 
@@ -812,6 +805,13 @@ Bruker `model.url` (og evt `model.dataType`) i AJAX-kall:
 
     var user = new User();
     user.fetch(...)
+
+---
+
+.center
+
+![](images/model_fetch.png)
+
 
 ---
 
