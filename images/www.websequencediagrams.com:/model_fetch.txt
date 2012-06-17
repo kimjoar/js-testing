@@ -1,0 +1,16 @@
+title model.fetch
+
+userView->userView : bind eventen\nfetch:finished
+
+note over userView,user: userView.user
+note over user,model: user extend Simple.Model
+
+user->model: .fetch
+
+model->server: ajax request til model.url
+
+server->model: { k1: v1, k2: v2, ...}
+
+note over model: model.attrs =\nold + new
+
+note over model: trigger "fetch:finished"
