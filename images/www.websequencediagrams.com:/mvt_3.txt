@@ -1,0 +1,13 @@
+Some component -> View : render
+
+View -> Template \nHTML : render template
+
+Template \nHTML --> View : browser event
+
+View -> View : react \nview manipulation
+
+View -> Model : trigger action
+
+Model -> Model : react \ndata manipulation
+
+Model --> View : event
