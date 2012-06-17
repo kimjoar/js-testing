@@ -50,26 +50,29 @@ Et forslag til abstraksjoner og en JavaScript-arkitektur
 Vi skal lære å *ikke* skrive kode som dette:
 
     .javascript
+    // page event
     jQuery(function() {
-      $("#profile form").submit(function(e) {
-        e.preventDefault();
+      //                 user event
+      $("#profile form").submit(function(event) {
+        event.preventDefault();
+        // network IO
         $.ajax({
           // ...
+
+          // network event
           success: function(data) {
+            // parsing respons
             var name = data.name ? data.name : "Unknown";
-            $("#profile .info").append("<h1>" + name + "</h1>");
+            // template
+            var html = "<h1>" + name + "</h1>";
+            // oppdatering av DOM-en
+            $("#profile .info").append(html);
           }
         });
       });
     }
 
-Dette er komplekst! Blant annet:
-
-* Lytter på at siden er klar
-* Lytter på submit
-* Håndterer nettverkskall
-* Parser respons
-* Templating
+Dette er komplekst og veldig vanskelig å teste!
 
 ---
 
