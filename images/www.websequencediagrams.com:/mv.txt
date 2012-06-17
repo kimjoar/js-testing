@@ -1,0 +1,8 @@
+
+View -> Template \nHTML : render
+
+Template \nHTML -> View : browser events 
+Template \nHTML -> View : triggered events
+
+View -> View : react \nview manipulation
+
