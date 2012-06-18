@@ -1,0 +1,18 @@
+"Some component" -> model: initialize
+
+"Some component" -> view: render (model)
+
+view -> model: getX
+model -> view: X
+
+view -> template: render template
+
+template -> view: browser event
+
+view -> template: jQuery magic
+
+template -> view: data from DOM
+
+view -> model: setX
+
+note over model: Save data
