@@ -810,10 +810,9 @@ Bruker `model.url` (og evt `model.dataType`) i AJAX-kall:
 
 ---
 
-.center
+.middle.center
 
-![](images/model_fetch2.png)
-
+![](images/model_fetch_callback.png)
 
 ---
 
@@ -999,7 +998,7 @@ Hvorfor skal koden utenfra vite noe om hvordan viewet skal håndtere respons?
     });
 
 Eller, dersom vi flytter hentingen inn: hvorfor skal viewet være ansvarlig for
-å hente sin dataen?
+å hente dataen? Blant annet vanskeligere å gjenbruke.
 
 Dette burde være:
 
@@ -1007,6 +1006,14 @@ Dette burde være:
     user.fetch();
 
 Og så kan viewet få beskjed ved suksess.
+
+---
+
+.middle.center
+
+![](images/model_fetch_callback.png)
+
+Hva skjer når flere skal oppdateres?
 
 ---
 
@@ -1026,6 +1033,12 @@ Dette gir løsere koblinger mellom model og view  og skiller ansvaret ut der det
 
 Når et modell kaller `fetch` og kallet ender i suksess, trigges automatisk
 eventen `fetch:finished`
+
+---
+
+.middle.center
+
+![](images/model_fetch3.png)
 
 ---
 
