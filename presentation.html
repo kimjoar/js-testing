@@ -935,7 +935,7 @@ Vi benytter `sinon.fakeServer`:
     .javascript
     it("should show user info when rendered", function() {
         var response = '{"name": "Kim","followers_count": "2","friends_count": "1"}';
-        var options = {};
+        var headers = {};
         var user = new BEKK.User({screen_name: "kimjoar"});
 
         // sinon.js støtter ikke JSONP
@@ -959,9 +959,9 @@ Hint:
     .javascript
     it("should show user info when rendered", function() {
         var response = '{"name": "Kim","followers_count": "2","friends_count": "1"}';
-        var options = {};
+        var headers = {};
         var server = sinon.fakeServer.create();
-        server.respondWith([200, options , response]);
+        server.respondWith([200, headers, response]);
 
         var user = new BEKK.User({screen_name: "kimjoar"});
 
@@ -1094,7 +1094,7 @@ Det er grusomt kjedelig å skrive:
 
     .javascript
     this.server = sinon.fakeServer.create();
-    this.server.respondWith([200, this.options, this.response]);
+    this.server.respondWith([statusCode, headers, response]);
     // ...
     this.server.respond();
     this.server.restore();
@@ -1102,6 +1102,12 @@ Det er grusomt kjedelig å skrive:
 Løsning: `fakeResponse` (se i `helper/fakeResponse.js`)
 
     .javascript
+    // disse er default verdier, kan sende inn {} isteden
+    var options = {
+      statusCode: 200,
+      headers: { "Content-Type": "application/json" }
+    };
+
     fakeResponse(response, options, function() {
         // Alle AJAX-kall i denne callbacken vil få `response` som respons.
     });
