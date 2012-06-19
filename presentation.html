@@ -997,15 +997,6 @@ Hvorfor skal koden utenfra vite noe om hvordan viewet skal håndtere respons?
       }
     });
 
-Eller, dersom vi flytter hentingen inn: hvordan kan viewet vite når den som
-bruker viewet ønsker å vise data? Bør dette være viewet sitt ansvar?
-
-Dette burde være:
-
-    .javascript
-    user.fetch();
-
-Og så kan viewet få beskjed ved suksess.
 
 ---
 
@@ -1014,6 +1005,16 @@ Og så kan viewet få beskjed ved suksess.
 ![](images/model_fetch_callback.png)
 
 Hva skjer når flere skal oppdateres?
+
+---
+# Callback
+
+Dette burde være:
+
+    .javascript
+    user.fetch();
+
+Og så kan viewet få beskjed ved suksess.
 
 ---
 
