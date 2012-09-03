@@ -492,32 +492,6 @@ plassere dette i `el`.
 
 ---
 
-# Lagarkitektur
-
-Veldig enkelt å lage en lagarkitektur:
-
-    .javascript
-    BEKK.View = Simple.View.extend({
-      renderTemplate: function(data) {
-        var html = Mustache.to_html(this.template, data);
-        this.el.html(html);
-      }
-    });
-
-Lag nye views basert med `BEKK.View.extend`:
-
-    .javascript
-    BEKK.UserView = BEKK.View.extend({
-      // template, initialize, osv...
-
-      render: function() {
-        // delt funksjonalitet er bra!
-        this.renderTemplate(this.user);
-      }
-    });
-
----
-
 # Hvordan teste view-rendering?
 
     .javascript
@@ -566,7 +540,6 @@ Vi har lagt til en hjelpemetode for å sjekke innholdet i HTML-en til et view:
 
 Hint:
 
-* `BEKK.View` — Må kommenteres inn i `app.js`
 * `render`
 * `expect(...).toContainInEl()`
 
@@ -591,17 +564,18 @@ Test:
 Kode:
 
     .javascript
-    BEKK.UserView = BEKK.View.extend({
+    BEKK.UserView = Simple.View.extend({
 
       //...
 
       render: function() {
         var data = this.user;
-        this.renderTemplate(data);
-      }
-    });
+        var html = Mustache.to_html(this.template, data);
+        this.el.html(html);
+      },
 
-Vi extend-er fra `BEKK.View` for å samle felles view-logikk.
+
+    });
 
 ---
 
@@ -749,13 +723,14 @@ Test:
 Kode:
 
     .javascript
-      BEKK.UserView = BEKK.View.extend({
+      BEKK.UserView = Simple.View.extend({
 
         //...
 
         render: function() {
           var data = this.user.attrs();
-          this.renderTemplate(data);
+          var html = Mustache.to_html(this.template, data);
+          this.el.html(html);
         }
       });
 
@@ -1140,6 +1115,32 @@ Test:
         expect(view.DOM("h2")).toHaveText("Kim Joar Bekkelund");
         expect(view.DOM(".followers")).toHaveText("200");
         expect(view.DOM(".following")).toHaveText("100");
+    });
+
+---
+
+# Lagarkitektur
+
+Veldig enkelt å lage en lagarkitektur:
+
+    .javascript
+    BEKK.View = Simple.View.extend({
+      renderTemplate: function(data) {
+        var html = Mustache.to_html(this.template, data);
+        this.el.html(html);
+      }
+    });
+
+Lag nye views basert med `BEKK.View.extend`:
+
+    .javascript
+    BEKK.UserView = BEKK.View.extend({
+      // template, initialize, osv...
+
+      render: function() {
+        // delt funksjonalitet er bra!
+        this.renderTemplate(this.user);
+      }
     });
 
 ---
