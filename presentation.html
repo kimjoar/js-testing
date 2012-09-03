@@ -34,14 +34,11 @@ Tine Kleivane
 
 # Må fikses
 
-* Introduser `BEKK.View` og lagarkitektur helt til slutt.
 * Gå gjennom kurset selv. Gjøre `app.js` så enkel som mulig. Pass på hvilke ting som må flyttes.
 * Høynivå figur i begynnelsen. MVC-ish? Forklare sammenhengen.
-* Live-kode oppgave 1?
 * Tydeliggjøre hvorfor vi sender inn avhengigheter
 * Figur mellom view-monolog-bildet og neste slide der vi viser sammenhengen mellom data, template, view og DOM.
 * Mindre fokus på Simple.js. Dette er en bra måte å lære Backbone. Mindre kompleksitet.
-* Enda tydeligere på hva Simple.js gjør, f.eks. `initialize`
 
 ---
 
@@ -345,8 +342,102 @@ God dokumentasjon på
 Hvordan lage et nytt view:
 
     .javascript
+    var UserView = function(options) {
+      // Kjøres automatisk når et view initialiseres
+      // Tar imot et argument, en options-hash
+
+      this.el = options.el;
+    }
+
+
+
+
+
+
+
+
+    &nbsp;
+
+---
+
+# Views
+
+Hvordan lage et nytt view:
+
+    .javascript
+    var UserView = function(options) {
+      // Kjøres automatisk når et view initialiseres
+      // Tar imot et argument, en options-hash
+
+      this.el = options.el;
+    }
+
+
+
+
+
+
+    // Lager en instans (og sender med `el`)
+    var view = new UserView({ el: $("#profile") });
+    &nbsp;
+
+---
+
+# Views
+
+Hvordan lage et nytt view:
+
+    .javascript
+    var UserView = function(options) {
+      // Kjøres automatisk når et view initialiseres
+      // Tar imot et argument, en options-hash
+
+      this.el = options.el;
+    }
+    UserView.prototype.showUserInfo() {
+      // View-logikk og rendering
+
+      // Her kan vi jobbe med `this.el`
+    }
+
+    // Lager en instans (og sender med `el`)
+    var view = new UserView({ el: $("#profile") });
+    &nbsp;
+
+---
+
+# Views
+
+Hvordan lage et nytt view:
+
+    .javascript
+    var UserView = function(options) {
+      // Kjøres automatisk når et view initialiseres
+      // Tar imot et argument, en options-hash
+
+      this.el = options.el;
+    }
+    UserView.prototype.showUserInfo() {
+      // View-logikk og rendering
+
+      // Her kan vi jobbe med `this.el`
+    }
+
+    // Lager en instans (og sender med `el`)
+    var view = new UserView({ el: $("#profile") });
+    view.showUserInfo();
+
+---
+
+# Views
+
+Hvordan lage et nytt view:
+
+    .javascript
     // Vi kan lage views ved å bruke `extend`
     var UserView = Simple.View.extend({
+
+
 
 
 
@@ -374,6 +465,8 @@ Hvordan lage et nytt view:
     .javascript
     // Vi kan lage views ved å bruke `extend`
     var UserView = Simple.View.extend({
+
+
 
 
 
@@ -408,6 +501,8 @@ Hvordan lage et nytt view:
       initialize: function(options) {
         // Kjøres automatisk når et view initialiseres
         // Tar imot et argument, en options-hash
+
+        this.el = options.el;
       },
 
 
@@ -435,9 +530,11 @@ Hvordan lage et nytt view:
       initialize: function(options) {
         // Kjøres automatisk når et view initialiseres
         // Tar imot et argument, en options-hash
+
+        this.el = options.el;
       },
 
-      showUserInfo: function(){
+      showUserInfo: function() {
         // View-logikk og rendering
       };
     });
@@ -487,7 +584,7 @@ Oppgaven:
 
 .middle.center
 
-Gjennomgang oppgave
+Livekoding
 
 ---
 
@@ -1078,7 +1175,7 @@ Test:
 Kode:
 
     .javascript
-    BEKK.UserView = BEKK.View.extend({
+    BEKK.UserView = Simple.View.extend({
       initialize: function(options) {
         // ...
         this.user.on("fetch:finished", this.render, this);
