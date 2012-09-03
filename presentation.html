@@ -13,6 +13,7 @@
       .slide ul { padding: 0; margin: 1.1em 0; }
       .slide img { max-width: 100%; max-height: 600px; }
       #slideshow .slide .content ul li { padding-left: 1.3em; }
+      #slideshow .slide .content.big-code pre code { font-size: 20px; }
     </style>
   </head>
   <body>
@@ -22,7 +23,7 @@
 
 # Bygg en testbar Javascript-applikasjon
 
-## Workshop 19/06/2012
+## Workshop 17/09/2012
 
 Kim Joar Bekkelund
 
@@ -54,40 +55,37 @@ Tine Kleivane
 
 ---
 
-# Utbytte
+# Idag skal vi
 
 Se reelle eksempler på testing av JavaScript
 
-* Både gode og dårlige måter
+* Både gode og dårlige måter å teste
 * Diskutere virkningene av denne typen testing
 
-Et forslag til abstraksjoner og en JavaScript-arkitektur
+Se et forslag til abstraksjoner og en JavaScript-arkitektur
 
 * Struktur å måle både andre rammeverk og egne applikasjoner mot
+* Nye ideer rundt hvordan JavaScript kan struktures for testing og vedlikehold
 
 ---
+
+.big-code
 
 # Utbytte
 
 Vi skal lære å *ikke* skrive kode som dette:
 
     .javascript
-    // page event
     jQuery(function() {
-      //                 user event
       $("#profile form").submit(function(event) {
         event.preventDefault();
-        // network IO
-        $.ajax({
-          // ...
 
-          // network event
+        $.ajax({
+          url: "/profile",
+          type: "POST",
           success: function(data) {
-            // parsing respons
             var name = data.name ? data.name : "Unknown";
-            // template
             var html = "<h1>" + name + "</h1>";
-            // oppdatering av DOM-en
             $("#profile .info").append(html);
           }
         });
@@ -103,6 +101,8 @@ Dette er komplekst og veldig vanskelig å teste!
 Men først …
 
 ---
+
+.big-code
 
 # Intro til Jasmine
 
@@ -131,6 +131,8 @@ Men først …
 * Brukes på flere BEKK-prosjekter
 
 ---
+
+.big-code
 
 # Intro til Jasmine
 
@@ -159,6 +161,8 @@ Men først …
 * Brukes på flere BEKK-prosjekter
 
 ---
+
+.big-code
 
 # Intro til Jasmine
 
@@ -187,6 +191,8 @@ Men først …
 * Brukes på flere BEKK-prosjekter
 
 ---
+
+.big-code
 
 # Intro til Jasmine
 
@@ -215,6 +221,8 @@ Men først …
 * Brukes på flere BEKK-prosjekter
 
 ---
+
+.big-code
 
 # Intro til Jasmine
 
@@ -243,6 +251,8 @@ Men først …
 * Brukes på flere BEKK-prosjekter
 
 ---
+
+.big-code
 
 # Intro til Jasmine
 
@@ -431,7 +441,7 @@ Hvordan lage et nytt view:
 
 # Views
 
-Hvordan lage et nytt view:
+Hvordan lage et nytt view med Simple.js:
 
     .javascript
     // Vi kan lage views ved å bruke `extend`
@@ -460,7 +470,7 @@ Hvordan lage et nytt view:
 
 # Views
 
-Hvordan lage et nytt view:
+Hvordan lage et nytt view med Simple.js:
 
     .javascript
     // Vi kan lage views ved å bruke `extend`
@@ -489,7 +499,7 @@ Hvordan lage et nytt view:
 
 # Views
 
-Hvordan lage et nytt view:
+Hvordan lage et nytt view med Simple.js:
 
     .javascript
     // Vi kan lage views ved å bruke `extend`
@@ -518,7 +528,7 @@ Hvordan lage et nytt view:
 
 # Views
 
-Hvordan lage et nytt view:
+Hvordan lage et nytt view med Simple.js:
 
     .javascript
     // Vi kan lage views ved å bruke `extend`
