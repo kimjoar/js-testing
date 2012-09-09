@@ -968,7 +968,7 @@ Bruker `model.url` (og evt `model.dataType`) i AJAX-kall:
     var User = Simple.Model.extend({
       url: "/user",
 
-      dataType: "jsonp" // dersom man trenger å endre bort fra JSON
+      dataType: "jsonp" // dersom man trenger noe annet enn JSON
     });
 
     var user = new User();
@@ -1352,7 +1352,11 @@ Alle DOM-eventene viewet lytter på, kan legges i `events`-property-en:
           // "event selektor": "funksjon"
         },
 
-        editHeading: function() {}
+        editHeading: function(events) {
+            events.preventDefault();
+
+            // …
+        }
     });
 
 ---
