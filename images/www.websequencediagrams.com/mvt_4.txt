@@ -1,6 +1,8 @@
 "Some component" -> model: initialize
 
-"Some component" -> view: render (model)
+"Some component" -> view: initialize (model)
+
+"Some component" -> view: render
 
 view -> model: getX
 model -> view: X
