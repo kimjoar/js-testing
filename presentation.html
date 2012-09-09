@@ -594,6 +594,8 @@ To aktuelle filer:
 
 For å kjøre testene, åpne `test/SpecRunner.html`
 
+`var UserView` vs `BEKK.UserView`
+
 Oppgaven:
 
     .javascript
@@ -627,7 +629,7 @@ Det er metoden `render` sitt ansvar er å interpolere data i template og
 plassere dette i `el`.
 
     .javascript
-    var UserView = Simple.View.extend({
+    BEKK.UserView = Simple.View.extend({
       template: '<h2>{{name}}</h2>',
 
       initialize: function(options) {
@@ -651,6 +653,17 @@ Hva er problemet?
 
 For å teste viewet trenger vi tilgang til `.javascript $("#profile")`
 
+---
+
+# Hvordan teste view-rendering?
+
+    .javascript
+    var userView = new BEKK.UserView({ el: $("#profile") });
+
+Hva er problemet?
+
+For å teste viewet trenger vi tilgang til `.javascript $("#profile")`
+
 Mulig løsning:
 
 * Sette alt opp i DOM-en, for eksempel legg relevant HTML i `test/SpecRunner.html`
@@ -661,11 +674,41 @@ Mye oppsett, mye kopiering, og generelt sett ganske kjipt.
 
 # Bedre løsning
 
-Vi lager et dummy-objekt som bare finnes i minne, som for eksempel
-`.javascript $("<div></div>")`. Send inn de elementene viewet forventer å få
-som input.
+Vi lager et dummy-objekt som bare finnes i minne, for eksempel:
 
-Eksempel:
+    .javascript
+    $("<div></div>")`
+
+Send inn de elementene viewet forventer å få som input.
+
+---
+
+# Bedre løsning
+
+Vi lager et dummy-objekt som bare finnes i minne, for eksempel:
+
+    .javascript
+    $("<div></div>")`
+
+Send inn de elementene viewet forventer å få som input.
+
+Instansiering av `UserView`:
+
+    .javascript
+    var view = new BEKK.UserView({ el: $("<div></div>" ) })
+
+---
+
+# Bedre løsning
+
+Vi lager et dummy-objekt som bare finnes i minne, for eksempel:
+
+    .javascript
+    $("<div></div>")`
+
+Send inn de elementene viewet forventer å få som input.
+
+Instansiering av `UserView`:
 
     .javascript
     var view = new BEKK.UserView({ el: $("<div></div>" ) })
