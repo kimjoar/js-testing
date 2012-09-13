@@ -2,9 +2,9 @@ title model.fetch
 
 note over "Some component": har initialisert "user"
 
-Some component->userView: initialize (user)
+Some component->userView: new UserView (user)
 
-Some component->user: fetch (callback)
+Some component->user: user.fetch (callback)
 
 user->server: ajax request til user.url
 
@@ -14,4 +14,4 @@ note over user: user.attrs =\nold + new
 
 user --> "Some component": "success trigger callback"
 
-"Some component" -> userView: oppdater
+"Some component" -> userView: userView.render

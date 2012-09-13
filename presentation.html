@@ -344,6 +344,131 @@ Hva er et view?
 
 ---
 
+#Views
+
+    .html
+    <body>
+        <div class="wrapper">
+            <div id="header">
+                <h1><a href="/">Monolog</a></h1>
+            </div>
+
+            <div class="container">
+                <div id="status-form">
+                  …
+                </div>
+
+                <div id="monologs">
+                  …
+                </div>
+            </div>
+
+            <div id="profile">
+                <h2>{{name}}</h2>
+                <img src="{{profile_image_url}}" alt="{{name}}">
+                <ul>
+                  <li>Followers: <span class="followers">{{followers_count}}</span></li>
+                  <li>Following: <span class="following">{{friends_count}}</span></li>
+                  <li>Monologs: <span class="monologs">{{monologs}}</span></li>
+                </ul>
+            </div>
+        </div>
+    </body>
+
+---
+
+# Views
+
+Hvordan lage et nytt view:
+
+    .javascript
+    var UserView = function(options) {
+      // Kjøres automatisk når et view initialiseres
+      // Tar imot et argument, en options-hash
+
+      this.el = options.el;
+    }
+
+
+
+
+
+
+
+
+    &nbsp;
+
+---
+
+# Views
+
+Hvordan lage et nytt view:
+
+    .javascript
+    var UserView = function(options) {
+      // Kjøres automatisk når et view initialiseres
+      // Tar imot et argument, en options-hash
+
+      this.el = options.el;
+    }
+
+
+
+
+
+
+    // Lager en instans (og sender med `el`)
+    var view = new UserView({ el: $("#profile") });
+    &nbsp;
+
+---
+
+# Views
+
+Hvordan lage et nytt view:
+
+    .javascript
+    var UserView = function(options) {
+      // Kjøres automatisk når et view initialiseres
+      // Tar imot et argument, en options-hash
+
+      this.el = options.el;
+    }
+    UserView.prototype.showUserInfo() {
+      // View-logikk og rendering
+
+      // Her kan vi jobbe med `this.el`
+    }
+
+    // Lager en instans (og sender med `el`)
+    var view = new UserView({ el: $("#profile") });
+    &nbsp;
+
+---
+
+# Views
+
+Hvordan lage et nytt view:
+
+    .javascript
+    var UserView = function(options) {
+      // Kjøres automatisk når et view initialiseres
+      // Tar imot et argument, en options-hash
+
+      this.el = options.el;
+    }
+    UserView.prototype.showUserInfo() {
+      // View-logikk og rendering
+
+      // Her kan vi jobbe med `this.el`
+    }
+
+    // Lager en instans (og sender med `el`)
+    var view = new UserView({ el: $("#profile") });
+    view.showUserInfo();
+
+---
+
 # Views
 
 Et view eier et DOM-element, som vi vil kalle `el`.
@@ -362,98 +487,6 @@ Det er egentlig bare noen små abstraksjoner og ca 100 linjer totalt.
 
 God dokumentasjon på
 [http://simplejs.org](http://simplejs.org)
-
----
-
-# Views
-
-Hvordan lage et nytt view uten rammeverk:
-
-    .javascript
-    var UserView = function(options) {
-      // Kjøres automatisk når et view initialiseres
-      // Tar imot et argument, en options-hash
-
-      this.el = options.el;
-    }
-
-
-
-
-
-
-
-
-    &nbsp;
-
----
-
-# Views
-
-Hvordan lage et nytt view uten rammeverk:
-
-    .javascript
-    var UserView = function(options) {
-      // Kjøres automatisk når et view initialiseres
-      // Tar imot et argument, en options-hash
-
-      this.el = options.el;
-    }
-
-
-
-
-
-
-    // Lager en instans (og sender med `el`)
-    var view = new UserView({ el: $("#profile") });
-    &nbsp;
-
----
-
-# Views
-
-Hvordan lage et nytt view uten rammeverk:
-
-    .javascript
-    var UserView = function(options) {
-      // Kjøres automatisk når et view initialiseres
-      // Tar imot et argument, en options-hash
-
-      this.el = options.el;
-    }
-    UserView.prototype.showUserInfo() {
-      // View-logikk og rendering
-
-      // Her kan vi jobbe med `this.el`
-    }
-
-    // Lager en instans (og sender med `el`)
-    var view = new UserView({ el: $("#profile") });
-    &nbsp;
-
----
-
-# Views
-
-Hvordan lage et nytt view uten rammeverk:
-
-    .javascript
-    var UserView = function(options) {
-      // Kjøres automatisk når et view initialiseres
-      // Tar imot et argument, en options-hash
-
-      this.el = options.el;
-    }
-    UserView.prototype.showUserInfo() {
-      // View-logikk og rendering
-
-      // Her kan vi jobbe med `this.el`
-    }
-
-    // Lager en instans (og sender med `el`)
-    var view = new UserView({ el: $("#profile") });
-    view.showUserInfo();
 
 ---
 
@@ -594,8 +627,6 @@ To aktuelle filer:
 
 For å kjøre testene, åpne `test/SpecRunner.html`
 
-`var UserView` vs `BEKK.UserView`
-
 Oppgaven:
 
     .javascript
@@ -633,6 +664,7 @@ plassere dette i `el`.
       template: '<h2>{{name}}</h2>',
 
       initialize: function(options) {
+        this.el = options.el;
         this.user = options.user;
       },
 
@@ -674,10 +706,10 @@ Mye oppsett, mye kopiering, og generelt sett ganske kjipt.
 
 # Bedre løsning
 
-Vi lager et dummy-objekt som bare finnes i minne, for eksempel:
+Vi lager et dummy-objekt som bare finnes i minnet, for eksempel:
 
     .javascript
-    $("<div></div>")`
+    $("<div></div>")
 
 Send inn de elementene viewet forventer å få som input.
 
@@ -685,10 +717,10 @@ Send inn de elementene viewet forventer å få som input.
 
 # Bedre løsning
 
-Vi lager et dummy-objekt som bare finnes i minne, for eksempel:
+Vi lager et dummy-objekt som bare finnes i minnet, for eksempel:
 
     .javascript
-    $("<div></div>")`
+    $("<div></div>")
 
 Send inn de elementene viewet forventer å få som input.
 
@@ -697,14 +729,19 @@ Instansiering av `UserView`:
     .javascript
     var view = new BEKK.UserView({ el: $("<div></div>" ) })
 
+Istedenfor:
+
+    .javascript
+    var view = new BEKK.UserView({ el: $("#profile") });
+
 ---
 
 # Bedre løsning
 
-Vi lager et dummy-objekt som bare finnes i minne, for eksempel:
+Vi lager et dummy-objekt som bare finnes i minnet, for eksempel:
 
     .javascript
-    $("<div></div>")`
+    $("<div></div>")
 
 Send inn de elementene viewet forventer å få som input.
 
@@ -712,6 +749,11 @@ Instansiering av `UserView`:
 
     .javascript
     var view = new BEKK.UserView({ el: $("<div></div>" ) })
+
+Istedenfor:
+
+    .javascript
+    var view = new BEKK.UserView({ el: $("#profile") });
 
 Vi har lagt til en hjelpemetode for å sjekke innholdet i HTML-en til et view:
 
@@ -762,11 +804,9 @@ Kode:
       //...
 
       render: function() {
-        var data = this.user;
-        var html = Mustache.to_html(this.template, data);
+        var html = Mustache.to_html(this.template, this.user);
         this.el.html(html);
-      },
-
+      }
 
     });
 
@@ -780,13 +820,18 @@ Men nå sender vi med `el` til alle views og kan dermed slå opp lokalt i
 viewets DOM med `view.DOM`-funksjonen.
 
     .javascript
-    // går fra
     $("#profile form")
+    // eller
+    $("#profile").find("form")
 
-    // til
+    // er det samme som
     userView.DOM("form")
 
-    // disse er ekvivalente om `#profile` er `el`-en til `userView`
+Disse er ekvivalente dersom:
+
+    .javascript
+    var userView = new UserView({ el: $("#profile") });
+
 
 Løsningen med bruk av `toContainInEl` blir for enkel siden den søker etter en
 string i hele HTML-en.
@@ -802,8 +847,7 @@ Så la oss bruke `DOM`-funksjonen istedenfor `toContainInEl`:
         // sjekk at `h2` inneholder korrekt navn
     });
 
-(Målet i denne oppgaven er å refaktorere den forrige testen, ikke skrive ny
-funksjonalitet.)
+Refaktorer den forrige testen!
 
 ---
 
@@ -823,17 +867,15 @@ Test:
         expect(view.DOM("h2")).toHaveText("Test Testesen");
     });
 
-Ingen implementasjon, følger med Simple.js
-
 ---
 
-# Model
+# Modell
 
 Har ansvar for data og opphenting av denne
 
 ---
 
-# Model
+# Modell
 
 Har ansvar for data og opphenting av denne
 
@@ -841,7 +883,7 @@ Har ansvar for data og opphenting av denne
 
 ---
 
-# Model
+# Modell
 
 Har ansvar for data og opphenting av denne
 
@@ -855,7 +897,7 @@ Noen sentrale funksjoner:
 
 ---
 
-# Model
+# Modell
 
 Har ansvar for data og opphenting av denne
 
@@ -949,7 +991,11 @@ Filer:
 
 ---
 
-# Model
+# Løsningsforslag
+
+---
+
+# Modell
 
 Simple.js inneholder en `fetch`-metode som tar imot et success-callback:
 
@@ -988,21 +1034,22 @@ Bruker `model.url` (og evt `model.dataType`) i AJAX-kall:
     it("should show user info when rendered", function() {
         var view;
 
-        // sett opp modell og view, og start henting av data
-        // runs(function(){
-        // });
+        runs(function(){
+          // sett opp modell og view, og start henting av data
+        });
 
         // vi venter på å motta svar fra Twitter
-        // waits(1000);
+        waits(1000);
 
-        // sjekk at `el` har rett innhold
-        // runs(function(){
-        // });
+        runs(function(){
+          // sjekk at `el` har rett innhold
+        });
     });
 
-Hint:
+HUSK:
 
 * Sett Twitter-brukernavnet på modellen (ved initialisering)
+* URL: https://api.twitter.com/1/users/show.json?screen_name=NAVN
 
 ---
 
@@ -1117,6 +1164,7 @@ Vi benytter `sinon.fakeServer`:
 Hint:
 
 * Åpne Twitter-URLen som ligger i modellen, kopier responsen
+* OBS! Sett `dataType` til `json`
 
 ---
 
@@ -1154,7 +1202,7 @@ Hint:
 
 # Callback
 
-Hvorfor skal koden utenfra vite noe om hvordan viewet skal håndtere respons?
+Hvorfor skal testen vite noe om hvordan viewet skal håndtere respons?
 
     .javascript
     user.fetch({
@@ -1180,7 +1228,7 @@ Dette burde være:
     .javascript
     user.fetch();
 
-Og så kan viewet få beskjed ved suksess.
+Og så kan viewet få beskjed ved suksess eller feil.
 
 ---
 
@@ -1192,11 +1240,16 @@ handlingen skjer.
 Dette gir løsere koblinger mellom model og view  og skiller ansvaret ut der det hører hjemme.
 
     .javascript
-    var user = new BEKK.User();
+    var user  = new BEKK.User();
+    var admin = new BEKK.User();
 
-    user.on("test", function() { console.log("TESTING!"); });
+    user.on("error",    function() { console.log("Fail");  });
+    user.on("success",  function() { console.log("Hei");   });
+    user.on("success",  function() { console.log("Test");  });
+    admin.on("success", function() { console.log("Admin"); });
 
-    user.trigger("test");
+    user.trigger("success");
+    // Vil skrive ut "Hei" og "Test"
 
 Når et modell kaller `fetch` og kallet ender i suksess, trigges automatisk
 eventen `fetch:finished`
@@ -1217,7 +1270,10 @@ eventen `fetch:finished`
         // benytte seg av events på ferdig henting av data
     });
 
-Hint: Tredje parameter i `on` er kontekst (altså `this`)
+Hint:
+
+* Tredje parameter i `on` er kontekst (altså `this`)
+* `fetch:finished` fyres når fetch er ferdig
 
 ---
 
@@ -1269,6 +1325,8 @@ Det er grusomt kjedelig å skrive:
 Løsning: `fakeResponse` (se i `helper/fakeResponse.js`)
 
     .javascript
+    var response = '{"name": "Kim","followers_count": "2","friends_count": "1"}';
+
     // disse er default verdier, kan sende inn {} isteden
     var options = {
       statusCode: 200,
@@ -1296,12 +1354,19 @@ Test:
 
     .javascript
     it("should show user info when rendered", function(){
+        var response = '{"name": "Kim","followers_count": "2","friends_count": "1"}';
+
+        var options = {
+          statusCode: 200,
+          headers: { "Content-Type": "application/json" }
+        };
+
         var user = new BEKK.User({screen_name: "kimjoar"});
         user.dataType = "json";
 
         var view = new BEKK.UserView({ user: user, el: $('<div></div>')  });
 
-        fakeResponse(this.response, this.options, function() {
+        fakeResponse(response, options, function() {
           user.fetch();
         });
 
