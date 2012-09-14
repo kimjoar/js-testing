@@ -1219,18 +1219,15 @@ Dette gir løsere koblinger mellom model og view  og skiller ansvaret ut der det
 
     .javascript
     var user  = new BEKK.User();
-    var admin = new BEKK.User();
-
     user.on("error",    function() { console.log("Fail");  });
     user.on("success",  function() { console.log("Hei");   });
     user.on("success",  function() { console.log("Test");  });
+
+    var admin = new BEKK.User();
     admin.on("success", function() { console.log("Admin"); });
 
     user.trigger("success");
     // Vil skrive ut "Hei" og "Test"
-
-Når et modell kaller `fetch` og kallet ender i suksess, trigges automatisk
-eventen `fetch:finished`
 
 ---
 
@@ -1251,7 +1248,7 @@ eventen `fetch:finished`
 Hint:
 
 * Tredje parameter i `on` er kontekst (altså `this`)
-* `fetch:finished` fyres når fetch er ferdig
+* `fetch:finished` fyres når `fetch` er ferdig
 
 ---
 
@@ -1312,8 +1309,9 @@ Løsning: `fakeResponse` (se i `helper/fakeResponse.js`)
     };
 
     fakeResponse(response, options, function() {
-        // Alle AJAX-kall i denne callbacken vil få `response` som respons.
+        // alle AJAX-kall som kalles i denne indre funksjonen ...
     });
+    // ... vil ha ha mottatt `response` her
 
 ---
 
@@ -1402,6 +1400,11 @@ Alle DOM-eventene viewet lytter på, kan legges i `events`-property-en:
         }
     });
 
+Kan for eksempel testes med:
+
+    .javascript
+    userView.DOM("h1").click();
+
 ---
 
 # Globale events
@@ -1441,6 +1444,25 @@ for flere matchers.
 
 ---
 
+# Sammensatte views
+
+Et view kan bestå av flere views.
+
+    .javascript
+    BEKK.MasterView = BEKK.View.extend({
+      initialize: function(options) {
+        this.subView = new BEKK.SubView({ el: this.DOM("#sub") });
+        this.otherView = new BEKK.OtherView({ el: this.DOM("#other")});
+      },
+
+      render: function() {
+        this.subView.render();
+        this.otherView.render();
+      }
+    });
+
+---
+
 # Oppgave
 
 * `newStatusViewSpec.js`
@@ -1452,23 +1474,15 @@ Implementer `BEKK.start()` slik at app-en kjører.
 
 ---
 
-# Sammensatte views
+# Avsluttende tanker
 
-Et view kan bestå av flere views.
+* Grove tester
+* Teste gjennom stacken
+* Mock ajax (fra starten av)
+* Gjør det på ny kode, legacy JavaScript er PAIN!
+* Diskuter arkitektur, diskuter kode, lær — JavaScript-testing er ikke enkelt
 
-    .javascript
-    BEKK.MasterView = BEKK.View.extend({
-     initialize: function(options) {
-
-      this.subView = new BEKK.SubView({ el: this.DOM("#sub") });
-      this.otherView = new BEKK.OtherView({ el: this.DOM("#other")});
-     },
-
-     render: function() {
-      this.subView.render();
-      this.otherView.render();
-     }
-    });
+Start tidlig og vær streng
 
     </textarea>
     <div id="slideshow" class="white"></div>
