@@ -1,5 +1,3 @@
-// --- Oppgave X ---
-
 // eksempel-url: https://api.twitter.com/1/users/show.json?screen_name=kimjoar&include_entities=true
 BEKK.User = Simple.Model.extend({
   dataType: "jsonp",
@@ -8,7 +6,17 @@ BEKK.User = Simple.Model.extend({
   }
 });
 
-// --- Oppgave X ---
+// ----------
+
+// Husk å legg høyt oppe, siden andre bruker `BEKK.View`!
+// Vi legger delt view-funksjonalitet i et eget lag i arkiteturen
+BEKK.View = Simple.View.extend({
+  renderTemplate: function(data) {
+    this.el.html(Mustache.to_html(this.template, data || {}));
+  }
+});
+
+// ----------
 
 BEKK.Monologs = Simple.Model.extend({
   initialize: function() {
@@ -25,7 +33,7 @@ BEKK.Monologs = Simple.Model.extend({
   }
 });
 
-// --- Oppgave X ---
+// ----------
 
 BEKK.NewStatusView = BEKK.View.extend({
   template: '<form id="new-status" action="#">' +
@@ -35,21 +43,11 @@ BEKK.NewStatusView = BEKK.View.extend({
     '</form>'
 });
 
-// --- Oppgave X ---
+// ----------
 
 BEKK.StatusesView = BEKK.View.extend({
   template: '<h2>Oppdateringer</h2>' +
     '<ul>' +
       '{{#monologs}}<li>{{.}}</li>{{/monologs}}' +
     '</ul>'
-});
-
-// --- Oppgave X ---
-
-// Husk å legg høyt oppe, siden andre bruker `BEKK.View`!
-// Vi legger delt view-funksjonalitet i et eget lag i arkiteturen
-BEKK.View = Simple.View.extend({
-  renderTemplate: function(data) {
-    this.el.html(Mustache.to_html(this.template, data || {}));
-  }
 });
