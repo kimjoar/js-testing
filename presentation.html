@@ -981,6 +981,19 @@ Filer:
 
 # Løsningsforslag
 
+    .javascript
+    BEKK.start = function() {
+      // initialiserer modell
+      var user = new BEKK.User();
+      user.attr("name", "Kim Joar Bekkelund");
+
+      // initialiserer view
+      var userView = new BEKK.UserView({ el: $("#profile"), user: user });
+
+      // rendrer view
+      userView.render();
+    };
+
 ---
 
 # Modell
