@@ -10,7 +10,7 @@ xdescribe("Monologs", function() {
       expect(this.monologs.attr("monologs")).toEqual(["test1", "test2"]);
     });
 
-    xit("adds a monolog on 'new-status' event", function() {
+    it("adds a monolog on 'new-status' event", function() {
     });
 
     it("triggers 'event' when monolog added", function() {
