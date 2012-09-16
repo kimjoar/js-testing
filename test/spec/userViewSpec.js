@@ -1,6 +1,6 @@
 describe("The user view", function(){
 
-    xit("should have a user when initialized", function(){
+    it("should have a user when initialized", function(){
         var user = {};
 
         // ...
