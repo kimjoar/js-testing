@@ -1,0 +1,14 @@
+Model -> View : data
+
+View -> Template \nHTML : render
+
+Template \nHTML -> View : browser events 
+Template \nHTML -> View : triggered events
+
+View -> View : react \nview manipulation
+
+View -> Model : trigger action
+
+Model -> Model : react \ndata manipulation
+
+note over Model : repeat

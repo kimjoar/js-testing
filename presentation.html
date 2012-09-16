@@ -13,6 +13,7 @@
       .slide ul { padding: 0; margin: 1.1em 0; }
       .slide img { max-width: 100%; max-height: 600px; }
       #slideshow .slide .content ul li { padding-left: 1.3em; }
+      #slideshow .slide .content.big-code pre code { font-size: 20px; }
     </style>
   </head>
   <body>
@@ -22,7 +23,7 @@
 
 # Bygg en testbar Javascript-applikasjon
 
-## Workshop 19/06/2012
+## Workshop 17/09/2012
 
 Kim Joar Bekkelund
 
@@ -32,40 +33,63 @@ Tine Kleivane
 
 ---
 
-# Utbytte
+.middle
+
+Parprogrammering er bra
+
+Har du en del erfaring? Hjelp de rundt deg :)
+
+Spør underveis!
+
+---
+
+# Idag skal vi
 
 Se reelle eksempler på testing av JavaScript
 
-* Både gode og dårlige måter
+* Både gode og dårlige måter å teste
 * Diskutere virkningene av denne typen testing
 
-Et forslag til abstraksjoner og en JavaScript-arkitektur
+Se et forslag til abstraksjoner og en JavaScript-arkitektur
 
 * Struktur å måle både andre rammeverk og egne applikasjoner mot
+* Nye ideer rundt hvordan JavaScript kan struktures for testing og vedlikehold
 
 ---
+
+.middle.center
+
+Dette er ikke et kurs i et rammeverk
+
+&nbsp;
+
+---
+
+.middle.center
+
+Dette er ikke et kurs i et rammeverk
+
+… men et kurs om arkitektur og testing
+
+---
+
+.big-code
 
 # Utbytte
 
 Vi skal lære å *ikke* skrive kode som dette:
 
     .javascript
-    // page event
     jQuery(function() {
-      //                 user event
       $("#profile form").submit(function(event) {
         event.preventDefault();
-        // network IO
-        $.ajax({
-          // ...
 
-          // network event
+        $.ajax({
+          url: "/profile",
+          type: "POST",
           success: function(data) {
-            // parsing respons
             var name = data.name ? data.name : "Unknown";
-            // template
             var html = "<h1>" + name + "</h1>";
-            // oppdatering av DOM-en
             $("#profile .info").append(html);
           }
         });
@@ -81,6 +105,8 @@ Dette er komplekst og veldig vanskelig å teste!
 Men først …
 
 ---
+
+.big-code
 
 # Intro til Jasmine
 
@@ -105,10 +131,12 @@ Men først …
 
     });
 
-* BDD-rammeverk - vi beskriver oppførsel
+* BDD-rammeverk &mdash; vi beskriver oppførsel
 * Brukes på flere BEKK-prosjekter
 
 ---
+
+.big-code
 
 # Intro til Jasmine
 
@@ -133,10 +161,12 @@ Men først …
       });
     });
 
-* BDD-rammeverk - vi beskriver oppførsel
+* BDD-rammeverk &mdash; vi beskriver oppførsel
 * Brukes på flere BEKK-prosjekter
 
 ---
+
+.big-code
 
 # Intro til Jasmine
 
@@ -161,10 +191,12 @@ Men først …
       });
     });
 
-* BDD-rammeverk - vi beskriver oppførsel
+* BDD-rammeverk &mdash; vi beskriver oppførsel
 * Brukes på flere BEKK-prosjekter
 
 ---
+
+.big-code
 
 # Intro til Jasmine
 
@@ -189,10 +221,12 @@ Men først …
       });
     });
 
-* BDD-rammeverk - vi beskriver oppførsel
+* BDD-rammeverk &mdash; vi beskriver oppførsel
 * Brukes på flere BEKK-prosjekter
 
 ---
+
+.big-code
 
 # Intro til Jasmine
 
@@ -217,10 +251,12 @@ Men først …
       });
     });
 
-* BDD-rammeverk - vi beskriver oppførsel
+* BDD-rammeverk &mdash; vi beskriver oppførsel
 * Brukes på flere BEKK-prosjekter
 
 ---
+
+.big-code
 
 # Intro til Jasmine
 
@@ -245,7 +281,7 @@ Men først …
       });
     });
 
-* BDD-rammeverk - vi beskriver oppførsel
+* BDD-rammeverk &mdash; vi beskriver oppførsel
 * Brukes på flere BEKK-prosjekter
 
 
@@ -263,6 +299,8 @@ Noen rariteter:
 
 * dersom man ikke har en `expect` kjører fortsatt testen grønt …
 * dersom en testfil har en syntaksfeil sier ikke Jasmine fra (den bare skipper filen). Følg med i konsollen!
+
+Det finnes mange gode testrammeverk, blant annet QUnit, Mocha og Buster.js
 
 ---
 
@@ -294,6 +332,131 @@ Hva er et view?
 
 ---
 
+#Views
+
+    .html
+    <body>
+        <div class="wrapper">
+            <div id="header">
+                <h1><a href="/">Monolog</a></h1>
+            </div>
+
+            <div class="container">
+                <div id="status-form">
+                  …
+                </div>
+
+                <div id="monologs">
+                  …
+                </div>
+            </div>
+
+            <div id="profile">
+                <h2>{{name}}</h2>
+                <img src="{{profile_image_url}}" alt="{{name}}">
+                <ul>
+                  <li>Followers: <span class="followers">{{followers_count}}</span></li>
+                  <li>Following: <span class="following">{{friends_count}}</span></li>
+                  <li>Monologs: <span class="monologs">{{monologs}}</span></li>
+                </ul>
+            </div>
+        </div>
+    </body>
+
+---
+
+# Views
+
+Hvordan lage et nytt view:
+
+    .javascript
+    var UserView = function(options) {
+      // Kjøres automatisk når et view initialiseres
+      // Tar imot et argument, en options-hash
+
+      this.el = options.el;
+    }
+
+
+
+
+
+
+
+
+    &nbsp;
+
+---
+
+# Views
+
+Hvordan lage et nytt view:
+
+    .javascript
+    var UserView = function(options) {
+      // Kjøres automatisk når et view initialiseres
+      // Tar imot et argument, en options-hash
+
+      this.el = options.el;
+    }
+
+
+
+
+
+
+    // Lager en instans (og sender med `el`)
+    var view = new UserView({ el: $("#profile") });
+    &nbsp;
+
+---
+
+# Views
+
+Hvordan lage et nytt view:
+
+    .javascript
+    var UserView = function(options) {
+      // Kjøres automatisk når et view initialiseres
+      // Tar imot et argument, en options-hash
+
+      this.el = options.el;
+    }
+    UserView.prototype.showUserInfo() {
+      // View-logikk og rendering
+
+      // Her kan vi jobbe med `this.el`
+    }
+
+    // Lager en instans (og sender med `el`)
+    var view = new UserView({ el: $("#profile") });
+    &nbsp;
+
+---
+
+# Views
+
+Hvordan lage et nytt view:
+
+    .javascript
+    var UserView = function(options) {
+      // Kjøres automatisk når et view initialiseres
+      // Tar imot et argument, en options-hash
+
+      this.el = options.el;
+    }
+    UserView.prototype.showUserInfo() {
+      // View-logikk og rendering
+
+      // Her kan vi jobbe med `this.el`
+    }
+
+    // Lager en instans (og sender med `el`)
+    var view = new UserView({ el: $("#profile") });
+    view.showUserInfo();
+
+---
+
 # Views
 
 Et view eier et DOM-element, som vi vil kalle `el`.
@@ -317,11 +480,13 @@ God dokumentasjon på
 
 # Views
 
-Hvordan lage et nytt view:
+Hvordan lage et nytt view med Simple.js:
 
     .javascript
     // Vi kan lage views ved å bruke `extend`
     var UserView = Simple.View.extend({
+
+
 
 
 
@@ -344,11 +509,13 @@ Hvordan lage et nytt view:
 
 # Views
 
-Hvordan lage et nytt view:
+Hvordan lage et nytt view med Simple.js:
 
     .javascript
     // Vi kan lage views ved å bruke `extend`
     var UserView = Simple.View.extend({
+
+
 
 
 
@@ -371,7 +538,7 @@ Hvordan lage et nytt view:
 
 # Views
 
-Hvordan lage et nytt view:
+Hvordan lage et nytt view med Simple.js:
 
     .javascript
     // Vi kan lage views ved å bruke `extend`
@@ -383,6 +550,8 @@ Hvordan lage et nytt view:
       initialize: function(options) {
         // Kjøres automatisk når et view initialiseres
         // Tar imot et argument, en options-hash
+
+        this.el = options.el;
       },
 
 
@@ -398,7 +567,7 @@ Hvordan lage et nytt view:
 
 # Views
 
-Hvordan lage et nytt view:
+Hvordan lage et nytt view med Simple.js:
 
     .javascript
     // Vi kan lage views ved å bruke `extend`
@@ -410,9 +579,11 @@ Hvordan lage et nytt view:
       initialize: function(options) {
         // Kjøres automatisk når et view initialiseres
         // Tar imot et argument, en options-hash
+
+        this.el = options.el;
       },
 
-      showUserInfo: function(){
+      showUserInfo: function() {
         // View-logikk og rendering
       };
     });
@@ -462,7 +633,7 @@ Oppgaven:
 
 .middle.center
 
-Gjennomgang oppgave
+Livekoding
 
 ---
 
@@ -477,10 +648,11 @@ Det er metoden `render` sitt ansvar er å interpolere data i template og
 plassere dette i `el`.
 
     .javascript
-    var UserView = Simple.View.extend({
+    BEKK.UserView = Simple.View.extend({
       template: '<h2>{{name}}</h2>',
 
       initialize: function(options) {
+        this.el = options.el;
         this.user = options.user;
       },
 
@@ -492,29 +664,14 @@ plassere dette i `el`.
 
 ---
 
-# Lagarkitektur
-
-Veldig enkelt å lage en lagarkitektur:
+# Hvordan teste view-rendering?
 
     .javascript
-    BEKK.View = Simple.View.extend({
-      renderTemplate: function(data) {
-        var html = Mustache.to_html(this.template, data);
-        this.el.html(html);
-      }
-    });
+    var userView = new BEKK.UserView({ el: $("#profile") });
 
-Lag nye views basert med `BEKK.View.extend`:
+Hva er problemet?
 
-    .javascript
-    BEKK.UserView = BEKK.View.extend({
-      // template, initialize, osv...
-
-      render: function() {
-        // delt funksjonalitet er bra!
-        this.renderTemplate(this.user);
-      }
-    });
+For å teste viewet trenger vi tilgang til `.javascript $("#profile")`
 
 ---
 
@@ -537,14 +694,54 @@ Mye oppsett, mye kopiering, og generelt sett ganske kjipt.
 
 # Bedre løsning
 
-Vi lager et dummy-objekt som bare finnes i minne, som for eksempel
-`.javascript $("<div></div>")`. Send inn de elementene viewet forventer å få
-som input.
+Vi lager et dummy-objekt som bare finnes i minnet, for eksempel:
 
-Eksempel:
+    .javascript
+    $("<div></div>")
+
+Send inn de elementene viewet forventer å få som input.
+
+---
+
+# Bedre løsning
+
+Vi lager et dummy-objekt som bare finnes i minnet, for eksempel:
+
+    .javascript
+    $("<div></div>")
+
+Send inn de elementene viewet forventer å få som input.
+
+Instansiering av `UserView`:
 
     .javascript
     var view = new BEKK.UserView({ el: $("<div></div>" ) })
+
+Istedenfor:
+
+    .javascript
+    var view = new BEKK.UserView({ el: $("#profile") });
+
+---
+
+# Bedre løsning
+
+Vi lager et dummy-objekt som bare finnes i minnet, for eksempel:
+
+    .javascript
+    $("<div></div>")
+
+Send inn de elementene viewet forventer å få som input.
+
+Instansiering av `UserView`:
+
+    .javascript
+    var view = new BEKK.UserView({ el: $("<div></div>" ) })
+
+Istedenfor:
+
+    .javascript
+    var view = new BEKK.UserView({ el: $("#profile") });
 
 Vi har lagt til en hjelpemetode for å sjekke innholdet i HTML-en til et view:
 
@@ -566,7 +763,6 @@ Vi har lagt til en hjelpemetode for å sjekke innholdet i HTML-en til et view:
 
 Hint:
 
-* `BEKK.View` — Må kommenteres inn i `app.js`
 * `render`
 * `expect(...).toContainInEl()`
 
@@ -591,17 +787,16 @@ Test:
 Kode:
 
     .javascript
-    BEKK.UserView = BEKK.View.extend({
+    BEKK.UserView = Simple.View.extend({
 
       //...
 
       render: function() {
-        var data = this.user;
-        this.renderTemplate(data);
+        var html = Mustache.to_html(this.template, this.user);
+        this.el.html(html);
       }
-    });
 
-Vi extend-er fra `BEKK.View` for å samle felles view-logikk.
+    });
 
 ---
 
@@ -613,13 +808,18 @@ Men nå sender vi med `el` til alle views og kan dermed slå opp lokalt i
 viewets DOM med `view.DOM`-funksjonen.
 
     .javascript
-    // går fra
     $("#profile form")
+    // eller
+    $("#profile").find("form")
 
-    // til
+    // er det samme som
     userView.DOM("form")
 
-    // disse er ekvivalente om `#profile` er `el`-en til `userView`
+Disse er ekvivalente dersom:
+
+    .javascript
+    var userView = new UserView({ el: $("#profile") });
+
 
 Løsningen med bruk av `toContainInEl` blir for enkel siden den søker etter en
 string i hele HTML-en.
@@ -635,8 +835,7 @@ Så la oss bruke `DOM`-funksjonen istedenfor `toContainInEl`:
         // sjekk at `h2` inneholder korrekt navn
     });
 
-(Målet i denne oppgaven er å refaktorere den forrige testen, ikke skrive ny
-funksjonalitet.)
+Refaktorer den forrige testen!
 
 ---
 
@@ -656,50 +855,46 @@ Test:
         expect(view.DOM("h2")).toHaveText("Test Testesen");
     });
 
-Ingen implementasjon, følger med Simple.js
-
 ---
 
-# Model
+# Modell
 
 Har ansvar for data og opphenting av denne
 
 ---
 
-# Model
-
-Har ansvar for data og opphenting av denne
-
-* Kun modeller som har lov til å kommunisere med serveren
-
----
-
-# Model
+# Modell
 
 Har ansvar for data og opphenting av denne
 
 * Kun modeller som har lov til å kommunisere med serveren
 
-Det er fire sentrale properties:
+---
 
-* `initialize` — metode som kalles ved initialisering
-* `url` — variabel som brukes i AJAX-kall
-* `attrs` — metode for å hent ut alle attributtene til en modell
+# Modell
+
+Har ansvar for data og opphenting av denne
+
+* Kun modeller som har lov til å kommunisere med serveren
+
+Noen sentrale funksjoner:
+
+* `initialize` — kalles ved initialisering
+* `attrs` — hente ut alle attributtene til en modell
 * `attr("key")` og `attr("key", newValue)`
 
 ---
 
-# Model
+# Modell
 
 Har ansvar for data og opphenting av denne
 
 * Kun modeller som har lov til å kommunisere med serveren
 
-Det er fire sentrale properties:
+Noen sentrale funksjoner:
 
-* `initialize` — metode som kalles ved initialisering
-* `url` — variabel som brukes i AJAX-kall
-* `attrs` — metode for å hent ut alle attributtene til en modell
+* `initialize` — kalles ved initialisering
+* `attrs` — hente ut alle attributtene til en modell
 * `attr("key")` og `attr("key", newValue)`
 
 
@@ -719,7 +914,7 @@ Det er fire sentrale properties:
 
 .center
 
-![](images/mvt_2.png)
+![](images/mvt_4.png?v=1)
 
 ---
 
@@ -751,13 +946,14 @@ Test:
 Kode:
 
     .javascript
-      BEKK.UserView = BEKK.View.extend({
+      BEKK.UserView = Simple.View.extend({
 
         //...
 
         render: function() {
           var data = this.user.attrs();
-          this.renderTemplate(data);
+          var html = Mustache.to_html(this.template, data);
+          this.el.html(html);
         }
       });
 
@@ -783,7 +979,11 @@ Filer:
 
 ---
 
-# Model
+# Løsningsforslag
+
+---
+
+# Modell
 
 Simple.js inneholder en `fetch`-metode som tar imot et success-callback:
 
@@ -802,7 +1002,7 @@ Bruker `model.url` (og evt `model.dataType`) i AJAX-kall:
     var User = Simple.Model.extend({
       url: "/user",
 
-      dataType: "jsonp" // dersom man trenger å endre bort fra JSON
+      dataType: "jsonp" // dersom man trenger noe annet enn JSON
     });
 
     var user = new User();
@@ -810,10 +1010,9 @@ Bruker `model.url` (og evt `model.dataType`) i AJAX-kall:
 
 ---
 
-.center
+.middle.center
 
-![](images/model_fetch.png)
-
+![](images/model_fetch_callback.png)
 
 ---
 
@@ -823,21 +1022,22 @@ Bruker `model.url` (og evt `model.dataType`) i AJAX-kall:
     it("should show user info when rendered", function() {
         var view;
 
-        // sett opp modell og view, og start henting av data
-        // runs(function(){
-        // });
+        runs(function(){
+          // sett opp modell og view, og start henting av data
+        });
 
         // vi venter på å motta svar fra Twitter
-        // waits(1000);
+        waits(1000);
 
-        // sjekk at `el` har rett innhold
-        // runs(function(){
-        // });
+        runs(function(){
+          // sjekk at `el` har rett innhold
+        });
     });
 
-Hint:
+HUSK:
 
 * Sett Twitter-brukernavnet på modellen (ved initialisering)
+* URL: https://api.twitter.com/1/users/show.json?screen_name=NAVN
 
 ---
 
@@ -936,7 +1136,7 @@ Vi benytter `sinon.fakeServer`:
     .javascript
     it("should show user info when rendered", function() {
         var response = '{"name": "Kim","followers_count": "2","friends_count": "1"}';
-        var options = {};
+        var headers = {};
         var user = new BEKK.User({screen_name: "kimjoar"});
 
         // sinon.js støtter ikke JSONP
@@ -952,6 +1152,7 @@ Vi benytter `sinon.fakeServer`:
 Hint:
 
 * Åpne Twitter-URLen som ligger i modellen, kopier responsen
+* OBS! Sett `dataType` til `json`
 
 ---
 
@@ -960,9 +1161,9 @@ Hint:
     .javascript
     it("should show user info when rendered", function() {
         var response = '{"name": "Kim","followers_count": "2","friends_count": "1"}';
-        var options = {};
+        var headers = {};
         var server = sinon.fakeServer.create();
-        server.respondWith([200, options , response]);
+        server.respondWith([200, headers, response]);
 
         var user = new BEKK.User({screen_name: "kimjoar"});
 
@@ -989,7 +1190,7 @@ Hint:
 
 # Callback
 
-Hvorfor skal koden utenfra vite noe om hvordan viewet skal håndtere respons?
+Hvorfor skal testen vite noe om hvordan viewet skal håndtere respons?
 
     .javascript
     user.fetch({
@@ -998,15 +1199,24 @@ Hvorfor skal koden utenfra vite noe om hvordan viewet skal håndtere respons?
       }
     });
 
-Eller, dersom vi flytter hentingen inn: hvorfor skal viewet være ansvarlig for
-å hente sin dataen?
+
+---
+
+.middle.center
+
+![](images/model_fetch_callback.png)
+
+Hva skjer når flere skal oppdateres?
+
+---
+# Callback
 
 Dette burde være:
 
     .javascript
     user.fetch();
 
-Og så kan viewet få beskjed ved suksess.
+Og så kan viewet få beskjed ved suksess eller feil.
 
 ---
 
@@ -1018,14 +1228,22 @@ handlingen skjer.
 Dette gir løsere koblinger mellom model og view  og skiller ansvaret ut der det hører hjemme.
 
     .javascript
-    var user = new BEKK.User();
+    var user  = new BEKK.User();
+    user.on("error",    function() { console.log("Fail");  });
+    user.on("success",  function() { console.log("Hei");   });
+    user.on("success",  function() { console.log("Test");  });
 
-    user.on("test", function() { console.log("TESTING!"); });
+    var admin = new BEKK.User();
+    admin.on("success", function() { console.log("Admin"); });
 
-    user.trigger("test");
+    user.trigger("success");
+    // Vil skrive ut "Hei" og "Test"
 
-Når et modell kaller `fetch` og kallet ender i suksess, trigges automatisk
-eventen `fetch:finished`
+---
+
+.middle.center
+
+![](images/model_fetch3.png)
 
 ---
 
@@ -1037,7 +1255,10 @@ eventen `fetch:finished`
         // benytte seg av events på ferdig henting av data
     });
 
-Hint: Tredje parameter i `on` er kontekst (altså `this`)
+Hint:
+
+* Tredje parameter i `on` er kontekst (altså `this`)
+* `fetch:finished` fyres når `fetch` er ferdig
 
 ---
 
@@ -1066,7 +1287,7 @@ Test:
 Kode:
 
     .javascript
-    BEKK.UserView = BEKK.View.extend({
+    BEKK.UserView = Simple.View.extend({
       initialize: function(options) {
         // ...
         this.user.on("fetch:finished", this.render, this);
@@ -1081,7 +1302,7 @@ Det er grusomt kjedelig å skrive:
 
     .javascript
     this.server = sinon.fakeServer.create();
-    this.server.respondWith([200, this.options, this.response]);
+    this.server.respondWith([statusCode, headers, response]);
     // ...
     this.server.respond();
     this.server.restore();
@@ -1089,9 +1310,18 @@ Det er grusomt kjedelig å skrive:
 Løsning: `fakeResponse` (se i `helper/fakeResponse.js`)
 
     .javascript
+    var response = '{"name": "Kim","followers_count": "2","friends_count": "1"}';
+
+    // disse er default verdier, kan sende inn {} isteden
+    var options = {
+      statusCode: 200,
+      headers: { "Content-Type": "application/json" }
+    };
+
     fakeResponse(response, options, function() {
-        // Alle AJAX-kall i denne callbacken vil få `response` som respons.
+        // alle AJAX-kall som kalles i denne indre funksjonen ...
     });
+    // ... vil ha ha mottatt `response` her
 
 ---
 
@@ -1110,18 +1340,51 @@ Test:
 
     .javascript
     it("should show user info when rendered", function(){
+        var response = '{"name": "Kim","followers_count": "2","friends_count": "1"}';
+
+        var options = {
+          statusCode: 200,
+          headers: { "Content-Type": "application/json" }
+        };
+
         var user = new BEKK.User({screen_name: "kimjoar"});
         user.dataType = "json";
 
         var view = new BEKK.UserView({ user: user, el: $('<div></div>')  });
 
-        fakeResponse(this.response, this.options, function() {
+        fakeResponse(response, options, function() {
           user.fetch();
         });
 
         expect(view.DOM("h2")).toHaveText("Kim Joar Bekkelund");
         expect(view.DOM(".followers")).toHaveText("200");
         expect(view.DOM(".following")).toHaveText("100");
+    });
+
+---
+
+# Lagarkitektur
+
+Veldig enkelt å lage en lagarkitektur:
+
+    .javascript
+    BEKK.View = Simple.View.extend({
+      renderTemplate: function(data) {
+        var html = Mustache.to_html(this.template, data);
+        this.el.html(html);
+      }
+    });
+
+Lag nye views basert med `BEKK.View.extend`:
+
+    .javascript
+    BEKK.UserView = BEKK.View.extend({
+      // template, initialize, osv...
+
+      render: function() {
+        // delt funksjonalitet er bra!
+        this.renderTemplate(this.user);
+      }
     });
 
 ---
@@ -1140,8 +1403,17 @@ Alle DOM-eventene viewet lytter på, kan legges i `events`-property-en:
           // "event selektor": "funksjon"
         },
 
-        editHeading: function() {}
+        editHeading: function(events) {
+            events.preventDefault();
+
+            // …
+        }
     });
+
+Kan for eksempel testes med:
+
+    .javascript
+    userView.DOM("h1").click();
 
 ---
 
@@ -1182,6 +1454,25 @@ for flere matchers.
 
 ---
 
+# Sammensatte views
+
+Et view kan bestå av flere views.
+
+    .javascript
+    BEKK.MasterView = BEKK.View.extend({
+      initialize: function(options) {
+        this.subView = new BEKK.SubView({ el: this.DOM("#sub") });
+        this.otherView = new BEKK.OtherView({ el: this.DOM("#other")});
+      },
+
+      render: function() {
+        this.subView.render();
+        this.otherView.render();
+      }
+    });
+
+---
+
 # Oppgave
 
 * `newStatusViewSpec.js`
@@ -1193,23 +1484,26 @@ Implementer `BEKK.start()` slik at app-en kjører.
 
 ---
 
-# Sammensatte views
+# Avsluttende tanker
 
-Et view kan bestå av flere views.
+* Grove tester
+* Teste gjennom stacken
+* Mock ajax (fra starten av)
+* Gjør det på ny kode, legacy JavaScript er PAIN!
+* Diskuter arkitektur, diskuter kode, lær — JavaScript-testing er ikke enkelt
+* Det tar tid — du må lære å skrive testbar JavaScript
 
-    .javascript
-    BEKK.MasterView = BEKK.View.extend({
-     initialize: function(options) {
+Start tidlig og vær streng
 
-      this.subView = new BEKK.SubView({ el: this.DOM("#sub") });
-      this.otherView = new BEKK.OtherView({ el: this.DOM("#other")});
-     },
+---
 
-     render: function() {
-      this.subView.render();
-      this.otherView.render();
-     }
-    });
+.middle
+
+Dette er veldig likt Backbone.js og Spine.js
+
+... og lengre unna Knockout.js og Angular.js
+
+[http://todomvc.com/](http://todomvc.com/)
 
     </textarea>
     <div id="slideshow" class="white"></div>

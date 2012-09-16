@@ -1,0 +1,18 @@
+title model.fetch
+
+note over "Some component": har initialisert "user"
+
+Some component->userView: initialize (user)
+userView->userView : bind\nfetch:finished\non "user"
+
+Some component->user: .fetch
+
+user->server: ajax request til model.url
+
+server->user: { k1: v1, k2: v2, ...}
+
+note over user: user.attrs =\nold + new
+
+user --> userView: "fetch:finished"
+
+userView -> userView: handtere\n"fetch:finished"
