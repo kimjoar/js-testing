@@ -106,7 +106,7 @@
 
     // Create a new view
     var View = Simple.View = function(options) {
-        this.el = options.el;
+        if(options) this.el = options.el;
 
         // All events specified in the `events` hash will be delegated when the
         // view is initialized.
