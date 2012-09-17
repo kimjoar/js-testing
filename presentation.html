@@ -306,7 +306,7 @@ Det finnes mange gode testrammeverk, blant annet QUnit, Mocha og Buster.js
 
 .pushed
 
-![](images/monolog_cropped.png)
+![](images/monolog_cropped.png?v=1)
 
 # Målet
 
@@ -328,7 +328,7 @@ Hva er et view?
 
 #Views
 
-![](images/monolog_views.png)
+![](images/monolog_views.png?v=1)
 
 ---
 
@@ -371,9 +371,6 @@ Hvordan lage et nytt view:
 
     .javascript
     var UserView = function(options) {
-      // Kjøres automatisk når et view initialiseres
-      // Tar imot et argument, en options-hash
-
       this.el = options.el;
     }
 
@@ -394,9 +391,6 @@ Hvordan lage et nytt view:
 
     .javascript
     var UserView = function(options) {
-      // Kjøres automatisk når et view initialiseres
-      // Tar imot et argument, en options-hash
-
       this.el = options.el;
     }
 
@@ -417,9 +411,6 @@ Hvordan lage et nytt view:
 
     .javascript
     var UserView = function(options) {
-      // Kjøres automatisk når et view initialiseres
-      // Tar imot et argument, en options-hash
-
       this.el = options.el;
     }
     UserView.prototype.showUserInfo() {
@@ -440,9 +431,6 @@ Hvordan lage et nytt view:
 
     .javascript
     var UserView = function(options) {
-      // Kjøres automatisk når et view initialiseres
-      // Tar imot et argument, en options-hash
-
       this.el = options.el;
     }
     UserView.prototype.showUserInfo() {
@@ -1025,7 +1013,7 @@ Bruker `model.url` (og evt `model.dataType`) i AJAX-kall:
 
 .middle.center
 
-![](images/model_fetch_callback.png)
+![](images/model_fetch_callback.png?v=1)
 
 ---
 
@@ -1217,7 +1205,7 @@ Hvorfor skal testen vite noe om hvordan viewet skal håndtere respons?
 
 .middle.center
 
-![](images/model_fetch_callback.png)
+![](images/model_fetch_callback.png?v=1)
 
 Hva skjer når flere skal oppdateres?
 
@@ -1256,7 +1244,7 @@ Dette gir løsere koblinger mellom model og view  og skiller ansvaret ut der det
 
 .middle.center
 
-![](images/model_fetch3.png)
+![](images/model_fetch3.png?v=1)
 
 ---
 
@@ -1488,10 +1476,12 @@ Et view kan bestå av flere views.
 
 # Oppgave
 
-* `newStatusViewSpec.js`
-* Få manglende tester i `monologSpec.js` til å kjøre.
-* Siste spec i `userViewSpec.js`
-* `statusesViewSpec.js`
+Det ligger flere tester som er "avslått" med `xdescribe` og `xit`:
+
+1. `newStatusViewSpec.js`
+2. `monologSpec.js`
+3. Siste spec i `userViewSpec.js`
+4. `statusesViewSpec.js`
 
 Implementer `BEKK.start()` slik at app-en kjører.
 
