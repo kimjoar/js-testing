@@ -306,7 +306,7 @@ Det finnes mange gode testrammeverk, blant annet QUnit, Mocha og Buster.js
 
 .pushed
 
-![](images/monolog_cropped.png?v=1)
+![](images/monolog_cropped.png?v=2)
 
 # Målet
 
@@ -328,7 +328,7 @@ Hva er et view?
 
 #Views
 
-![](images/monolog_views.png?v=1)
+![](images/monolog_views.png?v=2)
 
 ---
 
@@ -536,7 +536,7 @@ Hvordan lage et nytt view med Simple.js:
       // I disse metodene har vi `this` tilgjengelig.
 
       initialize: function(options) {
-        // Kjøres automatisk når et view initialiseres
+        // Konstruktøren -- kjøres automatisk når et view initialiseres
         // Tar imot et argument, en options-hash
 
         this.el = options.el;
@@ -565,7 +565,7 @@ Hvordan lage et nytt view med Simple.js:
       // I disse metodene har vi `this` tilgjengelig.
 
       initialize: function(options) {
-        // Kjøres automatisk når et view initialiseres
+        // Konstruktøren -- kjøres automatisk når et view initialiseres
         // Tar imot et argument, en options-hash
 
         this.el = options.el;
@@ -627,13 +627,50 @@ Livekoding
 
 # View-rendring
 
+    .javascript
+    BEKK.UserView = Simple.View.extend({
+
+
+      initialize: function(options) {
+        this.el = options.el;
+        this.user = options.user;
+      }
+
+
+
+
+
+    });
+
+Et view eier et element, `el`.
+
+---
+
+# View-rendring
+
+    .javascript
+    BEKK.UserView = Simple.View.extend({
+      template: '<h2>{{name}}</h2>',
+
+      initialize: function(options) {
+        this.el = options.el;
+        this.user = options.user;
+      }
+
+
+
+
+
+    });
+
 Et view eier et element, `el`.
 
 `template` inneholder ren HTML som skal inn i viewet. Vi har laget alle
 templates som trengs på forhånd.
 
-Det er metoden `render` sitt ansvar er å interpolere data i template og
-plassere dette i `el`.
+---
+
+# View-rendring
 
     .javascript
     BEKK.UserView = Simple.View.extend({
@@ -649,6 +686,14 @@ plassere dette i `el`.
         this.el.html(html);
       }
     });
+
+Et view eier et element, `el`.
+
+`template` inneholder ren HTML som skal inn i viewet. Vi har laget alle
+templates som trengs på forhånd.
+
+Det er metoden `render` sitt ansvar er å interpolere data i template og
+plassere dette i `el`.
 
 ---
 
@@ -753,6 +798,7 @@ Hint:
 
 * `render`
 * `expect(...).toContainInEl()`
+* Mustache-rendering: `Mustache.to_html(myTemplate, myData)`
 
 ---
 
@@ -776,14 +822,17 @@ Kode:
 
     .javascript
     BEKK.UserView = Simple.View.extend({
+      template: '...',
 
-      //...
+      initialize: function(options) {
+        this.el = options.el;
+        this.user = options.user;
+      },
 
       render: function() {
         var html = Mustache.to_html(this.template, this.user);
         this.el.html(html);
       }
-
     });
 
 ---
@@ -840,6 +889,9 @@ Test:
         var view = new BEKK.UserView({ user: user, el: $("<div></div>" ) });
         view.render();
 
+        expect(view.DOM("h2").text()).toEqual("Test Testesen");
+
+        // eller, med jasmine-jquery matcher
         expect(view.DOM("h2")).toHaveText("Test Testesen");
     });
 
@@ -902,7 +954,7 @@ Noen sentrale funksjoner:
 
 .center
 
-![](images/mvt_4.png?v=1)
+![](images/mvt_4.png?v=2)
 
 ---
 
@@ -934,16 +986,18 @@ Test:
 Kode:
 
     .javascript
-      BEKK.UserView = Simple.View.extend({
+    BEKK.User = Simple.Model.extend({});
 
-        //...
+    BEKK.UserView = Simple.View.extend({
 
-        render: function() {
-          var data = this.user.attrs();
-          var html = Mustache.to_html(this.template, data);
-          this.el.html(html);
-        }
-      });
+      //...
+
+      render: function() {
+        var data = this.user.attrs();
+        var html = Mustache.to_html(this.template, data);
+        this.el.html(html);
+      }
+    });
 
 ---
 
@@ -1003,7 +1057,12 @@ Bruker `model.url` (og evt `model.dataType`) i AJAX-kall:
     var User = Simple.Model.extend({
       url: "/user",
 
-      dataType: "jsonp" // dersom man trenger noe annet enn JSON
+      dataType: "jsonp", // dersom man trenger noe annet enn JSON
+
+      initialize: function(options) {
+        // kan også sette URL her
+        this.url = "/user"
+      }
     });
 
     var user = new User();
@@ -1013,7 +1072,7 @@ Bruker `model.url` (og evt `model.dataType`) i AJAX-kall:
 
 .middle.center
 
-![](images/model_fetch_callback.png?v=1)
+![](images/model_fetch_callback.png?v=2)
 
 ---
 
@@ -1039,6 +1098,8 @@ HUSK:
 
 * Sett Twitter-brukernavnet på modellen (ved initialisering)
 * URL: https://api.twitter.com/1/users/show.json?screen_name=NAVN
+
+Ehm. Vi kommer til å bli blokket av Twitter.
 
 ---
 
@@ -1078,6 +1139,8 @@ Kode:
 
 # Hva lærte vi av forrige test?
 
+Vi blir blokkert!
+
 Dette går treeegt!
 
 Og det er vanskelig å vite hvor tregt. Når vi testet feilet det 1 av 3 ganger på 500ms.
@@ -1116,12 +1179,14 @@ Vi benytter `sinon.fakeServer`:
     // Setup av en response
     var statusCode = 200;
     var headers = { "Content-Type": "application/json" };
-    var data = '[{ "id": 1, "name": "Kim Joar" }]'
+    var data = '{ "id": 1, "name": "Kim Joar" }';
     this.server.respondWith([statusCode, headers, data]);
+
+    // her gjøres et AJAX-kall
 
     // Svar på AJAX-kallet
     // (tilstanden mellom AJAX-kallet og respond kan være verdifull)
-    this.server.respond()
+    this.server.respond();
 
     // Teardown
     this.server.restore();
@@ -1136,7 +1201,7 @@ Vi benytter `sinon.fakeServer`:
 
     .javascript
     it("should show user info when rendered", function() {
-        var response = '{"name": "Kim","followers_count": "2","friends_count": "1"}';
+        var response = '{"name": "Kim Joar Bekkelund"}';
         var headers = {};
         var user = new BEKK.User({screen_name: "kimjoar"});
 
@@ -1161,7 +1226,7 @@ Hint:
 
     .javascript
     it("should show user info when rendered", function() {
-        var response = '{"name": "Kim","followers_count": "2","friends_count": "1"}';
+        var response = '{"name": "Kim Joar Bekkelund"}';
         var headers = {};
         var server = sinon.fakeServer.create();
         server.respondWith([200, headers, response]);
@@ -1182,9 +1247,7 @@ Hint:
         server.respond();
         server.restore();
 
-        expect(view.DOM("h2")).toHaveText("Kim");
-        expect(view.DOM(".followers")).toHaveText("2");
-        expect(view.DOM(".following")).toHaveText("1");
+        expect(view.DOM("h2")).toHaveText("Kim Joar Bekkelund");
     });
 
 ---
@@ -1205,7 +1268,7 @@ Hvorfor skal testen vite noe om hvordan viewet skal håndtere respons?
 
 .middle.center
 
-![](images/model_fetch_callback.png?v=1)
+![](images/model_fetch_callback.png?v=2)
 
 Hva skjer når flere skal oppdateres?
 
@@ -1244,7 +1307,7 @@ Dette gir løsere koblinger mellom model og view  og skiller ansvaret ut der det
 
 .middle.center
 
-![](images/model_fetch3.png?v=1)
+![](images/model_fetch3.png?v=2)
 
 ---
 
@@ -1259,6 +1322,7 @@ Dette gir løsere koblinger mellom model og view  og skiller ansvaret ut der det
 Hint:
 
 * Tredje parameter i `on` er kontekst (altså `this`)
+* Første testen vi skrev vil feile — slett den!
 * `fetch:finished` fyres når `fetch` er ferdig
 
 ---
@@ -1278,11 +1342,10 @@ Test:
 
         user.fetch();
 
-        expect(view.DOM("h2")).toHaveText("Kim Joar Bekkelund");
-        expect(view.DOM(".followers")).toHaveText("200");
-        expect(view.DOM(".following")).toHaveText("100");
+        server.respond();
+        server.restore();
 
-        // bryt ned sinon fakeserver
+        expect(view.DOM("h2")).toHaveText("Kim Joar Bekkelund");
     });
 
 Kode:
@@ -1297,7 +1360,20 @@ Kode:
 
 ---
 
-# En testabstraksjon: fakeResponse
+# En testabstraksjon
+
+Det er grusomt kjedelig å skrive:
+
+    .javascript
+    this.server = sinon.fakeServer.create();
+    this.server.respondWith([statusCode, headers, response]);
+    // ...
+    this.server.respond();
+    this.server.restore();
+
+---
+
+# En testabstraksjon
 
 Det er grusomt kjedelig å skrive:
 
@@ -1311,13 +1387,62 @@ Det er grusomt kjedelig å skrive:
 Løsning: `fakeResponse` (se i `helper/fakeResponse.js`)
 
     .javascript
-    var response = '{"name": "Kim","followers_count": "2","friends_count": "1"}';
+    var response = '{"name": "Kim Joar Bekkelund"}';
 
     // disse er default verdier, kan sende inn {} isteden
     var options = {
       statusCode: 200,
       headers: { "Content-Type": "application/json" }
     };
+
+    &nbsp;
+
+---
+
+# En testabstraksjon
+
+Det er grusomt kjedelig å skrive:
+
+    .javascript
+    this.server = sinon.fakeServer.create();
+    this.server.respondWith([statusCode, headers, response]);
+    // ...
+    this.server.respond();
+    this.server.restore();
+
+Løsning: `fakeResponse` (se i `helper/fakeResponse.js`)
+
+    .javascript
+    var response = '{"name": "Kim Joar Bekkelund"}';
+
+    // disse er default verdier, kan sende inn {} isteden
+    var options = {};
+
+
+
+
+    &nbsp;
+
+---
+
+# En testabstraksjon
+
+Det er grusomt kjedelig å skrive:
+
+    .javascript
+    this.server = sinon.fakeServer.create();
+    this.server.respondWith([statusCode, headers, response]);
+    // ...
+    this.server.respond();
+    this.server.restore();
+
+Løsning: `fakeResponse` (se i `helper/fakeResponse.js`)
+
+    .javascript
+    var response = '{"name": "Kim Joar Bekkelund"}';
+
+    // disse er default verdier, kan sende inn {} isteden
+    var options = {};
 
     fakeResponse(response, options, function() {
         // alle AJAX-kall som kalles i denne indre funksjonen ...
@@ -1341,12 +1466,8 @@ Test:
 
     .javascript
     it("should show user info when rendered", function(){
-        var response = '{"name": "Kim","followers_count": "2","friends_count": "1"}';
-
-        var options = {
-          statusCode: 200,
-          headers: { "Content-Type": "application/json" }
-        };
+        var response = '{"name": "Kim Joar Bekkelund"}';
+        var options = {};
 
         var user = new BEKK.User({screen_name: "kimjoar"});
         user.dataType = "json";
@@ -1358,8 +1479,6 @@ Test:
         });
 
         expect(view.DOM("h2")).toHaveText("Kim Joar Bekkelund");
-        expect(view.DOM(".followers")).toHaveText("200");
-        expect(view.DOM(".following")).toHaveText("100");
     });
 
 ---
@@ -1404,8 +1523,8 @@ Alle DOM-eventene viewet lytter på, kan legges i `events`-property-en:
           // "event selektor": "funksjon"
         },
 
-        editHeading: function(events) {
-            events.preventDefault();
+        editHeading: function(event) {
+            event.preventDefault();
 
             // …
         }
@@ -1495,8 +1614,9 @@ Implementer `BEKK.start()` slik at app-en kjører.
 * Gjør det på ny kode, legacy JavaScript er PAIN!
 * Diskuter arkitektur, diskuter kode, lær — JavaScript-testing er ikke enkelt
 * Det tar tid — du må lære å skrive testbar JavaScript
+* Følg med i consollen
 
-Start tidlig og vær streng
+Start tidlig og vær streng. Og hold ut.
 
 ---
 

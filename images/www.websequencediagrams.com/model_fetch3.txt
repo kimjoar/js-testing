@@ -2,10 +2,10 @@ title model.fetch
 
 note over "Some component": har initialisert "user"
 
-Some component->userView: initialize (user)
+Some component->userView: new UserView(user)
 userView->userView : bind\nfetch:finished\non "user"
 
-Some component->user: fetch
+Some component->user: user.fetch
 
 user->server: ajax request til user.url
 
