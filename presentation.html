@@ -371,9 +371,6 @@ Hvordan lage et nytt view:
 
     .javascript
     var UserView = function(options) {
-      // Kjøres automatisk når et view initialiseres
-      // Tar imot et argument, en options-hash
-
       this.el = options.el;
     }
 
@@ -394,9 +391,6 @@ Hvordan lage et nytt view:
 
     .javascript
     var UserView = function(options) {
-      // Kjøres automatisk når et view initialiseres
-      // Tar imot et argument, en options-hash
-
       this.el = options.el;
     }
 
@@ -417,9 +411,6 @@ Hvordan lage et nytt view:
 
     .javascript
     var UserView = function(options) {
-      // Kjøres automatisk når et view initialiseres
-      // Tar imot et argument, en options-hash
-
       this.el = options.el;
     }
     UserView.prototype.showUserInfo() {
@@ -440,9 +431,6 @@ Hvordan lage et nytt view:
 
     .javascript
     var UserView = function(options) {
-      // Kjøres automatisk når et view initialiseres
-      // Tar imot et argument, en options-hash
-
       this.el = options.el;
     }
     UserView.prototype.showUserInfo() {
@@ -1488,10 +1476,12 @@ Et view kan bestå av flere views.
 
 # Oppgave
 
-* `newStatusViewSpec.js`
-* Få manglende tester i `monologSpec.js` til å kjøre.
-* Siste spec i `userViewSpec.js`
-* `statusesViewSpec.js`
+Det ligger flere tester som er "avslått" med `xdescribe` og `xit`:
+
+1. `newStatusViewSpec.js`
+2. `monologSpec.js`
+3. Siste spec i `userViewSpec.js`
+4. `statusesViewSpec.js`
 
 Implementer `BEKK.start()` slik at app-en kjører.
 
