@@ -14,7 +14,13 @@
         '<li>Followers: <span class="followers">{{followers_count}}</span></li>' +
         '<li>Following: <span class="following">{{friends_count}}</span></li>' +
         '<li>Monologs: <span class="monologs">{{monologs}}</span></li>' +
-      '</ul>'
+      '</ul>',
+
+    initialize: function(options) {
+      this.user = options.user;
+    }
   });
+
+  BEKK.FriendsView = Simple.View.extend({});
 
 })(Simple, Mustache);
