@@ -1,4 +1,4 @@
-(function(Simple, Mustache) {
+(function(Backbone, Mustache) {
 
   var BEKK = window.BEKK = {};
 
@@ -7,7 +7,7 @@
     // her kan vi (etterhvert) starte applikasjonen
   };
 
-  BEKK.UserView = Simple.View.extend({
+  BEKK.UserView = Backbone.View.extend({
     template: '<h2>{{name}}</h2>' +
       '<img src="{{profile_image_url}}" alt="{{name}}">' +
       '<ul>' +
@@ -21,6 +21,6 @@
     }
   });
 
-  BEKK.FriendsView = Simple.View.extend({});
+  BEKK.FriendsView = Backbone.View.extend({});
 
-})(Simple, Mustache);
+})(Backbone, Mustache);
