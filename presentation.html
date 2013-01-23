@@ -455,20 +455,22 @@ Det er kun views som har lov til å røre DOM-en!
 
 ---
 
-# Views
+# Backbone.js
 
-Vi skal benytte Backbone.js
-
-Det er egentlig bare enkle abstraksjoner og ca 1000 linjer totalt.
+Vi skal benytte modeller, views og events fra Backbone
 
 God dokumentasjon på
 [http://backbonejs.org](http://backbonejs.org)
+
+Backbone er ikke nødvendigvis det beste JavaScript-rammeverket
+
+Passer godt til den typen arkitektur vi skal se på idag
 
 ---
 
 # Views
 
-Hvordan lage et nytt view med Backbone.js:
+Hvordan lage et nytt view med Backbone:
 
     .javascript
     // Vi kan lage views ved å bruke `extend`
@@ -497,7 +499,7 @@ Hvordan lage et nytt view med Backbone.js:
 
 # Views
 
-Hvordan lage et nytt view med Backbone.js:
+Hvordan lage et nytt view med Backbone:
 
     .javascript
     // Vi kan lage views ved å bruke `extend`
@@ -526,7 +528,7 @@ Hvordan lage et nytt view med Backbone.js:
 
 # Views
 
-Hvordan lage et nytt view med Backbone.js:
+Hvordan lage et nytt view med Backbone:
 
     .javascript
     // Vi kan lage views ved å bruke `extend`
@@ -539,7 +541,7 @@ Hvordan lage et nytt view med Backbone.js:
         // Konstruktøren -- kjøres automatisk når et view initialiseres
         // Tar imot et argument, en options-hash
 
-        this.el = options.el;
+        this.setElement(options.el);
       },
 
 
@@ -555,7 +557,7 @@ Hvordan lage et nytt view med Backbone.js:
 
 # Views
 
-Hvordan lage et nytt view med Backbone.js:
+Hvordan lage et nytt view med Backbone:
 
     .javascript
     // Vi kan lage views ved å bruke `extend`
@@ -568,7 +570,36 @@ Hvordan lage et nytt view med Backbone.js:
         // Konstruktøren -- kjøres automatisk når et view initialiseres
         // Tar imot et argument, en options-hash
 
-        this.el = options.el;
+        // this.setElement(options.el);
+      },
+
+
+
+
+    });
+
+    // Lager en instans (og sender med `el`)
+    var view = new UserView({ el: $("#profile") });
+    &nbsp;
+
+---
+
+# Views
+
+Hvordan lage et nytt view med Backbone:
+
+    .javascript
+    // Vi kan lage views ved å bruke `extend`
+    var UserView = Backbone.View.extend({
+
+      // Vi kan legge til instansmetoder.
+      // I disse metodene har vi `this` tilgjengelig.
+
+      initialize: function(options) {
+        // Konstruktøren -- kjøres automatisk når et view initialiseres
+        // Tar imot et argument, en options-hash
+
+        // this.setElement(options.el);
       },
 
       showUserInfo: function() {
@@ -595,6 +626,8 @@ All kode ligger på [http://goo.gl/V8RDz](http://goo.gl/V8RDz)
 # Oppgave
 
 Vi skal starte med å se på profilseksjonen.
+
+Litt kompleksitet med `el`, så vi sparer den til neste oppgave.
 
 To aktuelle filer:
 
@@ -632,7 +665,7 @@ Livekoding
 
 
       initialize: function(options) {
-        this.el = options.el;
+        // this.setElement(options.el);
         this.user = options.user;
       }
 
@@ -653,7 +686,7 @@ Et view eier et element, `el`.
       template: '<h2>{{name}}</h2>',
 
       initialize: function(options) {
-        this.el = options.el;
+        // this.setElement(options.el);
         this.user = options.user;
       }
 
@@ -677,7 +710,7 @@ templates som trengs på forhånd.
       template: '<h2>{{name}}</h2>',
 
       initialize: function(options) {
-        this.el = options.el;
+        // this.setElement(options.el);
         this.user = options.user;
       },
 
@@ -697,89 +730,106 @@ plassere dette i `el`.
 
 ---
 
-# Hvordan teste view-rendering?
+# Oppgave
 
     .javascript
-    var userView = new BEKK.UserView({ el: $("#profile") });
+    it("should show user info when rendered", function(){
+        var user = {
+            name: "Test Testesen"
+        };
 
-Hva er problemet?
+        var view = new BEKK.UserView({ user: user, el: $('#profile') });
 
-For å teste viewet trenger vi tilgang til `.javascript $("#profile")`
+        // Sjekk at navnet finnes i `#profile`
+    });
+
+Hint:
+
+* `render`
+* Mustache-rendering: `Mustache.to_html(myTemplate, myData)`
+* `#profile` i `SpecRunner.html`
 
 ---
 
-# Hvordan teste view-rendering?
+# Gjennomgang oppgave
+
+Test:
+
+    .javascript
+    it("should show user info when rendered", function(){
+        var user = {
+            name: "Test Testesen"
+        };
+
+        var view = new BEKK.UserView({ user: user, el: $('#profile') });
+        view.render();
+
+        expect($('#profile').text()).toContain('Test Testesen');
+    });
+
+Kode:
+
+    .javascript
+    BEKK.UserView = Backbone.View.extend({
+      template: '<h2>{{name}}</h2> osvosvosv', // plassmangel
+
+      initialize: function(options) {
+        this.user = options.user;
+      },
+
+      render: function() {
+        var html = Mustache.to_html(this.template, this.user);
+        this.$el.html(html);
+      }
+    });
+
+---
+
+![](images/fail.png)
+
+---
+
+# Kan vi gjøre det bedre?
 
     .javascript
     var userView = new BEKK.UserView({ el: $("#profile") });
-
-Hva er problemet?
 
 For å teste viewet trenger vi tilgang til `.javascript $("#profile")`
 
 Mulig løsning:
 
 * Sette alt opp i DOM-en, for eksempel legg relevant HTML i `test/SpecRunner.html`
+* Laste HTML-fixtures
 
-Mye oppsett, mye kopiering, og generelt sett ganske kjipt.
-
----
-
-# Bedre løsning
-
-Vi lager et dummy-objekt som bare finnes i minnet, for eksempel:
-
-    .javascript
-    $("<div></div>")
-
-Send inn de elementene viewet forventer å få som input.
+Mye oppsett, mye kopiering, tregt og generelt sett ganske kjipt.
 
 ---
 
 # Bedre løsning
 
-Vi lager et dummy-objekt som bare finnes i minnet, for eksempel:
+Vi lager et dummy-objekt som inneholder HTML-en viewet trenger, men som bare finnes i minnet:
 
     .javascript
-    $("<div></div>")
-
-Send inn de elementene viewet forventer å få som input.
-
-Instansiering av `UserView`:
-
-    .javascript
-    var view = new BEKK.UserView({ el: $("<div></div>" ) })
-
-Istedenfor:
-
-    .javascript
-    var view = new BEKK.UserView({ el: $("#profile") });
+    $("<ul></ul>")
 
 ---
 
 # Bedre løsning
 
-Vi lager et dummy-objekt som bare finnes i minnet, for eksempel:
+Vi lager et dummy-objekt som inneholder HTML-en viewet trenger, men som bare finnes i minnet:
 
     .javascript
-    $("<div></div>")
+    $("<ul></ul>")
 
-Send inn de elementene viewet forventer å få som input.
-
-Instansiering av `UserView`:
+I tester:
 
     .javascript
-    var view = new BEKK.UserView({ el: $("<div></div>" ) })
+    var view = new UserList({ el: $("<ul></ul>") })
 
-Istedenfor:
-
-    .javascript
-    var view = new BEKK.UserView({ el: $("#profile") });
-
-Vi har lagt til en hjelpemetode for å sjekke innholdet i HTML-en til et view:
+I app-en:
 
     .javascript
-    expect(view).toContainInEl("En string");
+    var view = new UserList({ el: $("#userlist") });
 
 ---
 
@@ -791,14 +841,18 @@ Vi har lagt til en hjelpemetode for å sjekke innholdet i HTML-en til et view:
             name: "Test Testesen"
         };
 
-        // Sjekk at navnet finnes i `el`
+        var view = new BEKK.UserView({ user: user, el: $('#profile') });
+        view.render();
+
+        expect($('#profile').text()).toContain('Test Testesen');
+
+        // OPPGAVE: Slutt å hente #profile fra HTML-en
     });
 
-Hint:
+Vi har lagt til en hjelpemetode for å sjekke innholdet i HTML-en til et view:
 
-* `render`
-* `expect(...).toContainInEl()`
-* Mustache-rendering: `Mustache.to_html(myTemplate, myData)`
+    .javascript
+    expect(view).toContainInEl("En string");
 
 ---
 
@@ -818,14 +872,13 @@ Test:
         expect(view).toContainInEl("Test Testesen");
     });
 
-Kode:
+Kode (ingen endringer!):
 
     .javascript
     BEKK.UserView = Backbone.View.extend({
-      template: '...',
+      template: '<h2>{{name}}</h2> osvosvosv', // plassmangel
 
       initialize: function(options) {
-        this.el = options.el;
         this.user = options.user;
       },
 
@@ -834,6 +887,12 @@ Kode:
         this.$el.html(html);
       }
     });
+
+---
+
+# Hva skjedde nå?
+
+TODO: Legg inn bilder!
 
 ---
 
@@ -1042,7 +1101,7 @@ Filer:
 
 # Modell
 
-Backbone.js inneholder en `fetch`-metode som tar imot et success-callback:
+Backbone inneholder en `fetch`-metode som tar imot et success-callback:
 
     .javascript
     user.fetch({
@@ -1615,7 +1674,7 @@ Start tidlig og vær streng. Og hold ut.
 
 .middle
 
-Dette er veldig likt Backbone.js og Spine.js
+Dette er veldig likt Backbone og Spine.js
 
 ... og lengre unna Knockout.js og Angular.js
 
