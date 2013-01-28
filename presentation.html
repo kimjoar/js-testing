@@ -717,6 +717,7 @@ templates som trengs på forhånd.
       render: function(){
         var html = Mustache.to_html(this.template, this.user);
         this.$el.html(html);
+        return this;
       }
     });
 
@@ -727,6 +728,8 @@ templates som trengs på forhånd.
 
 Det er metoden `render` sitt ansvar er å interpolere data i template og
 plassere dette i `el`.
+
+Konvensjon å returnere `this`.
 
 ---
 
@@ -781,6 +784,7 @@ Kode:
       render: function() {
         var html = Mustache.to_html(this.template, this.user);
         this.$el.html(html);
+        return this;
       }
     });
 
@@ -879,6 +883,7 @@ Kode (ingen endringer!):
       render: function() {
         var html = Mustache.to_html(this.template, this.user);
         this.$el.html(html);
+        return this;
       }
     });
 
@@ -1162,6 +1167,7 @@ Kode:
         var data = this.user.toJSON();
         var html = Mustache.to_html(this.template, data);
         this.$el.html(html);
+        return this;
       }
     });
 
@@ -1833,6 +1839,8 @@ Et view kan bestå av flere views.
 
           var otherView = new BEKK.OtherView({ el: this.$("#other")});
           otherView.render();
+
+          return this;
       }
 
     });
