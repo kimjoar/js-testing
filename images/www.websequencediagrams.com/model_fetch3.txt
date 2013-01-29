@@ -3,7 +3,7 @@ title model.fetch
 note over "Some component": har initialisert "user"
 
 Some component->userView: new UserView(user)
-userView->userView : bind\nfetch:finished\non "user"
+userView->userView : bind event\n'change'\non "user"
 
 Some component->user: user.fetch
 
@@ -13,6 +13,7 @@ server->user: { k1: v1, k2: v2, ...}
 
 note over user: user.attrs =\nold + new
 
-user --> userView: "fetch:finished"
+user --> userView: "'change'"
 
 userView -> userView: oppdater
+
