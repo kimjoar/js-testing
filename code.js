@@ -1,35 +1,8 @@
-// eksempel-url: https://api.twitter.com/1/users/show.json?screen_name=kimjoar&include_entities=true
-BEKK.User = Simple.Model.extend({
-  dataType: "jsonp",
-
-  initialize: function(options) {
-  }
-});
-
-// ----------
-
 // Husk å legg høyt oppe, siden andre bruker `BEKK.View`!
 // Vi legger delt view-funksjonalitet i et eget lag i arkiteturen
-BEKK.View = Simple.View.extend({
+BEKK.View = Backbone.View.extend({
   renderTemplate: function(data) {
     this.el.html(Mustache.to_html(this.template, data || {}));
-  }
-});
-
-// ----------
-
-BEKK.Monologs = Simple.Model.extend({
-  initialize: function() {
-    this.attr("monologs", []);
-  },
-
-  add: function(status) {
-    this.attr("monologs").push(status);
-    this.trigger("add");
-  },
-
-  count: function() {
-    return this.attr("monologs").length;
   }
 });
 
